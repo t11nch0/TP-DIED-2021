@@ -1,4 +1,7 @@
-package interfaces;
+package interfaces.informacionTransporte;
+
+import interfaces.InterfazFrame;
+import interfaces.InterfazPrincipal;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +10,7 @@ import java.awt.event.ActionListener;
 public class InterfazInformacionTransporte {
 
     private static InterfazInformacionTransporte singleton;
-    private JPanel panelInformacionTransporte;
+    private final JPanel panelInformacionTransporte;
 
     public JPanel getPanelInformacionTransporte() {
         return panelInformacionTransporte;
@@ -29,12 +32,7 @@ public class InterfazInformacionTransporte {
         JButton boton = new JButton("Atras");
         panelInformacionTransporte.add(boton);
 
-        boton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal());
-            }
-        });
+        boton.addActionListener(e -> InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()));
 
     }
 }

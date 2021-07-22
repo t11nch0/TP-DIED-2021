@@ -1,4 +1,7 @@
-package interfaces;
+package interfaces.mantenimientoEstacion;
+
+import interfaces.InterfazFrame;
+import interfaces.InterfazPrincipal;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +10,7 @@ import java.awt.event.ActionListener;
 public class InterfazMantenimientoEstacion {
 
     private static InterfazMantenimientoEstacion singleton;
-    private JPanel panelMantenimiento;
+    private final JPanel panelMantenimiento;
 
     public JPanel getPanelMantenimiento() {
         return panelMantenimiento;
@@ -30,12 +33,7 @@ public class InterfazMantenimientoEstacion {
         JButton boton = new JButton("Atras");
         panelMantenimiento.add(boton);
 
-        boton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal());
-            }
-        });
+        boton.addActionListener(e -> InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()));
 
     }
 }

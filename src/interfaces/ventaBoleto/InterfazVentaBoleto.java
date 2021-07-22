@@ -1,13 +1,15 @@
-package interfaces;
+package interfaces.ventaBoleto;
+
+import interfaces.InterfazFrame;
+import interfaces.InterfazPrincipal;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 public class InterfazVentaBoleto{
 
     private static InterfazVentaBoleto singleton;
-    private JPanel panelVenta;
+    private final JPanel panelVenta;
 
     public JPanel getPanelVenta() {
         return panelVenta;
@@ -28,12 +30,7 @@ public class InterfazVentaBoleto{
         JButton boton = new JButton("Atras");
         panelVenta.add(boton);
 
-        boton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal());
-            }
-        });
+        boton.addActionListener(e -> InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()));
 
     }
 }

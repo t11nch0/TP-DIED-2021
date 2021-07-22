@@ -1,9 +1,14 @@
 package interfaces;
 
+import interfaces.informacionEstacion.InterfazInformacionEstacion;
+import interfaces.informacionTransporte.InterfazInformacionTransporte;
+import interfaces.mantenimientoEstacion.InterfazMantenimientoEstacion;
+import interfaces.registrarEstacion.InterfazRegistrarEstacion;
+import interfaces.registrarTrayecto.InterfazRegistrarTrayecto;
+import interfaces.ventaBoleto.InterfazVentaBoleto;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class InterfazPrincipal {
 
@@ -93,52 +98,16 @@ public class InterfazPrincipal {
 
         /* Listeners de los botones*/
 
-        boton1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                InterfazFrame.setPanel(InterfazVentaBoleto.getInstance().getPanelVenta());
+        boton1.addActionListener(e -> InterfazFrame.setPanel(InterfazVentaBoleto.getInstance().getPanelVenta()));
 
-            }
-        });
+        boton2.addActionListener(e -> InterfazFrame.setPanel(InterfazInformacionEstacion.getInstance().getPanelInformacionEstacion()));
 
-        boton2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                InterfazFrame.setPanel(InterfazInformacionEstaciones.getInstance().getPanelInformacionEstacion());
+        boton3.addActionListener(e -> InterfazFrame.setPanel(InterfazInformacionTransporte.getInstance().getPanelInformacionTransporte()));
 
-            }
-        });
+        boton4.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstaciones()));
 
-        boton3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                InterfazFrame.setPanel(InterfazInformacionTransporte.getInstance().getPanelInformacionTransporte());
+        boton5.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarTrayecto.getInstance().getPanelRegistroTrayecto()));
 
-            }
-        });
-
-        boton4.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                InterfazFrame.setPanel(InterfazRegistrarEstaciones.getInstance().getPanelRegistroEstaciones());
-
-            }
-        });
-
-        boton5.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                InterfazFrame.setPanel(InterfazRegistrarTrayectos.getInstance().getPanelRegistroTrayecto());
-
-            }
-        });
-
-        boton6.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                InterfazFrame.setPanel(InterfazMantenimientoEstacion.getInstance().getPanelMantenimiento());
-
-            }
-        });
+        boton6.addActionListener(e -> InterfazFrame.setPanel(InterfazMantenimientoEstacion.getInstance().getPanelMantenimiento()));
     }
 }
