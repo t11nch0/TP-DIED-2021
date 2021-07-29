@@ -4,8 +4,6 @@ import interfaces.InterfazFrame;
 import interfaces.InterfazPrincipal;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class InterfazInformacionEstacion {
 
@@ -18,14 +16,14 @@ public class InterfazInformacionEstacion {
 
     public static InterfazInformacionEstacion getInstance(){
         if(singleton == null){
-            singleton= new InterfazInformacionEstacion();
+            singleton = new InterfazInformacionEstacion();
         }
         return singleton;
     }
 
     private InterfazInformacionEstacion() {
         panelInformacionEstacion = new JPanel();
-        JLabel etiqueta= new JLabel("entro a la interfaz de Informacion de estaciones");
+        JLabel etiqueta = new JLabel("entro a la interfaz de Informacion de estaciones");
 
         panelInformacionEstacion.add(etiqueta);
 

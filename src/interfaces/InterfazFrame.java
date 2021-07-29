@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class InterfazFrame {
 
-    public static JFrame  inicio= new JFrame("TP integrador DIED 2021");
+    public static JFrame  inicio = new JFrame("TP integrador DIED 2021");
 
     public static void setPanel(JPanel panelRecibido){
 

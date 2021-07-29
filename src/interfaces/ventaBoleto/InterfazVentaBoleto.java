@@ -5,7 +5,6 @@ import interfaces.InterfazPrincipal;
 
 import javax.swing.*;
 
-
 public class InterfazVentaBoleto{
 
     private static InterfazVentaBoleto singleton;
