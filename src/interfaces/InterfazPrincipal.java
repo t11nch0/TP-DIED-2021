@@ -1,8 +1,8 @@
 package interfaces;
 
 import interfaces.informacionEstacion.InterfazInformacionEstacion;
-import interfaces.informacionTransporte.InterfazInformacionTransporte;
-import interfaces.mantenimientoEstacion.InterfazMantenimientoEstacion;
+import interfaces.registrarTransporte.InterfazRegistrarTransporte;
+import interfaces.registrarMantenimientoEstacion.InterfazRegistrarMantenimientoEstacion;
 import interfaces.registrarEstacion.InterfazRegistrarEstacion;
 import interfaces.registrarTrayecto.InterfazRegistrarTrayecto;
 import interfaces.ventaBoleto.InterfazVentaBoleto;
@@ -60,7 +60,7 @@ public class InterfazPrincipal {
         panelMenuPrincipal.add(boton2,cons2);
 
         GridBagConstraints cons3 = new GridBagConstraints();
-        JButton boton3 = new JButton("Información de Transporte");
+        JButton boton3 = new JButton("Registrar Estaciones");
         cons3.gridx = 0;
         cons3.gridy = 3;
         cons3.weighty = 0.1;
@@ -69,7 +69,7 @@ public class InterfazPrincipal {
         panelMenuPrincipal.add(boton3,cons3);
 
         GridBagConstraints cons4 = new GridBagConstraints();
-        JButton boton4 = new JButton("Registrar Estaciones");
+        JButton boton4 = new JButton("Registrar Mantenimiento de Estación");
         cons4.gridx = 0;
         cons4.gridy = 4;
         cons4.weighty = 0.1;
@@ -78,7 +78,7 @@ public class InterfazPrincipal {
         panelMenuPrincipal.add(boton4,cons4);
 
         GridBagConstraints cons5 = new GridBagConstraints();
-        JButton boton5 = new JButton("Registrar Trayectos");
+        JButton boton5 = new JButton("Registrar Transporte");
         cons5.gridx = 0;
         cons5.gridy = 5;
         cons5.weighty = 0.1;
@@ -87,7 +87,7 @@ public class InterfazPrincipal {
         panelMenuPrincipal.add(boton5,cons5);
 
         GridBagConstraints cons6 = new GridBagConstraints();
-        JButton boton6 = new JButton("Mantenimiento de Estación");
+        JButton boton6 = new JButton("Registrar Trayectos");
         cons6.gridx = 0;
         cons6.gridy = 6;
         cons6.weighty = 0.1;
@@ -101,12 +101,13 @@ public class InterfazPrincipal {
 
         boton2.addActionListener(e -> InterfazFrame.setPanel(InterfazInformacionEstacion.getInstance().getPanelInformacionEstacion()));
 
-        boton3.addActionListener(e -> InterfazFrame.setPanel(InterfazInformacionTransporte.getInstance().getPanelInformacionTransporte()));
+        boton3.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()));
 
-        boton4.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()));
+        boton4.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarMantenimientoEstacion.getInstance().getPanelRegistrarMantenimiento()));
 
-        boton5.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarTrayecto.getInstance().getPanelRegistroTrayecto()));
+        boton5.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte()));
 
-        boton6.addActionListener(e -> InterfazFrame.setPanel(InterfazMantenimientoEstacion.getInstance().getPanelMantenimiento()));
+        boton6.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarTrayecto.getInstance().getPanelRegistroTrayecto()));
+
     }
 }
