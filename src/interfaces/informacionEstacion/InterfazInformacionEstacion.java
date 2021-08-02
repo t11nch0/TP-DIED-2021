@@ -147,7 +147,7 @@ public class InterfazInformacionEstacion {
         cons12.gridx = 0;
         cons12.gridy = 9;
         cons12.fill = GridBagConstraints.HORIZONTAL;
-        cons12.insets = new Insets(10,0,40,0);
+        cons12.insets = new Insets(10,100,40,100);
         panelInformacionEstacion.add(botonAtras,cons12);
 
         botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()));

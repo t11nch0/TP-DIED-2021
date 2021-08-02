@@ -83,7 +83,7 @@ public class InterfazRegistrarEstacion {
 
         botonEdicion.addActionListener(e -> InterfazFrame.setPanel(EditarEstacion.getInstance().getPanelEditarEstacion()));
 
-        botonAtributos.addActionListener(e -> InterfazFrame.setPanel(BuscarAtributos.getInstance().getPanelBuscarAtributos()));
+        botonAtributos.addActionListener(e -> InterfazFrame.setPanel(BuscarAtributosEstacion.getInstance().getPanelBuscarAtributosEstacion()));
 
     }
 }
