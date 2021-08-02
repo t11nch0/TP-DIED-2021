@@ -4,6 +4,7 @@ import interfaces.InterfazFrame;
 import interfaces.InterfazPrincipal;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class InterfazRegistrarTransporte {
 
@@ -22,15 +23,30 @@ public class InterfazRegistrarTransporte {
     }
 
     private InterfazRegistrarTransporte() {
-        panelRegistrarTransporte = new JPanel();
-        JLabel etiqueta = new JLabel("entro a la interfaz de Registro de Transporte");
+        panelRegistrarTransporte = new JPanel(new GridBagLayout());
 
-        panelRegistrarTransporte.add(etiqueta);
+        GridBagConstraints cons0 = new GridBagConstraints();
+        JLabel nombreMenu = new JLabel("REGISTRO DE TRANSPORTE");
+        nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
+        cons0.gridwidth = 2;
+        cons0.gridx = 0;
+        cons0.gridy = 0;
+        cons0.fill = GridBagConstraints.HORIZONTAL;
+        cons0.insets = new Insets(55,0,20,0);
+        panelRegistrarTransporte.add(nombreMenu, cons0);
 
-        JButton boton = new JButton("Atras");
-        panelRegistrarTransporte.add(boton);
 
-        boton.addActionListener(e -> InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()));
+
+        GridBagConstraints cons12 = new GridBagConstraints();
+        JButton botonAtras = new JButton("Atras");
+        cons12.gridwidth = 2;
+        cons12.gridx = 0;
+        cons12.gridy = 7;
+        cons12.fill = GridBagConstraints.HORIZONTAL;
+        cons12.insets = new Insets(10,0,60,0);
+        panelRegistrarTransporte.add(botonAtras,cons12);
+
+        botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()));
 
     }
 }

@@ -45,7 +45,6 @@ public class InterfazPrincipal {
         JButton boton1 = new JButton("Venta de Boleto");
         cons1.gridx = 0;
         cons1.gridy = 1;
-        cons1.weighty = 0.1;
         cons1.fill = GridBagConstraints.BOTH;
         cons1.insets = new Insets(15,15,15,15);
         panelMenuPrincipal.add(boton1,cons1);
@@ -54,7 +53,6 @@ public class InterfazPrincipal {
         JButton boton2 = new JButton("Información de Estaciones");
         cons2.gridx = 0;
         cons2.gridy = 2;
-        cons2.weighty = 0.1;
         cons2.fill = GridBagConstraints.BOTH;
         cons2.insets = new Insets(15,15,15,15);
         panelMenuPrincipal.add(boton2,cons2);
@@ -63,7 +61,6 @@ public class InterfazPrincipal {
         JButton boton3 = new JButton("Registrar Estaciones");
         cons3.gridx = 0;
         cons3.gridy = 3;
-        cons3.weighty = 0.1;
         cons3.fill = GridBagConstraints.BOTH;
         cons3.insets = new Insets(15,15,15,15);
         panelMenuPrincipal.add(boton3,cons3);
@@ -72,7 +69,6 @@ public class InterfazPrincipal {
         JButton boton4 = new JButton("Registrar Mantenimiento de Estación");
         cons4.gridx = 0;
         cons4.gridy = 4;
-        cons4.weighty = 0.1;
         cons4.fill = GridBagConstraints.BOTH;
         cons4.insets = new Insets(15,15,15,15);
         panelMenuPrincipal.add(boton4,cons4);
@@ -81,7 +77,6 @@ public class InterfazPrincipal {
         JButton boton5 = new JButton("Registrar Transporte");
         cons5.gridx = 0;
         cons5.gridy = 5;
-        cons5.weighty = 0.1;
         cons5.fill = GridBagConstraints.BOTH;
         cons5.insets = new Insets(15,15,15,15);
         panelMenuPrincipal.add(boton5,cons5);
@@ -90,7 +85,6 @@ public class InterfazPrincipal {
         JButton boton6 = new JButton("Registrar Trayectos");
         cons6.gridx = 0;
         cons6.gridy = 6;
-        cons6.weighty = 0.1;
         cons6.fill = GridBagConstraints.BOTH;
         cons6.insets = new Insets(15,15,75,15);
         panelMenuPrincipal.add(boton6,cons6);

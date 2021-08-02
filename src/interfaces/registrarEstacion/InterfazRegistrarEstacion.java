@@ -26,20 +26,18 @@ public class InterfazRegistrarEstacion {
         panelRegistroEstacion = new JPanel(new GridBagLayout());
 
         GridBagConstraints cons0 = new GridBagConstraints();
-        JLabel nombreMenu = new JLabel("REGISTRO DE ESTACIONES");
+        JLabel nombreMenu = new JLabel("REGISTRO DE ESTACION");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
         cons0.gridx = 0;
         cons0.gridy = 0;
-        cons0.weighty = 0;
         cons0.fill = GridBagConstraints.BOTH;
-        cons0.insets = new Insets(55,15,40,15);
+        cons0.insets = new Insets(30,15,30,15);
         panelRegistroEstacion.add(nombreMenu, cons0);
 
         GridBagConstraints cons1 = new GridBagConstraints();
         JButton botonAlta = new JButton("Dar Alta");
         cons1.gridx = 0;
         cons1.gridy = 1;
-        cons1.weighty = 0.1;
         cons1.fill = GridBagConstraints.BOTH;
         cons1.insets = new Insets(40,20,10,20);
         panelRegistroEstacion.add(botonAlta,cons1);
@@ -48,7 +46,6 @@ public class InterfazRegistrarEstacion {
         JButton botonEdicion = new JButton("Editar");
         cons2.gridx = 0;
         cons2.gridy = 2;
-        cons2.weighty = 0.1;
         cons2.fill = GridBagConstraints.BOTH;
         cons2.insets = new Insets(10,20,10,20);
         panelRegistroEstacion.add(botonEdicion,cons2);
@@ -57,7 +54,6 @@ public class InterfazRegistrarEstacion {
         JButton botonBaja = new JButton("Dar Baja");
         cons3.gridx = 0;
         cons3.gridy = 3;
-        cons3.weighty = 0.1;
         cons3.fill = GridBagConstraints.BOTH;
         cons3.insets = new Insets(10,20,10,20);
         panelRegistroEstacion.add(botonBaja,cons3);
@@ -66,7 +62,6 @@ public class InterfazRegistrarEstacion {
         JButton botonAtributos = new JButton("Buscar Atributos");
         cons4.gridx = 0;
         cons4.gridy = 4;
-        cons4.weighty = 0.1;
         cons4.fill = GridBagConstraints.BOTH;
         cons4.insets = new Insets(10,20,10,20);
         panelRegistroEstacion.add(botonAtributos,cons4);
@@ -75,10 +70,9 @@ public class InterfazRegistrarEstacion {
         JButton botonAtras = new JButton("Atras");
         cons5.gridx = 0;
         cons5.gridy = 6;
-        cons5.weighty = 0.1;
         cons5.fill = GridBagConstraints.HORIZONTAL;
         cons5.anchor = GridBagConstraints.PAGE_END;
-        cons5.insets = new Insets(40,41,40,41);
+        cons5.insets = new Insets(40,41,60,41);
         panelRegistroEstacion.add(botonAtras,cons5);
 
         botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()));

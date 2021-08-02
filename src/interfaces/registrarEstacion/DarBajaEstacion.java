@@ -38,11 +38,10 @@ public class DarBajaEstacion {
         String[] data = {"Estacion1", "Estacion2", "Estacion3", "Estacion4", "Estacion5", "Estacion6", "Estacion7", "Estacion8", "Estacion9", "Estacion10"};
         JList<String> campoLista = new JList<>(data);
         cons2.gridwidth = 2;
-        cons2.gridheight = 6;
         cons2.gridx = 0;
         cons2.gridy = 1;
         cons2.fill = GridBagConstraints.BOTH;
-        //cons2.insets = new Insets(55,0,40,0);
+        cons2.insets = new Insets(10,0,40,0);
         panelDarBajaEstacion.add(campoLista, cons2);
 /*
         GridBagConstraints cons3 = new GridBagConstraints();
@@ -60,22 +59,18 @@ public class DarBajaEstacion {
         JButton botonEditar = new JButton("Eliminar");
         cons11.gridwidth = 2;
         cons11.gridx = 0;
-        cons11.gridy = 7;
-        cons11.weighty = 0.1;
+        cons11.gridy = 2;
         cons11.fill = GridBagConstraints.HORIZONTAL;
-        cons11.anchor = GridBagConstraints.NORTH;
-        cons11.insets = new Insets(10,0,10,0);
+        cons11.insets = new Insets(10,0,30,0);
         panelDarBajaEstacion.add(botonEditar,cons11);
 
         GridBagConstraints cons12 = new GridBagConstraints();
         JButton botonAtras = new JButton("Atras");
         cons12.gridwidth = 2;
         cons12.gridx = 0;
-        cons12.gridy = 7;
-        cons12.weighty = 0.1;
+        cons12.gridy = 3;
         cons12.fill = GridBagConstraints.HORIZONTAL;
-        cons12.anchor = GridBagConstraints.SOUTH;
-        cons12.insets = new Insets(10,0,40,0);
+        cons12.insets = new Insets(30,0,60,0);
         panelDarBajaEstacion.add(botonAtras,cons12);
 
 
