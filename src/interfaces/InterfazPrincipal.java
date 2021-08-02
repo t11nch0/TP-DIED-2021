@@ -86,8 +86,16 @@ public class InterfazPrincipal {
         cons6.gridx = 0;
         cons6.gridy = 6;
         cons6.fill = GridBagConstraints.BOTH;
-        cons6.insets = new Insets(15,15,75,15);
+        cons6.insets = new Insets(15,15,15,15);
         panelMenuPrincipal.add(boton6,cons6);
+
+        GridBagConstraints cons7 = new GridBagConstraints();
+        JButton boton7 = new JButton("Salir");
+        cons7.gridx = 0;
+        cons7.gridy = 7;
+        cons7.fill = GridBagConstraints.BOTH;
+        cons7.insets = new Insets(40,15,75,15);
+        panelMenuPrincipal.add(boton7,cons7);
 
         /* Listeners de los botones*/
 
@@ -102,6 +110,14 @@ public class InterfazPrincipal {
         boton5.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte()));
 
         boton6.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarTrayecto.getInstance().getPanelRegistroTrayecto()));
+
+        boton7.addActionListener(e -> {
+            Container frame = boton7.getParent();
+            do
+                frame = frame.getParent();
+            while (!(frame instanceof JFrame));
+            ((JFrame) frame).dispose();
+        });
 
     }
 }
