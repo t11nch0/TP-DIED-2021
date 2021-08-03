@@ -14,12 +14,14 @@ public class DB
 			"         FECHA_INICIO DATE, "+
 			"         FECHA_FIN DATE, "+
 			"		  OBSERVACIONES VARCHAR(200) NULL, "+ 
-			"		  PRIMARY KEY (ID)) ";
+			"		  ID_ESTACION INTEGER, "+
+			"		  PRIMARY KEY (ID)) "+
+			"         FOREIGN KEY (ID_ESTACION) REFERENCES died_db.estacion(ID))";
 	
 	private static final String TABLA_CREATE_ESTACION = 
 			"CREATE TABLE IF NOT EXISTS died_db.estacion ( "+
 			"		  ID SERIAL, "+ 
-            "         NOMBRE VARCHAR(30) UNIQUE, "+ 
+          		"         NOMBRE VARCHAR(30) UNIQUE, "+ 
 			"         HORARIO_APERTURA TIME, "+
 			"         HORARIO_CIERRE TIME, "+
 			"         ESTADO VARCHAR(18) NULL, "+ 
@@ -79,7 +81,7 @@ public class DB
 			"		  ID_DESTINO INTEGER, "+
 			"		  ID_CAMINO INTEGER, "+
 			"         COSTO DECIMAL(14,2), "+ //?
-			"		  ID_TRAYECTO INTEGER, "+ //?
+//			"		  ID_TRAYECTO INTEGER, "+ //? ??
 			"		  PRIMARY KEY (ID), "+
 			"         FOREIGN KEY (ID_ORIGEN) REFERENCES died_db.estacion(ID))"+
 			"         FOREIGN KEY (ID_DESTINO) REFERENCES died_db.estacion(ID))"+
