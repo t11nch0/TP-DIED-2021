@@ -80,6 +80,7 @@ public class GestorEstacion {
 		return estacionDAO.buscarPorId(id);
 	}
 	
+	//Proximo mantenimiento
 	public List<EstacionDeTransbordoMultimodal> prioridadMantenimiento(List<EstacionDeTransbordoMultimodal> estaciones){
 
 		PriorityQueue<EstacionDeTransbordoMultimodal> monticulo = new PriorityQueue<EstacionDeTransbordoMultimodal>(new MonticuloComparator());
