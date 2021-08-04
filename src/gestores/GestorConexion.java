@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import base_de_datos.DB; //?
+import base_de_datos.DB; 
 
 public class GestorConexion 
 {
@@ -12,11 +12,11 @@ public class GestorConexion
 	
 	private GestorConexion()
 	{
-		String url = "jdbc:postgresql://localhost:5432/died_db";
+		String url = "jdbc:postgresql://localhost:5432/died_db"; //localhost?
 		String driver = "org.postgresql.Driver";
 		String usuario = "postgres";
 		String password = "died";
-		 //?
+		
 		 try
 		 {
 			 Class.forName(driver);
