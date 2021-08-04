@@ -3,7 +3,6 @@ package dao;
 import java.sql.SQLException;
 import java.util.List;
 
-//import dominio.EstacionDeTransbordoMultimodal;
 import dominio.LineaTransporte;
 import excepciones.BaseDeDatosException;
 
