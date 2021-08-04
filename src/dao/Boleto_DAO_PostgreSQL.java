@@ -5,13 +5,9 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-//import java.util.ArrayList;
 import java.util.List;
 
-//import dominio.LineaTransporte;
 import dominio.Boleto;
-//import dominio.Ruta;
-///mport dominio.Ruta.EstadoRuta;
 import excepciones.BaseDeDatosException;
 import gestores.GestorConexion;
 
@@ -36,7 +32,7 @@ public class Boleto_DAO_PostgreSQL implements Boleto_DAO
 			
 			try 
 			{			
-				conn.setAutoCommit(false);  //?
+				conn.setAutoCommit(false);  
 				pstmt= conn.prepareStatement(INSERT_BOLETO);
 				
 				pstmt.setInt(1, boleto.getNroBoleto());
@@ -67,7 +63,7 @@ public class Boleto_DAO_PostgreSQL implements Boleto_DAO
 			}
 			catch (SQLException e) 
 			{
-				conn.rollback(); //??
+				conn.rollback(); 
 				e.printStackTrace();
 				throw new BaseDeDatosException(e.getMessage());
 			}
@@ -82,7 +78,7 @@ public class Boleto_DAO_PostgreSQL implements Boleto_DAO
 					e.printStackTrace();
 				}
 			}
-			return boleto; //void?
+			return boleto; 
 }
 
 	@Override
