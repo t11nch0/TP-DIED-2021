@@ -5,16 +5,16 @@ import java.util.List;
 
 public class Camino {
 
-	private Integer id; //?
-	private Integer distanciaTotal; //? (total)
+	private Integer id; 
+	private Integer distanciaTotal;
 	private Integer duracionTotal;
 	private Double costoTotal;
-	private List<Ruta> rutas; //
-	private EstacionDeTransbordoMultimodal origen;//?
-	private EstacionDeTransbordoMultimodal destino;//?
+	private List<Ruta> rutas; 
+	private EstacionDeTransbordoMultimodal origen;
+	private EstacionDeTransbordoMultimodal destino;
 	
 	public Camino(Integer id, Integer distancia, Integer duracion, Double costo, EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino){
-		this.id = id; //?
+		this.id = id; 
 		this.distanciaTotal = distancia;
 		this.duracionTotal = duracion;
 		this.costoTotal = costo;
@@ -78,12 +78,12 @@ public class Camino {
 	public void setDestino(EstacionDeTransbordoMultimodal destino) {
 		this.destino = destino;
 	}
-	// VER
+	
 	public void agregarRuta(Ruta ruta) {
 		this.rutas.add(ruta);
 	}
 	
-	public void agregarRutas(List<Ruta> lista) { //?
+	public void agregarRutas(List<Ruta> lista) { 
 		this.rutas.addAll(lista);
 	}
 	
