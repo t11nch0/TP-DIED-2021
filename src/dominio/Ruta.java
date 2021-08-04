@@ -4,16 +4,14 @@ package dominio;
 public class Ruta {
 	
 	private Integer id;
-	
-    private EstacionDeTransbordoMultimodal origen;
-    private EstacionDeTransbordoMultimodal destino;
-    private Integer distanciaKilometros;
-    private Integer duracionViajeMinutos;
-    private Integer pasajerosMaximos;
-    private EstadoRuta estado;
-    private Double costo;
-    
-    private Trayecto trayecto; //?? 
+	private EstacionDeTransbordoMultimodal origen;
+	private EstacionDeTransbordoMultimodal destino;
+	private Integer distanciaKilometros;
+	private Integer duracionViajeMinutos;
+	private Integer pasajerosMaximos;
+	private EstadoRuta estado;
+	private Double costo;
+	private Trayecto trayecto; 
 
     public enum EstadoRuta 
 	{
@@ -29,9 +27,9 @@ public class Ruta {
     	this.distanciaKilometros = distancia;
     	this.duracionViajeMinutos = duracion;
     	this.pasajerosMaximos = pasajeros;
-    	this.estado = estado; //?
+    	this.estado = estado; 
     	this.costo = costo;   	
-    	this.trayecto = trayecto; //?
+    	this.trayecto = trayecto; 
     	
     }
     
@@ -107,12 +105,10 @@ public class Ruta {
 		return trayecto;
 	}
 
-
 	public void setTrayecto(Trayecto trayecto) {
 		this.trayecto = trayecto;
 	}
 	
-    
-    
+      
 }
 
