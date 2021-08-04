@@ -4,14 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-//import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-//import dominio.EstacionDeTransbordoMultimodal;
+
 import dominio.LineaTransporte;
 import dominio.LineaTransporte.EstadoLinea;
-//import dominio.EstacionDeTransbordoMultimodal.EstadoEstacion;
 import excepciones.BaseDeDatosException;
 import gestores.GestorConexion;
 
@@ -52,7 +50,7 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 		
 		try 
 		{
-			pstmt= conn.prepareStatement(SELECT_ALL_LINEA); //?
+			pstmt= conn.prepareStatement(SELECT_ALL_LINEA); 
 			rs = pstmt.executeQuery();
 			while(rs.next()) 
 			{
@@ -69,8 +67,8 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 					l.setEstado(EstadoLinea.NO_ACTIVA);
 					break;
 				}
-				//? Lista
-				l.setTrayectos(trayectoDAO.buscarPorIdLinea(l.getId())); //??
+				
+				l.setTrayectos(trayectoDAO.buscarPorIdLinea(l.getId()));
 				lista.add(l);
 			}			
 		} 
@@ -98,27 +96,27 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 	public LineaTransporte insertarLineaTransporte(LineaTransporte linea) 
 			throws BaseDeDatosException, SQLException {
 		PreparedStatement pstmt = null;
-		ResultSet rs = null; //?
+		ResultSet rs = null; 
 		try 
 		{			
-			conn.setAutoCommit(false);  //?
+			conn.setAutoCommit(false);  
 			pstmt= conn.prepareStatement(INSERT_LINEA);
 			
 			pstmt.setString(1, linea.getNombre());
 			pstmt.setString(2, linea.getColor());
-			pstmt.setString(3, linea.getEstado().toString());//? to string
+			pstmt.setString(3, linea.getEstado().toString());
 			
-			rs = pstmt.executeQuery(); //?
+			rs = pstmt.executeQuery(); 
 			while(rs.next()) 
 			{
 				linea.setId(rs.getInt("ID"));
 			}
-			conn.commit(); //??
+			conn.commit(); 
 			
 		}
 		catch (SQLException e) 
 		{
-			conn.rollback(); //??
+			conn.rollback(); 
 			e.printStackTrace();
 			throw new BaseDeDatosException(e.getMessage());
 		}
@@ -143,18 +141,18 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 		PreparedStatement pstmt = null;
 			try 
 			{				
-				conn.setAutoCommit(false);  //?
+				conn.setAutoCommit(false);  
 				pstmt= conn.prepareStatement("DELETE FROM died_db.linea WHERE ID = ?");
 				
 				pstmt.setInt(1, linea.getId());
 
 				pstmt.executeUpdate();
-				conn.commit(); //??
+				conn.commit(); 
 				
 			}
 			catch (SQLException e) 
 			{
-				conn.rollback(); //??
+				conn.rollback(); 
 				e.printStackTrace();
 				throw new BaseDeDatosException(e.getMessage());
 			}
@@ -178,22 +176,19 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 		PreparedStatement pstmt = null;
 			try 
 			{				
-				conn.setAutoCommit(false);  //?
+				conn.setAutoCommit(false);  
 				pstmt= conn.prepareStatement(UPDATE_LINEA);
 				
 				pstmt.setString(1, linea.getNombre()); 
 				pstmt.setString(2, linea.getColor());
-				pstmt.setString(3, linea.getEstado().toString());
-
-				// Lista de Trayectos(?) 
-				
-				pstmt.setInt(4, linea.getId()); //? 5
+				pstmt.setString(3, linea.getEstado().toString());				
+				pstmt.setInt(4, linea.getId());
 				pstmt.executeUpdate();
-				conn.commit(); //??
+				conn.commit(); 
 			}
 			catch (SQLException e) 
 			{
-				conn.rollback(); //??
+				conn.rollback(); 
 				e.printStackTrace();
 				throw new BaseDeDatosException(e.getMessage());
 			}
@@ -208,7 +203,7 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 					e.printStackTrace();
 				}
 			}
-			return linea; //void?
+			return linea; 
 		}
 
 	@Override
@@ -224,7 +219,7 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 			rs = pstmt.executeQuery();
 			while(rs.next()) 
 			{
-				resultado = rs.getBoolean("CASE"); //?
+				resultado = rs.getBoolean("CASE"); 
 			}			
 		} 
 		catch (SQLException e) 
@@ -259,8 +254,7 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 			
 			try 
 			{
-				//?
-				pstmt= conn.prepareStatement("SELECT * FROM died_db.linea WHERE ID = "+ id); // resolver arriba?
+				pstmt= conn.prepareStatement("SELECT * FROM died_db.linea WHERE ID = "+ id);
 				rs = pstmt.executeQuery();
 
 				while(rs.next()) 
