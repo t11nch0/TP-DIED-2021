@@ -4,11 +4,10 @@ import java.time.LocalDate;
 public class TareaMantenimiento {
 
 	private Integer id;
-	private LocalDate fechaInicio; //?
-	private LocalDate fechaFin; //?
+	private LocalDate fechaInicio; 
+	private LocalDate fechaFin; 
 	private String observaciones;
-	//Estacion?
-	private EstacionDeTransbordoMultimodal estacion; //?
+	private EstacionDeTransbordoMultimodal estacion;
 	
 	public TareaMantenimiento(Integer id, LocalDate inicio, String observaciones, EstacionDeTransbordoMultimodal estacion) {
 		this.id = id;
@@ -18,10 +17,8 @@ public class TareaMantenimiento {
 		this.estacion = estacion;
 	}
 	public TareaMantenimiento() {
-		super();//?	
+		super();
 	}
-	
-	// Setters?
 
 	public Integer getId() {
 		return id;
