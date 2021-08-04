@@ -15,5 +15,6 @@ public interface Estacion_DAO {
 	
 	public boolean existeNombreDeEstacion(String nombre);
 	public EstacionDeTransbordoMultimodal buscarPorId(Integer id);
-		
+	
+	//Las busquedas por atributos se resuelven al mostrar en pantalla. Se buscan todas y se omite lo innecesario.
 }
