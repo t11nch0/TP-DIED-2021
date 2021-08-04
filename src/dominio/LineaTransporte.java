@@ -5,9 +5,9 @@ import java.util.List;
 
 public class LineaTransporte {
 
-	private Integer id; //id?
+	private Integer id; 
 	private String nombre;
-	private String color; //?
+	private String color; 
 	private EstadoLinea estado; 
 	private List<Trayecto> trayectos;
 	
@@ -16,13 +16,11 @@ public class LineaTransporte {
 		ACTIVA, NO_ACTIVA;
 	}
 
-//	public LineaTransporte(Integer id, String nombre, String color, EstadoLinea estado, List<Trayecto> trayectos) {
 	public LineaTransporte(Integer id, String nombre, String color, EstadoLinea estado) {
 	this.id = id;
 	this.nombre = nombre;
 	this.color = color;
 	this.estado = estado;
-	//?
 	//this.trayectos = trayectos;
 	this.trayectos = new ArrayList<Trayecto>();
 	}
@@ -73,6 +71,6 @@ public class LineaTransporte {
 
 	public void agregarTrayecto(Trayecto trayecto) {
 		this.trayectos.add(trayecto);
-		} //?
+		} 
 	
 }
