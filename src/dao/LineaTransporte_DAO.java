@@ -16,5 +16,6 @@ public interface LineaTransporte_DAO
 
 	public boolean existeNombreDeLinea(String nombre);
 	public LineaTransporte buscarPorId(Integer id);
+	//Las busquedas por atributos se resuelven al mostrar en pantalla. Se buscan todas y se omite lo innecesario.
 	
 }
