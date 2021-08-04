@@ -1,12 +1,7 @@
 package dao;
 
 import java.util.List;
-
-//import gestores.EstacionDeTransbordoMultimodal;
 import dominio.EstacionDeTransbordoMultimodal;
-//import dominio.LineaTransporte;
-
-
 import java.sql.SQLException;
 import excepciones.BaseDeDatosException;
 
