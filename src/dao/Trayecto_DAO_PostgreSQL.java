@@ -8,9 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-//import dominio.LineaTransporte;
 import dominio.Ruta;
-//import dominio.LineaTransporte;
 import dominio.Trayecto;
 import excepciones.BaseDeDatosException;
 import gestores.GestorConexion;
@@ -27,7 +25,7 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO{
 			
 			private static final String UPDATE_TRAYECTO =
 					"UPDATE died_db.trayecto SET ID_LINEA = ? "+
-					"WHERE ID = ?"; //?
+					"WHERE ID = ?";
 	
 	@Override
 	public List<Trayecto> buscarTodos() 
@@ -41,15 +39,15 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO{
 		
 		try 
 		{
-			pstmt= conn.prepareStatement(SELECT_ALL_TRAYECTO); //?
+			pstmt= conn.prepareStatement(SELECT_ALL_TRAYECTO); 
 			rs = pstmt.executeQuery();
 			while(rs.next()) 
 			{
 				Trayecto t = new Trayecto();
 				t.setId((rs.getInt("ID")));
-				t.setLinea(lineaDAO.buscarPorId(rs.getInt("ID_LINEA"))); //?
+				t.setLinea(lineaDAO.buscarPorId(rs.getInt("ID_LINEA"))); 
 				//
-				t.setTramos(rutaDAO.buscarPorIdTrayecto(t.getId())); //?? lista de rutas
+				t.setTramos(rutaDAO.buscarPorIdTrayecto(t.getId())); 
 
 				lista.add(t);
 			}			
@@ -84,16 +82,15 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO{
 
 		try 
 		{
-			pstmt= conn.prepareStatement("SELECT * FROM died_db.trayecto WHERE id_linea = "+id); //?
+			pstmt= conn.prepareStatement("SELECT * FROM died_db.trayecto WHERE id_linea = "+id); 
 			rs = pstmt.executeQuery();
 			while(rs.next()) 
 			{ 
-				//?
 				Trayecto t = new Trayecto();
 				t.setId(rs.getInt("ID"));
 				t.setLinea(lineaDAO.buscarPorId(rs.getInt("ID_LINEA")));
 				t.getTramos().addAll(rutaDAO.buscarPorIdTrayecto(t.getId())); 
-				//?
+				
 				lista.add(t);
 			}			
 		} 
@@ -121,20 +118,20 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO{
 	public Trayecto insertarTrayecto(Trayecto trayecto) 
 			throws BaseDeDatosException, SQLException {
 		PreparedStatement pstmt = null;
-		ResultSet rs = null; //?
+		ResultSet rs = null;
 		
 		Ruta_DAO rutaDAO = new Ruta_DAO_PostgreSQL();
 		List<Ruta> tramos = trayecto.getTramos();
 		
 		try 
 		{			
-			conn.setAutoCommit(false);  //?			
+			conn.setAutoCommit(false); 		
 			pstmt= conn.prepareStatement(INSERT_TRAYECTO);
 			
 			pstmt.setInt(1, trayecto.getLinea().getId());
 			for(Ruta unaRuta: tramos)
 			{
-				rutaDAO.insertarRuta(unaRuta); //?
+				rutaDAO.insertarRuta(unaRuta);
 			}
 					
 			rs = pstmt.executeQuery(); 
@@ -168,7 +165,7 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO{
 	@Override
 	public void eliminarTrayecto() 
 	{
-		// To do (!)
+		// TODO 
 	}
 	
 	@Override
@@ -179,23 +176,23 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO{
 		List<Ruta> tramos = trayecto.getTramos();
 			try 
 			{				
-				conn.setAutoCommit(false);  //?
+				conn.setAutoCommit(false);  
 				pstmt= conn.prepareStatement(UPDATE_TRAYECTO);
 				
 				pstmt.setInt(1, trayecto.getLinea().getId());
 				for(Ruta unaRuta: tramos)
 				{
-					rutaDAO.insertarRuta(unaRuta); //? + id trayecto?
-				}//?
+					rutaDAO.insertarRuta(unaRuta); 
+				}
 			
-				pstmt.setInt(3, trayecto.getId()); //? 5
+				pstmt.setInt(3, trayecto.getId());
 				pstmt.executeUpdate();
-				conn.commit(); //??
+				conn.commit(); 
 				
 			}
 			catch (SQLException e) 
 			{
-				conn.rollback(); //??
+				conn.rollback(); 
 				e.printStackTrace();
 				throw new BaseDeDatosException(e.getMessage());
 			}
