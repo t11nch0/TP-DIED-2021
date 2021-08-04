@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EstacionDeTransbordoMultimodal {
-    private Integer id;
+	private Integer id;
 	private String nombreEstacion;
-    private LocalTime horarioApertura;
-    private LocalTime horarioCierre;
-    private EstadoEstacion estado;
-    //Lista de mantenimients? historial
-    private List<TareaMantenimiento> mantenimientos; 
+	private LocalTime horarioApertura;
+	private LocalTime horarioCierre;
+	private EstadoEstacion estado;
+	private List<TareaMantenimiento> mantenimientos; 
     
     public enum EstadoEstacion 
 	{
@@ -22,14 +21,14 @@ public class EstacionDeTransbordoMultimodal {
     	this.nombreEstacion = nombre;
     	this.horarioApertura = hApertura;
     	this.horarioCierre = hCierre;
-    	this.estado = estado; // ?
+    	this.estado = estado; 
     	
     	this.mantenimientos = new ArrayList<TareaMantenimiento>();
     }
     
-    //?
+  
 	public EstacionDeTransbordoMultimodal() {
-		super(); //?
+		super();
 	}
 
 
@@ -89,9 +88,9 @@ public class EstacionDeTransbordoMultimodal {
 		if(this.estadoOperativa()) {
 			TareaMantenimiento mantenimiento = new TareaMantenimiento();
 			this.agregarMantenimiento(mantenimiento);
-			this.setEstado(EstadoEstacion.EN_MANTENIMIENTO); //?
+			this.setEstado(EstadoEstacion.EN_MANTENIMIENTO); 
 		} else {
-			this.setEstado(EstadoEstacion.OPERATIVA); //?
+			this.setEstado(EstadoEstacion.OPERATIVA); 
 		}
 	}		
 	
@@ -105,14 +104,13 @@ public class EstacionDeTransbordoMultimodal {
 	
 	public void agregarMantenimiento(TareaMantenimiento mantenimiento) {
 		this.mantenimientos.add(mantenimiento);
-	} //?
+	} 
 
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		//result = prime * result + ((estado == null) ? 0 : estado.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombreEstacion == null) ? 0 : nombreEstacion.hashCode());
 		return result;
