@@ -14,12 +14,11 @@ import dominio.EstacionDeTransbordoMultimodal;
 
 import dominio.EstacionDeTransbordoMultimodal.EstadoEstacion;
 import excepciones.BaseDeDatosException;
-//import dominio.LineaTransporte;
 import gestores.GestorConexion;
 
 public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 
-	private Connection conn = GestorConexion.getConnection(); //?
+	private Connection conn = GestorConexion.getConnection(); 
 	
 	private static final String SELECT_ALL_ESTACION =
 	"SELECT * FROM died_db.estacion"; 
@@ -74,17 +73,17 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 			}              //???
 			pstmt.setString(4, estacion.getEstado().toString());
 
-			rs = pstmt.executeQuery(); //?
+			rs = pstmt.executeQuery(); 
 			while(rs.next()) 
 			{
 				estacion.setId(rs.getInt("ID"));
 			} 
-			conn.commit(); //??
+			conn.commit(); 
 			
 		}
 		catch (SQLException e) 
 		{
-			conn.rollback(); //??
+			conn.rollback();
 			e.printStackTrace();
 			throw new BaseDeDatosException(e.getMessage());
 		}
