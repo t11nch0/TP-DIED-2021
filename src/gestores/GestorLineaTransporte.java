@@ -12,7 +12,7 @@ import excepciones.BaseDeDatosException;
 import excepciones.CamposIncorrectosException;
 
 public class GestorLineaTransporte {
-		//
+	
 	private LineaTransporte_DAO lineaDAO;
 	public GestorLineaTransporte() 
 	{
@@ -25,11 +25,10 @@ public class GestorLineaTransporte {
 		LineaTransporte l = new LineaTransporte();
 		this.actualizarModelo(l, nombre, color, estado);
 		return lineaDAO.insertarLineaTransporte(l);
-	} //?
+	} 
 	
 	public void validarDatos(String nombre) throws CamposIncorrectosException
 	{
-			
 			StringBuilder mensajeAMostrar = new StringBuilder();
 			List<String> lista_de_campos_erroneos = new ArrayList<String>();
 			if(nombre.isEmpty())
@@ -52,7 +51,7 @@ public class GestorLineaTransporte {
 	}
 	public void actualizarModelo(LineaTransporte l, String nombre, String color, EstadoLinea estado)
 	{
-		l.setNombre(nombre); //?
+		l.setNombre(nombre);
 		l.setColor(color);
 		l.setEstado(estado);
 	}
@@ -70,7 +69,6 @@ public class GestorLineaTransporte {
 	{
 		return lineaDAO.buscarPorId(id);
 	}
-	
 	
 }
 
