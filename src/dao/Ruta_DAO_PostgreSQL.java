@@ -20,8 +20,6 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 	private static final String SELECT_ALL_RUTA =
 	"SELECT * FROM died_db.ruta";  
 	
-	//INSERT?
-	
 	@Override
 	public List<Ruta> buscarTodas() 
 	{
@@ -33,14 +31,14 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 				
 		try 
 		{
-			pstmt= conn.prepareStatement(SELECT_ALL_RUTA); //?
+			pstmt= conn.prepareStatement(SELECT_ALL_RUTA);
 			rs = pstmt.executeQuery();
 			while(rs.next()) 
 			{
 				Ruta r = new Ruta();
 				r.setId((rs.getInt("ID")));
-				r.setOrigen(estacionDAO.buscarPorId(rs.getInt("ID_ORIGEN"))); //?
-				r.setDestino(estacionDAO.buscarPorId(rs.getInt("ID_DESTINO"))); //?
+				r.setOrigen(estacionDAO.buscarPorId(rs.getInt("ID_ORIGEN"))); 
+				r.setDestino(estacionDAO.buscarPorId(rs.getInt("ID_DESTINO"))); 
 				r.setDistanciaKilometros(rs.getInt("DISTANCIA"));
 				r.setDuracionViajeMinutos(rs.getInt("DURACION"));
 				r.setPasajerosMaximos(rs.getInt("PASAJEROS"));
@@ -106,15 +104,15 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 			Estacion_DAO estacionDAO = new Estacion_DAO_PostgreSQL();
 			try 
 			{
-				//?
+				
 				pstmt= conn.prepareStatement("SELECT * FROM died_db.ruta WHERE ID = "+ id); 
 				rs = pstmt.executeQuery();
 
 				while(rs.next()) 
 				{
 					ruta.setId((rs.getInt("ID")));
-					ruta.setOrigen(estacionDAO.buscarPorId(rs.getInt("ID_ORIGEN"))); //??
-					ruta.setDestino(estacionDAO.buscarPorId(rs.getInt("ID_DESTINO"))); //?
+					ruta.setOrigen(estacionDAO.buscarPorId(rs.getInt("ID_ORIGEN"))); 
+					ruta.setDestino(estacionDAO.buscarPorId(rs.getInt("ID_DESTINO"))); 
 					ruta.setDistanciaKilometros(rs.getInt("DISTANCIA"));
 					ruta.setDuracionViajeMinutos(rs.getInt("DURACION"));
 					ruta.setPasajerosMaximos(rs.getInt("PASAJEROS"));
