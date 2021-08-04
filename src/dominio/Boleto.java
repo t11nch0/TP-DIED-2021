@@ -1,18 +1,16 @@
 package dominio;
 
 import java.time.LocalDate;
-//import java.time.LocalDateTime;
 
 public class Boleto {
 
 	private Integer id;
-	
 	private Integer nroBoleto;
 	private String emailCliente;
 	private String nombreCliente;
 	private LocalDate fechaVenta;
-	private EstacionDeTransbordoMultimodal origen; //?
-	private EstacionDeTransbordoMultimodal destino; //?
+	private EstacionDeTransbordoMultimodal origen; 
+	private EstacionDeTransbordoMultimodal destino;
 	private Camino camino;
 	private Double costo;
 	
@@ -134,7 +132,7 @@ public class Boleto {
 	public Double getCosto() {
 		return costo;
 	}
-	//? costoTotal del camino
+	
 	public void setCosto(Double costo) {
 		this.costo = costo;
 	}
