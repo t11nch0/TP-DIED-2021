@@ -11,12 +11,11 @@ import java.util.stream.Collectors;
 
 import dominio.TareaMantenimiento;
 import excepciones.BaseDeDatosException;
-//import dominio.LineaTransporte;
 import gestores.GestorConexion;
 
 public class Mantenimiento_DAO_PostgreSQL implements Mantenimiento_DAO{
 
-	private Connection conn = GestorConexion.getConnection(); //?
+	private Connection conn = GestorConexion.getConnection(); 
 	
 	private static final String SELECT_ALL_MANTENIMIENTO =
 	"SELECT * FROM died_db.mantenimiento"; 
@@ -63,17 +62,16 @@ public class Mantenimiento_DAO_PostgreSQL implements Mantenimiento_DAO{
 			pstmt.setString(3, mantenimiento.getObservaciones());
 			pstmt.setInt(4, mantenimiento.getEstacion().getId());
 
-			rs = pstmt.executeQuery(); //?
+			rs = pstmt.executeQuery();
 			while(rs.next()) 
 			{
 				mantenimiento.setId(rs.getInt("ID"));
 			} 
-			conn.commit(); //??
-			
+			conn.commit(); 			
 		}
 		catch (SQLException e) 
 		{
-			conn.rollback(); //??
+			conn.rollback();
 			e.printStackTrace();
 			throw new BaseDeDatosException(e.getMessage());
 		}
@@ -97,7 +95,7 @@ public class Mantenimiento_DAO_PostgreSQL implements Mantenimiento_DAO{
 		PreparedStatement pstmt = null;
 			try 
 			{
-				conn.setAutoCommit(false);  //?
+				conn.setAutoCommit(false);  
 				pstmt= conn.prepareStatement(UPDATE_MANTENIMIENTO);
 			
 				if(mantenimiento.getFechaInicio() != null)
@@ -159,7 +157,7 @@ public class Mantenimiento_DAO_PostgreSQL implements Mantenimiento_DAO{
 			rs = pstmt.executeQuery();
 			while(rs.next()) 
 			{
-				TareaMantenimiento mantenimiento = new TareaMantenimiento(); //null?
+				TareaMantenimiento mantenimiento = new TareaMantenimiento();
 				
 				mantenimiento.setId((rs.getInt("ID")));
 				if(rs.getDate("FECHA_INICIO") != null)
@@ -186,8 +184,7 @@ public class Mantenimiento_DAO_PostgreSQL implements Mantenimiento_DAO{
 			try 
 			{
 				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();
-				//if(conn!=null) conn.close();				
+				if(pstmt!=null) pstmt.close();				
 			}
 			catch(SQLException e) 
 			{
@@ -197,108 +194,13 @@ public class Mantenimiento_DAO_PostgreSQL implements Mantenimiento_DAO{
 		return lista;
 	}
 	
-
-/*	@Override
-	public void eliminarEstacion(EstacionDeTransbordoMultimodal estacion) throws BaseDeDatosException, SQLException
-	{
-		PreparedStatement pstmt = null;
-
-			// REVISAR
-			try 
-			{
-				
-				conn.setAutoCommit(false);  //?				
-				pstmt= conn.prepareStatement("DELETE FROM died_db.estacion WHERE ID = ?");
-				
-				pstmt.setInt(1, estacion.getId()); 
-				
-				pstmt.executeUpdate();
-				conn.commit(); //??
-				
-			}
-			catch (SQLException e) 
-			{
-				conn.rollback(); //??
-				e.printStackTrace();
-				throw new BaseDeDatosException(e.getMessage());
-			}
-			finally 
-			{
-				try 
-				{
-					if(pstmt!=null) pstmt.close();				
-				}
-				catch(SQLException e) 
-				{
-					e.printStackTrace();
-				}
-			}
 	
-	}
-*/
 	public List<TareaMantenimiento> buscarPorIdEstacion(Integer idEstacion){
 		return this.buscarTodos()
 				.stream()
 				.filter(m -> m.getEstacion().getId() == idEstacion)
 				.collect(Collectors.toList());
 	}
-
-	
-	/*@Override
-	public EstacionDeTransbordoMultimodal buscarPorId(Integer id) {
-		{
-			EstacionDeTransbordoMultimodal estacion = new EstacionDeTransbordoMultimodal();
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			
-			try 
-			{
-				//?
-				pstmt= conn.prepareStatement("SELECT * FROM died_db.estacion WHERE ID = "+ id); // resolver arriba?
-				rs = pstmt.executeQuery();
-
-				while(rs.next()) 
-				{
-					estacion.setId(rs.getInt("ID"));
-					estacion.setNombreEstacion(rs.getString("NOMBRE"));
-					switch(rs.getString("ESTADO"))
-					{
-					case "OPERATIVA":
-						estacion.setEstado(EstadoEstacion.OPERATIVA);
-						break;
-					case "EN_MANTENIMIENTO":
-						estacion.setEstado(EstadoEstacion.EN_MANTENIMIENTO);
-						break;
-					}
-					if(rs.getTime("HORARIO_APERTURA") != null)
-					{
-						estacion.setHorarioApertura(rs.getTime("HORARIO_APERTURA").toLocalTime());
-					}
-					if(rs.getTime("HORARIO_CIERRE") != null)
-					{
-						estacion.setHorarioCierre(rs.getTime("HORARIO_CIERRE").toLocalTime());
-					}
-				}
-			} 
-			catch (SQLException e) 
-			{
-				e.printStackTrace();
-			}
-			finally 
-			{
-				try 
-				{
-					if(rs!=null) rs.close();
-					if(pstmt!=null) pstmt.close();				
-				}
-				catch(SQLException e) 
-				{
-					e.printStackTrace();
-				}
-			}	
-			return estacion;
-		}
-	}*/
 
 }
 	
