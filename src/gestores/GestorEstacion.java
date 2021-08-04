@@ -18,7 +18,6 @@ import java.util.PriorityQueue;
 
 public class GestorEstacion {
 
-	
 	private Estacion_DAO estacionDAO;
 
 	public GestorEstacion() 
@@ -60,10 +59,10 @@ public class GestorEstacion {
 	}
 	public void actualizarModelo(EstacionDeTransbordoMultimodal e, String nombreEstacion, LocalTime apertura, LocalTime cierre, EstadoEstacion estado)
 	{
-		e.setNombreEstacion(nombreEstacion); //?
+		e.setNombreEstacion(nombreEstacion);
 		e.setHorarioApertura(apertura);
 		e.setHorarioCierre(cierre);
-		e.setEstado(estado); // EstadoEstacion.estado?
+		e.setEstado(estado); 
 	}
 	
 	public boolean existeNombreDeEstacion(String nombre)
@@ -86,10 +85,10 @@ public class GestorEstacion {
 		PriorityQueue<EstacionDeTransbordoMultimodal> monticulo = new PriorityQueue<EstacionDeTransbordoMultimodal>(new MonticuloComparator());
 		monticulo.addAll(estaciones);
 		List<EstacionDeTransbordoMultimodal> lista = new ArrayList<EstacionDeTransbordoMultimodal>();
-		//
+		
 		Integer tamMonticulo = monticulo.size();
-		//for(int i=0; i< monticulo.size(); i++)//?
-		for(int i=0; i< tamMonticulo; i++)//?
+		//for(int i=0; i< monticulo.size(); i++)
+		for(int i=0; i< tamMonticulo; i++)
 			lista.add(monticulo.remove()); 
 		return lista;
 	}
@@ -98,7 +97,7 @@ public class GestorEstacion {
 		public int compare(EstacionDeTransbordoMultimodal estacion1, EstacionDeTransbordoMultimodal estacion2) {
 			if(estacion1.getMantenimientos().isEmpty()) {
 				if(estacion2.getMantenimientos().isEmpty())
-					return 0;//??
+					return 0;
 				return -1;
 			}
 			if(estacion2.getMantenimientos().isEmpty()) {
@@ -109,11 +108,10 @@ public class GestorEstacion {
 			
 			TareaMantenimiento ultimoMantenimiento1 = estacion1.getMantenimientos().get(estacion1.getMantenimientos().size()-1);
 			TareaMantenimiento ultimoMantenimiento2 = estacion2.getMantenimientos().get(estacion2.getMantenimientos().size()-1);
-			
 			LocalDate fechaFin1 = ultimoMantenimiento1.getFechaFin();
 			LocalDate fechaFin2 = ultimoMantenimiento2.getFechaFin();
-			if(fechaFin1 == null) fechaFin1 = LocalDate.now();//?
-			if(fechaFin2 == null) fechaFin2 = LocalDate.now();//?
+			if(fechaFin1 == null) fechaFin1 = LocalDate.now();
+			if(fechaFin2 == null) fechaFin2 = LocalDate.now();
 			if(fechaFin1.isAfter(fechaFin2))
 				return 1;
 			else if(fechaFin1.isBefore(fechaFin2))
