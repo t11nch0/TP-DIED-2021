@@ -1,16 +1,14 @@
 package dominio;
-//import java.util.ArrayList;
 import java.util.List;
 
 
 public class Trayecto {
 
 	private Integer id;
-	
 	private LineaTransporte linea; 
 	private List<Ruta> tramos; 
 	
-	public Trayecto(Integer id, LineaTransporte linea, List<Ruta> tramos) { //?
+	public Trayecto(Integer id, LineaTransporte linea, List<Ruta> tramos) { 
 		this.id = id;
 		this.linea= linea;
 		this.tramos = tramos;
@@ -47,10 +45,6 @@ public class Trayecto {
 	public void agregarRuta(Ruta r) {
 		this.tramos.add(r);
 	}
-	
-
-	
-	
 	
 }	
 	
