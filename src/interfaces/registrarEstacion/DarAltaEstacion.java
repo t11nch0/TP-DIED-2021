@@ -37,6 +37,9 @@ public class DarAltaEstacion {
         panelDarAltaEstacion = new JPanel(new GridBagLayout());
         gestorEstacion = new GestorEstacion();
 
+        String[] horas = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"};
+        String[] minutos = {"00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"};
+
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("ALTA DE ESTACION");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -82,82 +85,125 @@ public class DarAltaEstacion {
         panelDarAltaEstacion.add(labelHApertura,cons3);
 
         GridBagConstraints cons4 = new GridBagConstraints();
-        JTextField campoHApertura = new JTextField();
-        cons4.gridwidth = 2;
+        JComboBox<String> campoAHora = new JComboBox<>();
+        cons4.gridwidth = 1;
         cons4.gridx = 0;
         cons4.gridy = 4;
         cons4.fill = GridBagConstraints.HORIZONTAL;
-        cons4.insets = new Insets(5, 5 ,10 ,5);
-        panelDarAltaEstacion.add(campoHApertura,cons4);
+        cons4.insets = new Insets(5, 10 ,10 ,10);
+        for(String a : horas)
+            campoAHora.addItem(a);
+        panelDarAltaEstacion.add(campoAHora,cons4);
 
         GridBagConstraints cons5 = new GridBagConstraints();
-        JLabel labelHCierre = new JLabel("Horario Cierre: ");
-        cons5.gridx = 0;
-        cons5.gridy = 5;
+        JLabel labelDosPuntos1 = new JLabel(": ");
+        cons5.gridx = 1;
+        cons5.gridy = 4;
         cons5.fill = GridBagConstraints.HORIZONTAL;
-        cons5.insets = new Insets(10, 5 ,5 ,5);
-        panelDarAltaEstacion.add(labelHCierre,cons5);
+        cons5.insets = new Insets(5, 0 ,5 ,150);
+        panelDarAltaEstacion.add(labelDosPuntos1,cons5);
 
         GridBagConstraints cons6 = new GridBagConstraints();
-        JTextField campoHCierre = new JTextField();
-        cons6.gridwidth = 2;
-        cons6.gridx = 0;
-        cons6.gridy = 6;
+        JComboBox<String> campoAMinutos = new JComboBox<>();
+        cons6.gridwidth = 1;
+        cons6.gridx = 1;
+        cons6.gridy = 4;
         cons6.fill = GridBagConstraints.HORIZONTAL;
-        cons6.insets = new Insets(5, 5 ,10 ,5);
-        panelDarAltaEstacion.add(campoHCierre,cons6);
+        cons6.insets = new Insets(5, 15 ,10 ,60);
+
+        for(String b : minutos)
+            campoAMinutos.addItem(b);
+        panelDarAltaEstacion.add(campoAMinutos,cons6);
 
         GridBagConstraints cons7 = new GridBagConstraints();
-        JLabel labelEstado = new JLabel("Estado: ");
+        JLabel labelHCierre = new JLabel("Horario Cierre: ");
         cons7.gridx = 0;
-        cons7.gridy = 7;
+        cons7.gridy = 5;
         cons7.fill = GridBagConstraints.HORIZONTAL;
         cons7.insets = new Insets(10, 5 ,5 ,5);
-        panelDarAltaEstacion.add(labelEstado,cons7);
+        panelDarAltaEstacion.add(labelHCierre,cons7);
 
         GridBagConstraints cons8 = new GridBagConstraints();
-        JComboBox<String> campoEstado = new JComboBox<>();
-        cons8.gridwidth = 2;
+        JComboBox<String> campoCHora = new JComboBox<>();
+        cons8.gridwidth = 1;
         cons8.gridx = 0;
-        cons8.gridy = 8;
+        cons8.gridy = 6;
         cons8.fill = GridBagConstraints.HORIZONTAL;
-        cons8.insets = new Insets(5, 5 ,10 ,5);
-        campoEstado.addItem("Operativa");
-        campoEstado.addItem("Mantenimiento");
-        panelDarAltaEstacion.add(campoEstado,cons8);
+        cons8.insets = new Insets(5, 10 ,10 ,10);
+        for(String c : horas)
+            campoCHora.addItem(c);
+        panelDarAltaEstacion.add(campoCHora,cons8);
 
         GridBagConstraints cons9 = new GridBagConstraints();
-        JButton botonAceptar = new JButton("Aceptar");
-        cons9.gridwidth = 2;
-        cons9.gridx = 0;
-        cons9.gridy = 9;
+        JLabel labelDosPuntos2 = new JLabel(": ");
+        cons9.gridx = 1;
+        cons9.gridy = 6;
         cons9.fill = GridBagConstraints.HORIZONTAL;
-        cons9.insets = new Insets(40,0,30,0);
-        panelDarAltaEstacion.add(botonAceptar,cons9);
+        cons9.insets = new Insets(5, 0 ,5 ,150);
+        panelDarAltaEstacion.add(labelDosPuntos2,cons9);
 
         GridBagConstraints cons10 = new GridBagConstraints();
-        JButton botonAtras = new JButton("Atras");
-        cons10.gridwidth = 2;
-        cons10.gridx = 0;
-        cons10.gridy = 10;
+        JComboBox<String> campoCMinutos = new JComboBox<>();
+        cons10.gridwidth = 1;
+        cons10.gridx = 1;
+        cons10.gridy = 6;
         cons10.fill = GridBagConstraints.HORIZONTAL;
-        cons10.insets = new Insets(30,0,60,0);
-        panelDarAltaEstacion.add(botonAtras,cons10);
+        cons10.insets = new Insets(5, 15 ,10 ,60);
+        for(String d : minutos)
+            campoCMinutos.addItem(d);
+        panelDarAltaEstacion.add(campoCMinutos,cons10);
+
+        GridBagConstraints cons11 = new GridBagConstraints();
+        JLabel labelEstado = new JLabel("Estado: ");
+        cons11.gridx = 0;
+        cons11.gridy = 7;
+        cons11.fill = GridBagConstraints.HORIZONTAL;
+        cons11.insets = new Insets(30, 5 ,5 ,5);
+        panelDarAltaEstacion.add(labelEstado,cons11);
+
+        GridBagConstraints cons12 = new GridBagConstraints();
+        JComboBox<String> campoEstado = new JComboBox<>();
+        cons12.gridwidth = 2;
+        cons12.gridx = 0;
+        cons12.gridy = 8;
+        cons12.fill = GridBagConstraints.HORIZONTAL;
+        cons12.insets = new Insets(5, 5 ,10 ,5);
+        campoEstado.addItem("Operativa");
+        campoEstado.addItem("Mantenimiento");
+        panelDarAltaEstacion.add(campoEstado,cons12);
+
+        GridBagConstraints cons13 = new GridBagConstraints();
+        JButton botonAceptar = new JButton("Aceptar");
+        cons13.gridwidth = 2;
+        cons13.gridx = 0;
+        cons13.gridy = 9;
+        cons13.fill = GridBagConstraints.HORIZONTAL;
+        cons13.insets = new Insets(60,0,20,0);
+        panelDarAltaEstacion.add(botonAceptar,cons13);
+
+        GridBagConstraints cons14 = new GridBagConstraints();
+        JButton botonAtras = new JButton("Atras");
+        cons14.gridwidth = 2;
+        cons14.gridx = 0;
+        cons14.gridy = 10;
+        cons14.fill = GridBagConstraints.HORIZONTAL;
+        cons14.insets = new Insets(20,0,60,0);
+        panelDarAltaEstacion.add(botonAtras,cons14);
 
         botonAceptar.addActionListener(e->
 		{
 			try 
 			{
 				String nombre = campoNombre.getText();
-				LocalTime apertura = LocalTime.parse(campoHApertura.getText());
-				LocalTime cierre = LocalTime.parse(campoHCierre.getText());
+				//LocalTime apertura = LocalTime.parse(campoHApertura.getText());
+				//LocalTime cierre = LocalTime.parse(campoHCierre.getText());
 				//ESTADO
 				EstadoEstacion estado;
 				if (Objects.equals((String) campoEstado.getSelectedItem(), "Operativa"))
 					estado = EstadoEstacion.OPERATIVA;
 				else	
 					estado = EstadoEstacion.MANTENIMIENTO;
-				this.gestorEstacion.crearEstacion(nombre, apertura, cierre, estado);
+				this.gestorEstacion.crearEstacion(nombre, /*apertura */ null, /*cierre*/ null, estado);
 			
 			}
 			catch (SQLException | BaseDeDatosException | CamposIncorrectosException e1)
