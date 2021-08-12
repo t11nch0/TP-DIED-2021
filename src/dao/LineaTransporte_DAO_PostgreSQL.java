@@ -21,10 +21,10 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 	"SELECT * FROM died_db.linea";  
 	
 	private static final String INSERT_LINEA =
-			"INSERT INTO died_db.linea (NOMBRE, COLOR, ESTADO) VALUES (?,?,?) RETURNING ID";
+			"INSERT INTO died_db.linea (NOMBRE, COLOR, ESTADO_LINEA) VALUES (?,?,?) RETURNING ID";
 	
 	private static final String UPDATE_LINEA =
-			"UPDATE died_db.linea SET NOMBRE = ?, COLOR = ?, ESTADO = ? "+
+			"UPDATE died_db.linea SET NOMBRE = ?, COLOR = ?, ESTADO_LINEA = ? "+
 			"WHERE ID = ?"; //?
 	
 	private static final String EXISTE_NOMBRE_LINEA =
@@ -58,7 +58,7 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 				l.setId((rs.getInt("ID")));
 				l.setNombre(rs.getString("NOMBRE"));
 				l.setColor(rs.getString("COLOR"));
-				switch(rs.getString("ESTADO"))
+				switch(rs.getString("ESTADO_LINEA"))
 				{
 				case "ACTIVA":
 					l.setEstado(EstadoLinea.ACTIVA);
@@ -67,8 +67,9 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 					l.setEstado(EstadoLinea.NO_ACTIVA);
 					break;
 				}
-				
-				l.setTrayectos(trayectoDAO.buscarPorIdLinea(l.getId()));
+				// ? Lista
+				//l.setTrayectos(trayectoDAO.buscarPorIdLinea(l.getId()));
+				//bucle
 				lista.add(l);
 			}			
 		} 
@@ -262,7 +263,7 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 					linea.setId(rs.getInt("ID"));
 					linea.setNombre(rs.getString("NOMBRE"));
 					linea.setNombre(rs.getString("COLOR"));
-					switch(rs.getString("ESTADO"))
+					switch(rs.getString("ESTADO_LINEA"))
 					{
 					case "ACTIVA":
 						linea.setEstado(EstadoLinea.ACTIVA);
@@ -271,8 +272,8 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 						linea.setEstado(EstadoLinea.NO_ACTIVA);
 						break;
 					}
-					linea.setTrayectos(trayectoDAO.buscarPorIdLinea(linea.getId())); //??
-
+					//linea.setTrayectos(trayectoDAO.buscarPorIdLinea(linea.getId())); //??
+					// bucle?
 				}
 			} 
 			catch (SQLException e) 

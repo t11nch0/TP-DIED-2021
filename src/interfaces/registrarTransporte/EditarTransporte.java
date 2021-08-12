@@ -5,12 +5,21 @@ import interfaces.registrarEstacion.BotonEditarEstacion;
 import interfaces.registrarEstacion.InterfazRegistrarEstacion;
 
 import javax.swing.*;
+
+import dominio.EstacionDeTransbordoMultimodal;
+import dominio.LineaTransporte;
+import gestores.GestorLineaTransporte;
+
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditarTransporte {
 
     private static EditarTransporte singleton;
     private final JPanel panelEditarTransporte;
+    private GestorLineaTransporte gestorLinea;
+   	private List<LineaTransporte> lineas;
 
     public JPanel getPanelEditarTransporte() {
         return panelEditarTransporte;
@@ -25,6 +34,8 @@ public class EditarTransporte {
 
     private EditarTransporte() {
         panelEditarTransporte = new JPanel(new GridBagLayout());
+        this.gestorLinea = new GestorLineaTransporte();
+        this.lineas = gestorLinea.listarTodas();
 
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("EDITAR TRANSPORTE");
@@ -37,7 +48,12 @@ public class EditarTransporte {
         panelEditarTransporte.add(nombreMenu, cons0);
 
         GridBagConstraints cons2 = new GridBagConstraints();
-        String[] data = {"Estacion1", "Estacion2", "Estacion3", "Estacion4", "Estacion5", "Estacion6", "Estacion7", "Estacion8", "Estacion9", "Estacion10"};
+        List<String> lista = new ArrayList<String>();
+        for(LineaTransporte l: lineas) {
+        	lista.add(l.getNombre());
+        }
+        String[] data = lista.toArray(new String[0]);
+        
         JList<String> campoLista = new JList<>(data);
         cons2.gridwidth = 2;
         cons2.gridx = 0;
@@ -77,7 +93,9 @@ public class EditarTransporte {
 
         botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte()));
 
-        botonEditar.addActionListener(e -> InterfazFrame.setPanel(BotonEditarTransporte.getInstance().getPanelBotonEditarTransporte()));
-
+        botonEditar.addActionListener(e -> {
+        	Integer index = campoLista.getSelectedIndex();
+        	InterfazFrame.setPanel(BotonEditarTransporte.getInstance().getPanelBotonEditarTransporte(index));
+        });
     }
 }

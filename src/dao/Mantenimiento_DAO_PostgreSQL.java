@@ -18,13 +18,13 @@ public class Mantenimiento_DAO_PostgreSQL implements Mantenimiento_DAO{
 	private Connection conn = GestorConexion.getConnection(); 
 	
 	private static final String SELECT_ALL_MANTENIMIENTO =
-	"SELECT * FROM died_db.mantenimiento"; 
+	"SELECT * FROM died_db.tarea_mantenimiento"; 
 	
 	private static final String INSERT_MANTENIMIENTO =
-			"INSERT INTO died_db.mantenimiento (FECHA_INICIO, FECHA_FIN, OBSERVACIONES, ID_ESTACION) VALUES (?,?,?,?) RETURNING ID";
+			"INSERT INTO died_db.tarea_mantenimiento (FECHA_INICIO, FECHA_FIN, OBSERVACIONES, ID_ESTACION) VALUES (?,?,?,?) RETURNING ID";
 	
 	private static final String UPDATE_MANTENIMIENTO =
-			"UPDATE died_db.mantenimiento SET FECHA_INICIO = ?, FECHA_FIN = ?, OBSERVACIONES = ?, ID_ESTACION = ? "+
+			"UPDATE died_db.tarea_mantenimiento SET FECHA_INICIO = ?, FECHA_FIN = ?, OBSERVACIONES = ?, ID_ESTACION = ? "+
 			"WHERE ID = ?"; //?
 	
 	

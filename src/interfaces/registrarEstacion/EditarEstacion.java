@@ -3,12 +3,21 @@ package interfaces.registrarEstacion;
 import interfaces.InterfazFrame;
 
 import javax.swing.*;
+
+import dominio.EstacionDeTransbordoMultimodal;
+import dominio.TareaMantenimiento;
+import gestores.GestorEstacion;
+
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditarEstacion {
 
     private static EditarEstacion singleton;
     private final JPanel panelEditarEstacion;
+   	private GestorEstacion gestorEstacion;
+   	private List<EstacionDeTransbordoMultimodal> estaciones;
 
     public JPanel getPanelEditarEstacion() {
         return panelEditarEstacion;
@@ -23,7 +32,9 @@ public class EditarEstacion {
 
     private EditarEstacion() {
         panelEditarEstacion = new JPanel(new GridBagLayout());
-
+        this.gestorEstacion = new GestorEstacion();
+        this.estaciones = gestorEstacion.listarTodas();
+        
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("EDITAR ESTACION");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -35,7 +46,12 @@ public class EditarEstacion {
         panelEditarEstacion.add(nombreMenu, cons0);
 
         GridBagConstraints cons2 = new GridBagConstraints();
-        String[] data = {"Estacion1", "Estacion2", "Estacion3", "Estacion4", "Estacion5", "Estacion6", "Estacion7", "Estacion8", "Estacion9", "Estacion10"};
+        List<String> lista = new ArrayList<String>();
+        for(EstacionDeTransbordoMultimodal e: estaciones) {
+        	lista.add(e.getNombreEstacion());
+        }
+        String[] data = lista.toArray(new String[0]);
+              
         JList<String> campoLista = new JList<>(data);
         cons2.gridwidth = 2;
         cons2.gridx = 0;
@@ -43,18 +59,7 @@ public class EditarEstacion {
         cons2.fill = GridBagConstraints.BOTH;
         cons2.insets = new Insets(10,0,40,0);
         panelEditarEstacion.add(campoLista, cons2);
-/*
-        GridBagConstraints cons3 = new GridBagConstraints();
-        JScrollBar scrollLista = new JScrollBar(JScrollBar.VERTICAL, 1, 10, 0, 100);
-        cons3.gridwidth = 0;
-        cons3.gridheight = 4;
-        cons3.gridx = 2;
-        cons3.gridy = 3;
-        cons3.fill = GridBagConstraints.BOTH;
-        cons3.anchor = GridBagConstraints.WEST;
-        //cons3.insets = new Insets(55,0,40,0);
-        panelEditarEstacion.add(scrollLista,cons3);
- */
+
         GridBagConstraints cons11 = new GridBagConstraints();
         JButton botonEditar = new JButton("Editar");
         cons11.gridwidth = 2;
@@ -73,10 +78,26 @@ public class EditarEstacion {
         cons12.insets = new Insets(30,0,60,0);
         panelEditarEstacion.add(botonAtras,cons12);
 
+        //
+
+      /*  for(EstacionDeTransbordoMultimodal est: estaciones) {
+        	System.out.println("ESTACION: "+est.getNombreEstacion());
+        	for(TareaMantenimiento m: gestorEstacion.mantenimientosEstacion(est)) {
+        		System.out.println("------------");
+        		System.out.println("id: "+m.getId());
+        		System.out.println("obs: "+m.getObservaciones());
+        		System.out.println("inicio: "+m.getFechaInicio());
+        		System.out.println("fin: "+m.getFechaFin());
+        	}
+        }*/
+        //
+        
         botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()));
 
-        botonEditar.addActionListener(e -> InterfazFrame.setPanel(BotonEditarEstacion.getInstance().getPanelBotonEditarEstacion()));
-
+        botonEditar.addActionListener(e -> {
+        	Integer index = campoLista.getSelectedIndex();
+			InterfazFrame.setPanel(BotonEditarEstacion.getInstance().getPanelBotonEditarEstacion(index));
+			});
     }
 
 }

@@ -1,15 +1,22 @@
 package interfaces.registrarTransporte;
 
 import interfaces.InterfazFrame;
-import interfaces.registrarEstacion.InterfazRegistrarEstacion;
 
 import javax.swing.*;
+
+import dominio.LineaTransporte.EstadoLinea;
+import excepciones.BaseDeDatosException;
+import excepciones.CamposIncorrectosException;
+import gestores.GestorLineaTransporte;
+
 import java.awt.*;
+import java.sql.SQLException;
 
 public class DarAltaTransporte {
 
     private static DarAltaTransporte singleton;
     private final JPanel panelDarAltaTransporte;
+    private GestorLineaTransporte gestorLinea;
 
     public JPanel getPanelDarAltaTransporte() {
         return panelDarAltaTransporte;
@@ -24,9 +31,10 @@ public class DarAltaTransporte {
 
     private DarAltaTransporte() {
         panelDarAltaTransporte = new JPanel(new GridBagLayout());
-
+        this.gestorLinea = new GestorLineaTransporte();
+        
         GridBagConstraints cons0 = new GridBagConstraints();
-        JLabel nombreMenu = new JLabel("ALTA DE TRANSPORTE");
+        JLabel nombreMenu = new JLabel("ALTA DE LINEA DE TRANSPORTE");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
         cons0.gridwidth = 2;
         cons0.gridx = 0;
@@ -44,13 +52,13 @@ public class DarAltaTransporte {
         panelDarAltaTransporte.add(labelNombre,cons1);
 
         GridBagConstraints cons2 = new GridBagConstraints();
-        JTextField campoId = new JTextField();
+        JTextField campoNombre = new JTextField();
         cons2.gridwidth = 2;
         cons2.gridx = 0;
         cons2.gridy = 2;
         cons2.fill = GridBagConstraints.HORIZONTAL;
         cons2.insets = new Insets(5, 5 ,10 ,5);
-        panelDarAltaTransporte.add(campoId,cons2);
+        panelDarAltaTransporte.add(campoNombre,cons2);
 
         GridBagConstraints cons3 = new GridBagConstraints();
         JLabel labelColor = new JLabel("Color: ");
@@ -61,19 +69,20 @@ public class DarAltaTransporte {
         panelDarAltaTransporte.add(labelColor,cons3);
 
         GridBagConstraints cons4 = new GridBagConstraints();
-        JComboBox<String> campoColor = new JComboBox<>();
+       // JComboBox<String> campoColor = new JComboBox<>();
+        JTextField campoColor = new JTextField();
         cons4.gridwidth = 2;
         cons4.gridx = 0;
         cons4.gridy = 4;
         cons4.fill = GridBagConstraints.HORIZONTAL;
         cons4.insets = new Insets(5, 5 ,10 ,5);
-        campoColor.addItem("ROJO");
+       /* campoColor.addItem("ROJO");
         campoColor.addItem("AZUL");
         campoColor.addItem("VERDE");
         campoColor.addItem("AMARILLO");
         campoColor.addItem("NARANJA");
         campoColor.addItem("CELESTE");
-        campoColor.addItem("VIOLETA");
+        campoColor.addItem("VIOLETA");*/
         panelDarAltaTransporte.add(campoColor,cons4);
 
         GridBagConstraints cons5 = new GridBagConstraints();
@@ -114,6 +123,29 @@ public class DarAltaTransporte {
         panelDarAltaTransporte.add(botonAtras,cons12);
 
         botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte()));
-
+        botonAceptar.addActionListener(e->
+		{
+			try 
+			{
+				String nombre = campoNombre.getText();
+				String color = campoColor.getText();
+				//ESTADO
+				EstadoLinea estado;
+				if (((String) campoEstado.getSelectedItem()).equals("Activa")) 
+					estado = EstadoLinea.ACTIVA;
+				else	
+					estado = EstadoLinea.NO_ACTIVA;
+				this.gestorLinea.crearLinea(nombre, color, estado);
+			
+			}
+			catch (SQLException | BaseDeDatosException e1) 
+			{
+				e1.printStackTrace();
+			}
+			catch (CamposIncorrectosException e2)
+			{
+				e2.printStackTrace();
+			}
+		});
     }
 }

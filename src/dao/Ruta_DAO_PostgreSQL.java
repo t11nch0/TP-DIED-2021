@@ -39,11 +39,11 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 				r.setId((rs.getInt("ID")));
 				r.setOrigen(estacionDAO.buscarPorId(rs.getInt("ID_ORIGEN"))); 
 				r.setDestino(estacionDAO.buscarPorId(rs.getInt("ID_DESTINO"))); 
-				r.setDistanciaKilometros(rs.getInt("DISTANCIA"));
-				r.setDuracionViajeMinutos(rs.getInt("DURACION"));
-				r.setPasajerosMaximos(rs.getInt("PASAJEROS"));
+				r.setDistanciaKilometros(rs.getInt("DISTANCIA_KILOMETROS"));
+				r.setDuracionViajeMinutos(rs.getInt("DURACION_VIAJE_MINUTOS"));
+				r.setPasajerosMaximos(rs.getInt("PASAJEROS_MAXIMO"));
 				
-				switch(rs.getString("ESTADO"))
+				switch(rs.getString("ESTADO_RUTA"))
 				{
 				case "ACTIVA":
 					r.setEstadoRuta(EstadoRuta.ACTIVA);
@@ -113,11 +113,11 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 					ruta.setId((rs.getInt("ID")));
 					ruta.setOrigen(estacionDAO.buscarPorId(rs.getInt("ID_ORIGEN"))); 
 					ruta.setDestino(estacionDAO.buscarPorId(rs.getInt("ID_DESTINO"))); 
-					ruta.setDistanciaKilometros(rs.getInt("DISTANCIA"));
-					ruta.setDuracionViajeMinutos(rs.getInt("DURACION"));
-					ruta.setPasajerosMaximos(rs.getInt("PASAJEROS"));
+					ruta.setDistanciaKilometros(rs.getInt("DISTANCIA_KILOMETROS"));
+					ruta.setDuracionViajeMinutos(rs.getInt("DURACION_VIAJE_MINUTOS"));
+					ruta.setPasajerosMaximos(rs.getInt("PASAJEROS_MAXIMO"));
 					
-					switch(rs.getString("ESTADO"))
+					switch(rs.getString("ESTADO_RUTA"))
 					{
 					case "ACTIVA":
 						ruta.setEstadoRuta(EstadoRuta.ACTIVA);

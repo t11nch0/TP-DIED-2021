@@ -19,11 +19,13 @@ import java.util.PriorityQueue;
 public class GestorEstacion {
 
 	private Estacion_DAO estacionDAO;
+	private GestorMantenimiento gestorMantenimiento;
 
 	public GestorEstacion() 
 	{
 		super();
 		this.estacionDAO = new Estacion_DAO_PostgreSQL();
+		this.gestorMantenimiento = new GestorMantenimiento();
 	}
 
 	public EstacionDeTransbordoMultimodal crearEstacion(String nombreEstacion, LocalTime apertura, LocalTime cierre, EstadoEstacion estado) throws CamposIncorrectosException, SQLException, BaseDeDatosException
@@ -69,6 +71,37 @@ public class GestorEstacion {
 	{
 		return estacionDAO.existeNombreDeEstacion(nombre);
 	}
+
+	public EstacionDeTransbordoMultimodal editarEstacion(EstacionDeTransbordoMultimodal e, String nombreEstacion, LocalTime apertura, LocalTime cierre, EstadoEstacion estado) throws CamposIncorrectosException, SQLException, BaseDeDatosException
+	{
+		/*if(!nombreEstacion.isEmpty())
+			this.validarDatos(nombreEstacion);*/
+		this.actualizarModelo(e, nombreEstacion, apertura, cierre, estado); //? editar aca?
+		return estacionDAO.editarEstacion(e);
+	}
+	public void eliminarEstacion(EstacionDeTransbordoMultimodal e) throws CamposIncorrectosException, SQLException, BaseDeDatosException
+	{
+		//this.actualizarModelo(e, nombreEstacion, apertura, cierre, estado); //? eliminar aca?
+		estacionDAO.eliminarEstacion(e);
+	}
+	public void cambiarEstado(EstacionDeTransbordoMultimodal e, Integer mant) throws CamposIncorrectosException, SQLException, BaseDeDatosException
+	{
+		if(mant == 0) {
+			gestorMantenimiento.finalizarTareaMantenimiento("", e);
+		}
+		else
+			gestorMantenimiento.crearTareaMantenimiento("", e);
+		
+		//return estacionDAO.existeNombreDeEstacion(nombre);
+	}
+	public List<TareaMantenimiento> mantenimientosEstacion(EstacionDeTransbordoMultimodal e){
+		List<TareaMantenimiento> lista = new ArrayList<>();
+		lista = gestorMantenimiento.buscarPorIdEstacion(e.getId());
+		e.setMantenimientos(lista);
+		//e.agregarMantenimiento(null);
+		return lista;
+	}
+
 
 	public List<EstacionDeTransbordoMultimodal> listarTodas() 
 	{

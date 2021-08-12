@@ -4,13 +4,26 @@ import interfaces.InterfazFrame;
 import interfaces.registrarEstacion.InterfazRegistrarEstacion;
 
 import javax.swing.*;
+
+import dominio.EstacionDeTransbordoMultimodal;
+import dominio.LineaTransporte;
+import excepciones.BaseDeDatosException;
+import excepciones.CamposIncorrectosException;
+import gestores.GestorEstacion;
+import gestores.GestorLineaTransporte;
+
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DarBajaTransporte {
 
     private static DarBajaTransporte singleton;
     private final JPanel panelDarBajaTransporte;
-
+    private GestorLineaTransporte gestorLinea;
+   	private List<LineaTransporte> lineas;
+    
     public JPanel getPanelDarBajaTransporte() {
         return panelDarBajaTransporte;
     }
@@ -24,6 +37,8 @@ public class DarBajaTransporte {
 
     private DarBajaTransporte() {
         panelDarBajaTransporte = new JPanel(new GridBagLayout());
+        this.gestorLinea = new GestorLineaTransporte();
+        this.lineas = gestorLinea.listarTodas();
 
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("DAR BAJA TRANSPORTE");
@@ -36,7 +51,13 @@ public class DarBajaTransporte {
         panelDarBajaTransporte.add(nombreMenu, cons0);
 
         GridBagConstraints cons2 = new GridBagConstraints();
-        String[] data = {"Estacion1", "Estacion2", "Estacion3", "Estacion4", "Estacion5", "Estacion6", "Estacion7", "Estacion8", "Estacion9", "Estacion10"};
+        
+        List<String> lista = new ArrayList<String>();
+        for(LineaTransporte l: lineas) {
+        	lista.add(l.getNombre());
+        }
+        String[] data = lista.toArray(new String[0]);
+        
         JList<String> campoLista = new JList<>(data);
         cons2.gridwidth = 2;
         cons2.gridx = 0;
@@ -76,6 +97,24 @@ public class DarBajaTransporte {
 
 
         botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte()));
+
+        botonEliminar.addActionListener(e->
+  		{
+  			try 
+  			{
+  				//?  				
+  				Integer index = campoLista.getSelectedIndex(); //?
+  				this.gestorLinea.eliminarLinea(lineas.get(index));
+  			}
+  			catch (SQLException | BaseDeDatosException e1) 
+  			{
+  				e1.printStackTrace();
+  			}
+  			catch (CamposIncorrectosException e2)
+  			{
+  				e2.printStackTrace();
+  			}
+  		});
 
     }
 }

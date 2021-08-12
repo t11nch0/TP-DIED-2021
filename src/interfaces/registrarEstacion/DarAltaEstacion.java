@@ -3,12 +3,24 @@ package interfaces.registrarEstacion;
 import interfaces.InterfazFrame;
 
 import javax.swing.*;
+
+import dominio.EstacionDeTransbordoMultimodal.EstadoEstacion;
+import excepciones.BaseDeDatosException;
+import excepciones.CamposIncorrectosException;
+import gestores.GestorEstacion;
+
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import java.time.LocalTime;
 
 public class DarAltaEstacion {
 
     private static DarAltaEstacion singleton;
     private final JPanel panelDarAltaEstacion;
+    //
+	private GestorEstacion gestorEstacion;
 
     public JPanel getPanelDarAltaEstacion() {
         return panelDarAltaEstacion;
@@ -23,7 +35,9 @@ public class DarAltaEstacion {
 
     private DarAltaEstacion() {
         panelDarAltaEstacion = new JPanel(new GridBagLayout());
-
+        //
+        this.gestorEstacion = new GestorEstacion();
+        //
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("ALTA DE ESTACION");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -34,7 +48,7 @@ public class DarAltaEstacion {
         cons0.insets = new Insets(55,0,20,0);
         panelDarAltaEstacion.add(nombreMenu, cons0);
 
-        GridBagConstraints cons1 = new GridBagConstraints();
+  /*      GridBagConstraints cons1 = new GridBagConstraints();
         JLabel labelId = new JLabel("ID: ");
         cons1.gridx = 0;
         cons1.gridy = 1;
@@ -49,7 +63,7 @@ public class DarAltaEstacion {
         cons2.gridy = 2;
         cons2.fill = GridBagConstraints.HORIZONTAL;
         cons2.insets = new Insets(5, 5 ,10 ,5);
-        panelDarAltaEstacion.add(campoId,cons2);
+        panelDarAltaEstacion.add(campoId,cons2);*/
 
         GridBagConstraints cons3 = new GridBagConstraints();
         JLabel labelNombre = new JLabel("Nombre: ");
@@ -61,6 +75,16 @@ public class DarAltaEstacion {
 
         GridBagConstraints cons4 = new GridBagConstraints();
         JTextField campoNombre = new JTextField();
+        //
+        campoNombre.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(campoNombre.getText().length()>29) {
+					e.consume();
+				}
+			}
+		});
+        //
         cons4.gridwidth = 2;
         cons4.gridx = 0;
         cons4.gridy = 4;
@@ -139,7 +163,35 @@ public class DarAltaEstacion {
         cons12.insets = new Insets(30,0,60,0);
         panelDarAltaEstacion.add(botonAtras,cons12);
 
+        
         botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()));
+        //
+        botonAceptar.addActionListener(e->
+		{
+			try 
+			{
+			//	String id = campoId.getText(); 
+				String nombre = campoNombre.getText();
+				LocalTime apertura = LocalTime.parse(campoHApertura.getText());
+				LocalTime cierre = LocalTime.parse(campoHCierre.getText());
+				//ESTADO
+				EstadoEstacion estado;
+				if (((String) campoEstado.getSelectedItem()).equals("Operativa")) 
+					estado = EstadoEstacion.OPERATIVA;
+				else	
+					estado = EstadoEstacion.EN_MANTENIMIENTO;
+				this.gestorEstacion.crearEstacion(nombre, apertura, cierre, estado);
+			
+			}
+			catch (SQLException | BaseDeDatosException e1) 
+			{
+				e1.printStackTrace();
+			}
+			catch (CamposIncorrectosException e2)
+			{
+				e2.printStackTrace();
+			}
+		});
 
     }
 }

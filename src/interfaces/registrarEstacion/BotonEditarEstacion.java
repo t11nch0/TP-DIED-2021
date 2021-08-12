@@ -3,19 +3,36 @@ package interfaces.registrarEstacion;
 import interfaces.InterfazFrame;
 
 import javax.swing.*;
+
+import dominio.EstacionDeTransbordoMultimodal;
+import dominio.EstacionDeTransbordoMultimodal.EstadoEstacion;
+import excepciones.BaseDeDatosException;
+import excepciones.CamposIncorrectosException;
+import gestores.GestorEstacion;
+
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import java.time.LocalTime;
+import java.util.List;
 
 public class BotonEditarEstacion {
 
     private static BotonEditarEstacion singleton;
     private final JPanel panelBotonEditarEstacion;
+	private GestorEstacion gestorEstacion;
+   	private List<EstacionDeTransbordoMultimodal> estaciones;
+   	private Integer indice;
 
-    public JPanel getPanelBotonEditarEstacion() {
-        return panelBotonEditarEstacion;
+
+    public JPanel getPanelBotonEditarEstacion(Integer index) {
+    	indice = index;
+    	return panelBotonEditarEstacion;
     }
 
     public static BotonEditarEstacion getInstance(){
-        if(singleton == null){
+    	if(singleton == null){
             singleton = new BotonEditarEstacion();
         }
         return singleton;
@@ -23,6 +40,8 @@ public class BotonEditarEstacion {
 
     private BotonEditarEstacion() {
         panelBotonEditarEstacion = new JPanel(new GridBagLayout());
+        this.gestorEstacion = new GestorEstacion();
+        this.estaciones = gestorEstacion.listarTodas();
 
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("EDITAR ESTACION");
@@ -61,6 +80,14 @@ public class BotonEditarEstacion {
 
         GridBagConstraints cons4 = new GridBagConstraints();
         JTextField campoNombre = new JTextField();
+        campoNombre.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(campoNombre.getText().length()>29) {
+					e.consume();
+				}
+			}
+		});
         cons4.gridwidth = 2;
         cons4.gridx = 0;
         cons4.gridy = 4;
@@ -140,6 +167,59 @@ public class BotonEditarEstacion {
         panelBotonEditarEstacion.add(botonAtras,cons12);
 
         botonAtras.addActionListener(e -> InterfazFrame.setPanel(EditarEstacion.getInstance().getPanelEditarEstacion()));
-
+        //
+        botonAceptar.addActionListener(e->
+		{
+				EstacionDeTransbordoMultimodal estacion = estaciones.get(indice);
+				String id;
+				if(!campoId.getText().isEmpty())
+					id = campoId.getText(); //?
+				else
+					id = estacion.getId().toString(); //?
+				String nombre;
+				if(!campoNombre.getText().isEmpty())
+					nombre = campoNombre.getText();
+				else
+					nombre = estacion.getNombreEstacion();
+				LocalTime apertura;
+				if(!campoHApertura.getText().isEmpty()) {
+					apertura = LocalTime.parse(campoHApertura.getText());
+					}
+				else
+					apertura = estacion.getHorarioApertura(); //?
+				LocalTime cierre;
+				if(!campoHCierre.getText().isEmpty()) {
+					cierre = LocalTime.parse(campoHCierre.getText());
+				}
+				else
+					cierre = estacion.getHorarioCierre(); //?
+				EstadoEstacion estado;
+				if (((String) campoEstado.getSelectedItem()).equals("Operativa")) {
+					estado = EstadoEstacion.OPERATIVA;
+					if(!estacion.estadoOperativa())
+						try {
+							this.gestorEstacion.cambiarEstado(estacion, 1);
+						} catch (CamposIncorrectosException | SQLException | BaseDeDatosException e1) {
+							e1.printStackTrace();
+						}
+					}
+				else {
+					estado = EstadoEstacion.EN_MANTENIMIENTO;
+					if(estacion.estadoOperativa())
+						try {
+							this.gestorEstacion.cambiarEstado(estacion, 0);
+						} catch (CamposIncorrectosException | SQLException | BaseDeDatosException e1) {
+							e1.printStackTrace();
+						}
+				}
+				
+				try {
+					this.gestorEstacion.editarEstacion(estacion, nombre, apertura, cierre, estado);
+				} catch (CamposIncorrectosException | SQLException | BaseDeDatosException e1) {
+					e1.printStackTrace();
+				}
+				
+		});
+        //
     }
 }

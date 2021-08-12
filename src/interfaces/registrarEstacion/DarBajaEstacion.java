@@ -3,13 +3,25 @@ package interfaces.registrarEstacion;
 import interfaces.InterfazFrame;
 
 import javax.swing.*;
+import java.util.List;
+import java.util.ArrayList;
+import gestores.GestorEstacion;
+import dominio.EstacionDeTransbordoMultimodal;
+//import dominio.EstacionDeTransbordoMultimodal.EstadoEstacion;
+import excepciones.BaseDeDatosException;
+import excepciones.CamposIncorrectosException;
+
 import java.awt.*;
+import java.sql.SQLException;
 
 public class DarBajaEstacion {
 
     private static DarBajaEstacion singleton;
     private final JPanel panelDarBajaEstacion;
-
+    //
+   	private GestorEstacion gestorEstacion;
+   	private List<EstacionDeTransbordoMultimodal> estaciones; //?
+   	
     public JPanel getPanelDarBajaEstacion() {
         return panelDarBajaEstacion;
     }
@@ -23,7 +35,10 @@ public class DarBajaEstacion {
 
     private DarBajaEstacion() {
         panelDarBajaEstacion = new JPanel(new GridBagLayout());
-
+        //
+        this.gestorEstacion = new GestorEstacion();
+        this.estaciones = gestorEstacion.listarTodas();
+        //
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("DAR BAJA ESTACION");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -35,26 +50,20 @@ public class DarBajaEstacion {
         panelDarBajaEstacion.add(nombreMenu, cons0);
 
         GridBagConstraints cons2 = new GridBagConstraints();
-        String[] data = {"Estacion1", "Estacion2", "Estacion3", "Estacion4", "Estacion5", "Estacion6", "Estacion7", "Estacion8", "Estacion9", "Estacion10"};
+        List<String> lista = new ArrayList<String>();
+        for(EstacionDeTransbordoMultimodal e: estaciones) {
+        	lista.add(e.getNombreEstacion());
+        }
+        String[] data = lista.toArray(new String[0]);
+
         JList<String> campoLista = new JList<>(data);
         cons2.gridwidth = 2;
         cons2.gridx = 0;
         cons2.gridy = 1;
         cons2.fill = GridBagConstraints.BOTH;
-        cons2.insets = new Insets(10,0,40,0);
+        cons2.insets = new Insets(15,0,40,0);
         panelDarBajaEstacion.add(campoLista, cons2);
-/*
-        GridBagConstraints cons3 = new GridBagConstraints();
-        JScrollBar scrollLista = new JScrollBar(JScrollBar.VERTICAL, 1, 10, 0, 100);
-        cons3.gridwidth = 0;
-        cons3.gridheight = 4;
-        cons3.gridx = 2;
-        cons3.gridy = 3;
-        cons3.fill = GridBagConstraints.BOTH;
-        cons3.anchor = GridBagConstraints.WEST;
-        //cons3.insets = new Insets(55,0,40,0);
-        panelDarBajaEstacion.add(scrollLista,cons3);
- */
+
         GridBagConstraints cons11 = new GridBagConstraints();
         JButton botonEliminar = new JButton("Eliminar");
         cons11.gridwidth = 2;
@@ -73,8 +82,30 @@ public class DarBajaEstacion {
         cons12.insets = new Insets(30,0,60,0);
         panelDarBajaEstacion.add(botonAtras,cons12);
 
-
         botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()));
-
+        
+        
+        botonEliminar.addActionListener(e->
+      		{
+      			try 
+      			{
+      				/*Integer id;
+      				for(EstacionDeTransbordoMultimodal est: estaciones)
+      					if(campoLista.getSelectedValue() == est.getNombreEstacion())
+      						id = est.getId();*/
+      				
+      				Integer index = campoLista.getSelectedIndex();
+      				this.gestorEstacion.eliminarEstacion(estaciones.get(index));
+      			}
+      			catch (SQLException | BaseDeDatosException e1) 
+      			{
+      				e1.printStackTrace();
+      			}
+      			catch (CamposIncorrectosException e2)
+      			{
+      				e2.printStackTrace();
+      			}
+      		});
+        
     }
 }

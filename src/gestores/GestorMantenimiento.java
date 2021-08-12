@@ -26,24 +26,24 @@ public class GestorMantenimiento {
 		return mantenimientos;		
 	}
 	
-	public TareaMantenimiento crearTareaMantenimiento(Integer id, String observaciones, EstacionDeTransbordoMultimodal estacion) throws CamposIncorrectosException, SQLException, BaseDeDatosException
+	public TareaMantenimiento crearTareaMantenimiento(String observaciones, EstacionDeTransbordoMultimodal estacion) throws CamposIncorrectosException, SQLException, BaseDeDatosException
 	{ 
 		TareaMantenimiento m = new TareaMantenimiento();
 		LocalDate fechaInicio = LocalDate.now();
-		this.actualizarModelo(m, id, fechaInicio, null, observaciones, estacion); 
+		this.actualizarModelo(m, fechaInicio, null, observaciones, estacion); 
 		mantenimientos.add(m); 
 		return mantenimientoDAO.insertarMantenimiento(m);
 	}
-	public TareaMantenimiento finalizarTareaMantenimiento(Integer id, LocalDate fechaInicio, LocalDate fin, String observaciones, EstacionDeTransbordoMultimodal estacion) throws BaseDeDatosException, SQLException {
+	public TareaMantenimiento finalizarTareaMantenimiento(String observaciones, EstacionDeTransbordoMultimodal estacion) throws BaseDeDatosException, SQLException {
 		TareaMantenimiento m = mantenimientoDAO.buscarPorIdEstacion(estacion.getId()).get(estacion.getMantenimientos().size()-1);
 		LocalDate fechaFin = LocalDate.now();
-		this.actualizarModelo(m, id, fechaInicio, fechaFin, observaciones, estacion); 
+		this.actualizarModelo(m, m.getFechaInicio(), fechaFin, observaciones, estacion); 
 		return mantenimientoDAO.finalizarMantenimiento(m);
 	}
 	
-	public void actualizarModelo(TareaMantenimiento m, Integer id, LocalDate inicio, LocalDate fin, String observaciones, EstacionDeTransbordoMultimodal estacion)
+	public void actualizarModelo(TareaMantenimiento m, LocalDate inicio, LocalDate fin, String observaciones, EstacionDeTransbordoMultimodal estacion)
 	{
-		m.setId(id); 
+	//	m.setId(id); 
 		m.setFechaInicio(inicio); 
 		m.setFechaFin(fin);
 		m.setObservaciones(observaciones); //

@@ -60,6 +60,18 @@ public class GestorLineaTransporte {
 	{
 		return lineaDAO.existeNombreDeLinea(nombre);
 	}
+
+	public LineaTransporte editarLinea(LineaTransporte l, String nombreLinea, String color, EstadoLinea estado) throws CamposIncorrectosException, SQLException, BaseDeDatosException
+	{
+		
+		this.actualizarModelo(l, nombreLinea, color, estado); //? editar aca?
+		return lineaDAO.editarLineaTransporte(l);
+	}
+	public void eliminarLinea(LineaTransporte l) throws CamposIncorrectosException, SQLException, BaseDeDatosException
+	{
+		lineaDAO.eliminarLineaTransporte(l);
+	}
+
 	public List<LineaTransporte> listarTodas() 
 	{
 		return lineaDAO.buscarTodas();
