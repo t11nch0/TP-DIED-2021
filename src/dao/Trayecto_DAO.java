@@ -9,12 +9,12 @@ import excepciones.BaseDeDatosException;
 public interface Trayecto_DAO 
 {
 	
-	public List<Trayecto> buscarTodos();
+	List<Trayecto> buscarTodos();
 	
-	public Trayecto insertarTrayecto(Trayecto trayecto) throws BaseDeDatosException, SQLException;
-	public void eliminarTrayecto();
-	public Trayecto editarTrayecto(Trayecto trayecto) throws BaseDeDatosException, SQLException;
+	Trayecto insertarTrayecto(Trayecto trayecto) throws BaseDeDatosException, SQLException;
+	void eliminarTrayecto();
+	Trayecto editarTrayecto(Trayecto trayecto) throws BaseDeDatosException, SQLException;
 
-	public Trayecto buscarPorId(Integer id); 
-	public List<Trayecto> buscarPorIdLinea(Integer id); 
+	Trayecto buscarPorId(Integer id);
+	List<Trayecto> buscarPorIdLinea(Integer id);
 }

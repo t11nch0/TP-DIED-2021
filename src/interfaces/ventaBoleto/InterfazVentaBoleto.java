@@ -158,6 +158,8 @@ public class InterfazVentaBoleto{
         cons12.insets = new Insets(30,0,60,0);
         panelVenta.add(botonAtras,cons12);
 
+        //botonComprar.addActionListener();
+
         botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()));
         botonBuscar.addActionListener(e -> {
         	modeloRapido.clear();

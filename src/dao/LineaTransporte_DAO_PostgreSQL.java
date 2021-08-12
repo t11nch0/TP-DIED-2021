@@ -15,7 +15,7 @@ import gestores.GestorConexion;
 
 public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 {
-	private Connection conn = GestorConexion.getConnection();
+	private final Connection conn = GestorConexion.getConnection();
 	
 	private static final String SELECT_ALL_LINEA =
 	"SELECT * FROM died_db.linea";  
@@ -58,14 +58,9 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 				l.setId((rs.getInt("ID")));
 				l.setNombre(rs.getString("NOMBRE"));
 				l.setColor(rs.getString("COLOR"));
-				switch(rs.getString("ESTADO_LINEA"))
-				{
-				case "ACTIVA":
-					l.setEstado(EstadoLinea.ACTIVA);
-					break;
-				case "NO_ACTIVA":
-					l.setEstado(EstadoLinea.NO_ACTIVA);
-					break;
+				switch (rs.getString("ESTADO_LINEA")) {
+					case "ACTIVA" -> l.setEstado(EstadoLinea.ACTIVA);
+					case "NO_ACTIVA" -> l.setEstado(EstadoLinea.NO_ACTIVA);
 				}
 				// ? Lista
 				//l.setTrayectos(trayectoDAO.buscarPorIdLinea(l.getId()));
@@ -263,14 +258,9 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 					linea.setId(rs.getInt("ID"));
 					linea.setNombre(rs.getString("NOMBRE"));
 					linea.setNombre(rs.getString("COLOR"));
-					switch(rs.getString("ESTADO_LINEA"))
-					{
-					case "ACTIVA":
-						linea.setEstado(EstadoLinea.ACTIVA);
-						break;
-					case "NO_ACTIVA":
-						linea.setEstado(EstadoLinea.NO_ACTIVA);
-						break;
+					switch (rs.getString("ESTADO_LINEA")) {
+						case "ACTIVA" -> linea.setEstado(EstadoLinea.ACTIVA);
+						case "NO_ACTIVA" -> linea.setEstado(EstadoLinea.NO_ACTIVA);
 					}
 					//linea.setTrayectos(trayectoDAO.buscarPorIdLinea(linea.getId())); //??
 					// bucle?

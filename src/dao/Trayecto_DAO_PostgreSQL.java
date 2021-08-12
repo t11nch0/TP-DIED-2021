@@ -15,7 +15,7 @@ import gestores.GestorConexion;
 
 public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO{
 	
-	private Connection conn = GestorConexion.getConnection();
+	private final Connection conn = GestorConexion.getConnection();
 	
 	private static final String SELECT_ALL_TRAYECTO =
 			"SELECT * FROM died_db.trayecto"; 

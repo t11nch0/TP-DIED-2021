@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import dominio.Ruta;
@@ -15,7 +16,7 @@ import gestores.GestorConexion;
 
 public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 {
-	private Connection conn = GestorConexion.getConnection();
+	private final Connection conn = GestorConexion.getConnection();
 	
 	private static final String SELECT_ALL_RUTA =
 	"SELECT * FROM died_db.ruta";  
@@ -23,7 +24,7 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 	@Override
 	public List<Ruta> buscarTodas() 
 	{
-		List<Ruta> lista = new ArrayList<Ruta>();
+		List<Ruta> lista = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
@@ -42,15 +43,10 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 				r.setDistanciaKilometros(rs.getInt("DISTANCIA_KILOMETROS"));
 				r.setDuracionViajeMinutos(rs.getInt("DURACION_VIAJE_MINUTOS"));
 				r.setPasajerosMaximos(rs.getInt("PASAJEROS_MAXIMO"));
-				
-				switch(rs.getString("ESTADO_RUTA"))
-				{
-				case "ACTIVA":
-					r.setEstadoRuta(EstadoRuta.ACTIVA);
-					break;
-				case "NO_ACTIVA":
-					r.setEstadoRuta(EstadoRuta.NO_ACTIVA);
-					break;
+
+				switch (rs.getString("ESTADO_RUTA")) {
+					case "ACTIVA" -> r.setEstadoRuta(EstadoRuta.ACTIVA);
+					case "NO_ACTIVA" -> r.setEstadoRuta(EstadoRuta.NO_ACTIVA);
 				}
 				r.setCosto(rs.getDouble("COSTO"));
 
@@ -77,9 +73,8 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 }
 
 	@Override
-	public Ruta insertarRuta(Ruta ruta) throws BaseDeDatosException, SQLException {
+	public void insertarRuta(Ruta ruta) throws BaseDeDatosException, SQLException {
 		// TODO Auto-generated method stub //?
-		return null;
 	}
 
 	@Override
@@ -116,15 +111,10 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 					ruta.setDistanciaKilometros(rs.getInt("DISTANCIA_KILOMETROS"));
 					ruta.setDuracionViajeMinutos(rs.getInt("DURACION_VIAJE_MINUTOS"));
 					ruta.setPasajerosMaximos(rs.getInt("PASAJEROS_MAXIMO"));
-					
-					switch(rs.getString("ESTADO_RUTA"))
-					{
-					case "ACTIVA":
-						ruta.setEstadoRuta(EstadoRuta.ACTIVA);
-						break;
-					case "NO_ACTIVA":
-						ruta.setEstadoRuta(EstadoRuta.NO_ACTIVA);
-						break;
+
+					switch (rs.getString("ESTADO_RUTA")) {
+						case "ACTIVA" -> ruta.setEstadoRuta(EstadoRuta.ACTIVA);
+						case "NO_ACTIVA" -> ruta.setEstadoRuta(EstadoRuta.NO_ACTIVA);
 					}
 					ruta.setCosto(rs.getDouble("COSTO"));
 
@@ -154,7 +144,7 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 	public List<Ruta> buscarPorIdTrayecto(Integer idTrayecto){
 		return this.buscarTodas()
 				.stream()
-				.filter(r -> r.getTrayecto().getId() == idTrayecto)
+				.filter(r -> Objects.equals(r.getTrayecto().getId(), idTrayecto))
 				.collect(Collectors.toList());
 	}
 

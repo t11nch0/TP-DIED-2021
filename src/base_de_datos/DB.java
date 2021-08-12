@@ -8,16 +8,6 @@ public class DB
 {
 	private static boolean _TABLAS_CREADAS = false;
 	
-	
-	private static final String TABLA_CREATE_ESTACION = 
-			"CREATE TABLE IF NOT EXISTS died_db.estacion ( "+
-			"		  ID SERIAL, "+ 
-            "         NOMBRE VARCHAR(30) UNIQUE, "+ 
-			"         HORARIO_APERTURA TIME, "+
-			"         HORARIO_CIERRE TIME, "+
-			"         ESTADO VARCHAR(18) NULL, "+ 
-			"		  PRIMARY KEY (ID)) ";
-	
 	private static final String TABLA_CREATE_TAREA_MANTENIMIENTO = 
 			"CREATE TABLE IF NOT EXISTS died_db.tarea_mantenimiento ( "+
 			"		  ID SERIAL, "+
@@ -28,20 +18,14 @@ public class DB
 			"		  PRIMARY KEY (ID), "+
 			"         FOREIGN KEY (ID_ESTACION) REFERENCES died_db.estacion(ID))";
 	
-	private static final String TABLA_CREATE_LINEA = 
-			"CREATE TABLE IF NOT EXISTS died_db.linea ( "+
+	private static final String TABLA_CREATE_ESTACION = 
+			"CREATE TABLE IF NOT EXISTS died_db.estacion ( "+
 			"		  ID SERIAL, "+
-            "         NOMBRE VARCHAR(30) UNIQUE, "+ 
-            "         COLOR VARCHAR(15) NULL, "+ 
-			"         ESTADO_LINEA VARCHAR(12) NULL, "+ 
-			"		  PRIMARY KEY (ID))";
-	
-	private static final String TABLA_CREATE_TRAYECTO = 
-			"CREATE TABLE IF NOT EXISTS died_db.trayecto ( "+
-			"		  ID SERIAL, "+
-			"		  ID_LINEA INTEGER, "+ 
-			"		  PRIMARY KEY (ID), "+
-			"         FOREIGN KEY (ID_LINEA) REFERENCES died_db.linea(ID))";//?
+			"         NOMBRE VARCHAR(30) UNIQUE, "+
+			"         HORARIO_APERTURA TIME, "+
+			"         HORARIO_CIERRE TIME, "+
+			"         ESTADO VARCHAR(18) NULL, "+ 
+			"		  PRIMARY KEY (ID)) ";
 	
 	private static final String TABLA_CREATE_RUTA = 
 			"CREATE TABLE IF NOT EXISTS died_db.ruta ( "+
@@ -57,10 +41,25 @@ public class DB
 			"		  PRIMARY KEY (ID), "+
 			"         FOREIGN KEY (ID_TRAYECTO) REFERENCES died_db.trayecto(ID), "+
 			"         FOREIGN KEY (ID_ORIGEN) REFERENCES died_db.estacion(ID), "+
-			"         FOREIGN KEY (ID_DESTINO) REFERENCES died_db.estacion(ID))";
+			"         FOREIGN KEY (ID_DESTINO) REFERENCES died_db.estacion(ID)) ";
+	
+	private static final String TABLA_CREATE_LINEA = 
+			"CREATE TABLE IF NOT EXISTS died_db.linea ( "+
+			"		  ID SERIAL, "+
+            "         NOMBRE VARCHAR(30) UNIQUE, "+ 
+            "         COLOR VARCHAR(15) NULL, "+ 
+			"         ESTADO_LINEA VARCHAR(12) NULL, "+ 
+			"		  PRIMARY KEY (ID))";
+	
+	private static final String TABLA_CREATE_TRAYECTO = 
+			"CREATE TABLE IF NOT EXISTS died_db.linea ( "+
+			"		  ID SERIAL, "+
+			"		  ID_LINEA INTEGER, "+ 
+			"		  PRIMARY KEY (ID), "+
+			"         FOREIGN KEY (ID_LINEA) REFERENCES died_db.linea(ID))";//?
 	
 	private static final String TABLA_CREATE_CAMINO = 
-			"CREATE TABLE IF NOT EXISTS died_db.camino ( "+
+			"CREATE TABLE IF NOT EXISTS died_db.ruta ( "+
 			"		  ID SERIAL, "+
 			"		  DISTANCIA_TOTAL INTEGER, "+
 			"		  DURACION_TOTAL INTEGER, "+	
@@ -69,10 +68,10 @@ public class DB
 			"		  ID_DESTINO INTEGER, "+
 			"		  PRIMARY KEY (ID), "+
 			"         FOREIGN KEY (ID_ORIGEN) REFERENCES died_db.estacion(ID), "+
-			"         FOREIGN KEY (ID_DESTINO) REFERENCES died_db.estacion(ID))";
+			"         FOREIGN KEY (ID_DESTINO) REFERENCES died_db.estacion(ID)) ";
 	
 	private static final String TABLA_CREATE_BOLETO = 
-			"CREATE TABLE IF NOT EXISTS died_db.boleto ( "+
+			"CREATE TABLE IF NOT EXISTS died_db.ruta ( "+
 			"		  ID SERIAL, "+
 			"		  NRO_BOLETO INTEGER, "+
 			"         EMAIL_CLIENTE VARCHAR(30) NULL, "+ 
@@ -86,7 +85,7 @@ public class DB
 			"		  PRIMARY KEY (ID), "+
 			"         FOREIGN KEY (ID_ORIGEN) REFERENCES died_db.estacion(ID), "+
 			"         FOREIGN KEY (ID_DESTINO) REFERENCES died_db.estacion(ID), "+
-			"         FOREIGN KEY (ID_CAMINO) REFERENCES died_db.camino(ID))";
+			"         FOREIGN KEY (ID_CAMINO) REFERENCES died_db.camino(ID)) ";
 	
 
 	//? ???
@@ -98,11 +97,11 @@ public class DB
 			try 
 			{
 				stmt = conn.createStatement();
-				stmt.execute(TABLA_CREATE_ESTACION);
 				stmt.execute(TABLA_CREATE_TAREA_MANTENIMIENTO);
+				stmt.execute(TABLA_CREATE_ESTACION);
+				stmt.execute(TABLA_CREATE_RUTA);
 				stmt.execute(TABLA_CREATE_LINEA);
 				stmt.execute(TABLA_CREATE_TRAYECTO);
-				stmt.execute(TABLA_CREATE_RUTA);
 				stmt.execute(TABLA_CREATE_CAMINO);
 				stmt.execute(TABLA_CREATE_BOLETO);
 				_TABLAS_CREADAS = true;

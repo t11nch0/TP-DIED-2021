@@ -18,7 +18,7 @@ import gestores.GestorConexion;
 
 public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 
-	private Connection conn = GestorConexion.getConnection(); 
+	private final Connection conn = GestorConexion.getConnection();
 	
 	private static final String SELECT_ALL_ESTACION =
 	"SELECT * FROM died_db.estacion"; 
@@ -171,14 +171,9 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 				EstacionDeTransbordoMultimodal estacion = new EstacionDeTransbordoMultimodal(); //null?
 				estacion.setId((rs.getInt("ID")));
 				estacion.setNombreEstacion(rs.getString("NOMBRE"));
-				switch(rs.getString("ESTADO"))
-				{
-				case "OPERATIVA":
-					estacion.setEstado(EstadoEstacion.OPERATIVA);
-					break;
-				case "EN_MANTENIMIENTO":
-					estacion.setEstado(EstadoEstacion.EN_MANTENIMIENTO);
-					break;
+				switch (rs.getString("ESTADO")) {
+					case "OPERATIVA" -> estacion.setEstado(EstadoEstacion.OPERATIVA);
+					case "EN_MANTENIMIENTO" -> estacion.setEstado(EstadoEstacion.EN_MANTENIMIENTO);
 				}
 				if(rs.getTime("HORARIO_APERTURA") != null)
 				{
@@ -305,14 +300,9 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 				{
 					estacion.setId(rs.getInt("ID"));
 					estacion.setNombreEstacion(rs.getString("NOMBRE"));
-					switch(rs.getString("ESTADO"))
-					{
-					case "OPERATIVA":
-						estacion.setEstado(EstadoEstacion.OPERATIVA);
-						break;
-					case "EN_MANTENIMIENTO":
-						estacion.setEstado(EstadoEstacion.EN_MANTENIMIENTO);
-						break;
+					switch (rs.getString("ESTADO")) {
+						case "OPERATIVA" -> estacion.setEstado(EstadoEstacion.OPERATIVA);
+						case "EN_MANTENIMIENTO" -> estacion.setEstado(EstadoEstacion.EN_MANTENIMIENTO);
 					}
 					if(rs.getTime("HORARIO_APERTURA") != null)
 					{

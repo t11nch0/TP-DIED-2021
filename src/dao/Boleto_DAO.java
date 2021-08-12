@@ -9,12 +9,12 @@ import excepciones.BaseDeDatosException;
 
 public interface Boleto_DAO {
 
-	public List<Boleto> buscarTodos();	
-	public Boleto insertarBoleto(Boleto boleto) throws BaseDeDatosException, SQLException;
-	public void eliminarBoleto();
+	List<Boleto> buscarTodos();
+	Boleto insertarBoleto(Boleto boleto) throws BaseDeDatosException, SQLException;
+	void eliminarBoleto();
 	//?
-	public Boleto editarBoleto(Boleto boleto) throws BaseDeDatosException, SQLException;
-	public Boleto buscarPorId(Integer id); //?
+	Boleto editarBoleto(Boleto boleto) throws BaseDeDatosException, SQLException;
+	Boleto buscarPorId(Integer id); //?
 
 	
 }

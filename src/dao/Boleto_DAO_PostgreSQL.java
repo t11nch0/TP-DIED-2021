@@ -13,7 +13,7 @@ import gestores.GestorConexion;
 
 public class Boleto_DAO_PostgreSQL implements Boleto_DAO
 {
-	private Connection conn = GestorConexion.getConnection();
+	private final Connection conn = GestorConexion.getConnection();
 
 	private static final String INSERT_BOLETO =
 			"INSERT INTO died_db.boleto (NRO_BOLETO, EMAIL, NOMBRE, FECHA_VENTA, ORIGEN, DESTINO, CAMINO, COSTO) VALUES (?,?,?,?,?,?,?,?) RETURNING ID";

@@ -15,7 +15,7 @@ public class GestorConexion
 		String url = "jdbc:postgresql://localhost:5432/died_db"; //localhost?
 		String driver = "org.postgresql.Driver";
 		String usuario = "postgres";
-		String password = "died";
+		String password = "1234";
 		
 		 try
 		 {

@@ -15,7 +15,7 @@ import gestores.GestorConexion;
 
 public class Mantenimiento_DAO_PostgreSQL implements Mantenimiento_DAO{
 
-	private Connection conn = GestorConexion.getConnection(); 
+	private final Connection conn = GestorConexion.getConnection();
 	
 	private static final String SELECT_ALL_MANTENIMIENTO =
 	"SELECT * FROM died_db.tarea_mantenimiento"; 

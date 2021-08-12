@@ -7,10 +7,10 @@ import excepciones.BaseDeDatosException;
 
 public interface Mantenimiento_DAO {
 
-	public List<TareaMantenimiento> buscarTodos();
-	public TareaMantenimiento insertarMantenimiento(TareaMantenimiento mantenimiento) throws BaseDeDatosException, SQLException;
-	public TareaMantenimiento finalizarMantenimiento(TareaMantenimiento mantenimiento) throws BaseDeDatosException, SQLException;
+	List<TareaMantenimiento> buscarTodos();
+	TareaMantenimiento insertarMantenimiento(TareaMantenimiento mantenimiento) throws BaseDeDatosException, SQLException;
+	TareaMantenimiento finalizarMantenimiento(TareaMantenimiento mantenimiento) throws BaseDeDatosException, SQLException;
 	
-	public List<TareaMantenimiento> buscarPorIdEstacion(Integer idEstacion); //?
+	List<TareaMantenimiento> buscarPorIdEstacion(Integer idEstacion); //?
 		
 }
