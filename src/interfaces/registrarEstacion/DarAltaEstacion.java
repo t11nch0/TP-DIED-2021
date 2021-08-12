@@ -195,15 +195,15 @@ public class DarAltaEstacion {
 			try 
 			{
 				String nombre = campoNombre.getText();
-				//LocalTime apertura = LocalTime.parse(campoHApertura.getText());
-				//LocalTime cierre = LocalTime.parse(campoHCierre.getText());
+				LocalTime apertura = LocalTime.parse(campoAHora.getSelectedItem() + ":" + campoAMinutos.getSelectedItem());
+				LocalTime cierre = LocalTime.parse(campoCHora.getSelectedItem() + ":" + campoCMinutos.getSelectedItem());
 				//ESTADO
 				EstadoEstacion estado;
-				if (Objects.equals((String) campoEstado.getSelectedItem(), "Operativa"))
+				if (Objects.equals(campoEstado.getSelectedItem(), "Operativa"))
 					estado = EstadoEstacion.OPERATIVA;
 				else	
 					estado = EstadoEstacion.MANTENIMIENTO;
-				this.gestorEstacion.crearEstacion(nombre, /*apertura */ null, /*cierre*/ null, estado);
+				this.gestorEstacion.crearEstacion(nombre, apertura , cierre , estado);
 			
 			}
 			catch (SQLException | BaseDeDatosException | CamposIncorrectosException e1)
