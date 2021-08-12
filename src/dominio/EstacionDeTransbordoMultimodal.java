@@ -13,7 +13,7 @@ public class EstacionDeTransbordoMultimodal {
     
     public enum EstadoEstacion 
 	{
-		OPERATIVA,EN_MANTENIMIENTO;
+		OPERATIVA, MANTENIMIENTO;
 	}
     
     public EstacionDeTransbordoMultimodal(Integer id, String nombre, LocalTime hApertura, LocalTime hCierre, EstadoEstacion estado) {
@@ -88,7 +88,7 @@ public class EstacionDeTransbordoMultimodal {
 		if(this.estadoOperativa()) {
 			TareaMantenimiento mantenimiento = new TareaMantenimiento();
 			this.agregarMantenimiento(mantenimiento);
-			this.setEstado(EstadoEstacion.EN_MANTENIMIENTO); 
+			this.setEstado(EstadoEstacion.MANTENIMIENTO);
 		} else {
 			this.setEstado(EstadoEstacion.OPERATIVA); 
 		}

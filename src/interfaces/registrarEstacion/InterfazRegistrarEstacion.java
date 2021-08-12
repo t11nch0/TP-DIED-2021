@@ -65,16 +65,14 @@ public class InterfazRegistrarEstacion {
         cons4.fill = GridBagConstraints.BOTH;
         cons4.insets = new Insets(10,20,10,20);
         panelRegistroEstacion.add(botonAtributos,cons4);
-     
-        //
+
         GridBagConstraints cons5 = new GridBagConstraints();
-        JButton botonMantenimientos = new JButton("Historial Mantenimientos");
+        JButton botonMantenimientos = new JButton("Historial de Mantenimientos");
         cons5.gridx = 0;
         cons5.gridy = 5;
         cons5.fill = GridBagConstraints.BOTH;
         cons5.insets = new Insets(10,20,10,20);
         panelRegistroEstacion.add(botonMantenimientos,cons5);
-        //
         
         GridBagConstraints cons6 = new GridBagConstraints();
         JButton botonAtras = new JButton("Atras");
@@ -85,17 +83,18 @@ public class InterfazRegistrarEstacion {
         cons6.insets = new Insets(40,41,60,41);
         panelRegistroEstacion.add(botonAtras,cons6);
 
-        botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()));
 
         botonAlta.addActionListener(e -> InterfazFrame.setPanel(DarAltaEstacion.getInstance().getPanelDarAltaEstacion()));
 
-        botonBaja.addActionListener(e -> InterfazFrame.setPanel(DarBajaEstacion.getInstance().getPanelDarBajaEstacion()));
-
         botonEdicion.addActionListener(e -> InterfazFrame.setPanel(EditarEstacion.getInstance().getPanelEditarEstacion()));
+
+        botonBaja.addActionListener(e -> InterfazFrame.setPanel(DarBajaEstacion.getInstance().getPanelDarBajaEstacion()));
 
         botonAtributos.addActionListener(e -> InterfazFrame.setPanel(BuscarAtributosEstacion.getInstance().getPanelBuscarAtributosEstacion()));
        
         botonMantenimientos.addActionListener(e -> InterfazFrame.setPanel(HistorialDeMantenimientos.getInstance().getPanelHistorialDeMantenimientos()));
+
+        botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()));
 
         
     }

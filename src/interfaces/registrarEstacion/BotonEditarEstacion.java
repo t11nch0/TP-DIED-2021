@@ -204,7 +204,7 @@ public class BotonEditarEstacion {
 						}
 					}
 				else {
-					estado = EstadoEstacion.EN_MANTENIMIENTO;
+					estado = EstadoEstacion.MANTENIMIENTO;
 					if(estacion.estadoOperativa())
 						try {
 							this.gestorEstacion.cambiarEstado(estacion, 0);

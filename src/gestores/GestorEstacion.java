@@ -18,8 +18,8 @@ import java.util.PriorityQueue;
 
 public class GestorEstacion {
 
-	private Estacion_DAO estacionDAO;
-	private GestorMantenimiento gestorMantenimiento;
+	private final Estacion_DAO estacionDAO;
+	private final GestorMantenimiento gestorMantenimiento;
 
 	public GestorEstacion() 
 	{

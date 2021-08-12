@@ -173,7 +173,7 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 				estacion.setNombreEstacion(rs.getString("NOMBRE"));
 				switch (rs.getString("ESTADO")) {
 					case "OPERATIVA" -> estacion.setEstado(EstadoEstacion.OPERATIVA);
-					case "EN_MANTENIMIENTO" -> estacion.setEstado(EstadoEstacion.EN_MANTENIMIENTO);
+					case "EN_MANTENIMIENTO" -> estacion.setEstado(EstadoEstacion.MANTENIMIENTO);
 				}
 				if(rs.getTime("HORARIO_APERTURA") != null)
 				{
@@ -302,7 +302,7 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 					estacion.setNombreEstacion(rs.getString("NOMBRE"));
 					switch (rs.getString("ESTADO")) {
 						case "OPERATIVA" -> estacion.setEstado(EstadoEstacion.OPERATIVA);
-						case "EN_MANTENIMIENTO" -> estacion.setEstado(EstadoEstacion.EN_MANTENIMIENTO);
+						case "EN_MANTENIMIENTO" -> estacion.setEstado(EstadoEstacion.MANTENIMIENTO);
 					}
 					if(rs.getTime("HORARIO_APERTURA") != null)
 					{
