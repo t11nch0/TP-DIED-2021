@@ -26,7 +26,7 @@ public class InterfazRegistrarTrayecto {
         panelRegistroTrayecto = new JPanel(new GridBagLayout());
 
         GridBagConstraints cons0 = new GridBagConstraints();
-        JLabel nombreMenu = new JLabel("REGISTRO DE TRAYECTO");
+        JLabel nombreMenu = new JLabel("MENU DE TRAYECTO");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
         cons0.gridwidth = 2;
         cons0.gridx = 0;

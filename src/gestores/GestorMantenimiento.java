@@ -27,9 +27,9 @@ public class GestorMantenimiento {
 	}
 	
 	public TareaMantenimiento crearTareaMantenimiento(String observaciones, EstacionDeTransbordoMultimodal estacion) throws CamposIncorrectosException, SQLException, BaseDeDatosException
-	{ 
-		TareaMantenimiento m = new TareaMantenimiento();
+	{
 		LocalDate fechaInicio = LocalDate.now();
+		TareaMantenimiento m = new TareaMantenimiento(12,fechaInicio, observaciones, estacion);
 		this.actualizarModelo(m, fechaInicio, null, observaciones, estacion); 
 		mantenimientos.add(m); 
 		return mantenimientoDAO.insertarMantenimiento(m);

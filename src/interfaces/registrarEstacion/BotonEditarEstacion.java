@@ -1,5 +1,6 @@
 package interfaces.registrarEstacion;
 
+import gestores.GestorMantenimiento;
 import interfaces.InterfazFrame;
 import javax.swing.*;
 import dominio.EstacionDeTransbordoMultimodal;
@@ -15,7 +16,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
-public class BotonEditarEstacion {
+public class BotonEditarEstacion{
 
     private static BotonEditarEstacion singleton;
     private final JPanel panelBotonEditarEstacion;
@@ -33,7 +34,6 @@ public class BotonEditarEstacion {
     private BotonEditarEstacion(Integer index) {
         gestorEstacion = new GestorEstacion();
         panelBotonEditarEstacion = new JPanel(new GridBagLayout());
-        GestorEstacion gestorEstacion = new GestorEstacion();
         List<EstacionDeTransbordoMultimodal> estaciones = gestorEstacion.listarTodas();
         EstacionDeTransbordoMultimodal est = estaciones.get(index);
 
@@ -166,7 +166,7 @@ public class BotonEditarEstacion {
         cons11.gridx = 0;
         cons11.gridy = 7;
         cons11.fill = GridBagConstraints.HORIZONTAL;
-        cons11.insets = new Insets(30, 5 ,5 ,5);
+        cons11.insets = new Insets(15, 5 ,5 ,5);
         panelBotonEditarEstacion.add(labelEstado,cons11);
 
         GridBagConstraints cons12 = new GridBagConstraints();
@@ -186,22 +186,41 @@ public class BotonEditarEstacion {
         panelBotonEditarEstacion.add(campoEstado,cons12);
 
         GridBagConstraints cons13 = new GridBagConstraints();
-        JButton botonAceptar = new JButton("Aceptar");
-        cons13.gridwidth = 2;
+        JLabel labelObs = new JLabel("Observaciones: ");
         cons13.gridx = 0;
         cons13.gridy = 9;
         cons13.fill = GridBagConstraints.HORIZONTAL;
-        cons13.insets = new Insets(60,0,20,0);
-        panelBotonEditarEstacion.add(botonAceptar,cons13);
+        cons13.insets = new Insets(10, 5 ,5 ,5);
+        panelBotonEditarEstacion.add(labelObs,cons13);
 
         GridBagConstraints cons14 = new GridBagConstraints();
-        JButton botonAtras = new JButton("Atras");
+        JTextArea campoObs = new JTextArea();
         cons14.gridwidth = 2;
         cons14.gridx = 0;
         cons14.gridy = 10;
-        cons14.fill = GridBagConstraints.HORIZONTAL;
-        cons14.insets = new Insets(20,0,60,0);
-        panelBotonEditarEstacion.add(botonAtras,cons14);
+        cons14.fill = GridBagConstraints.BOTH;
+        cons14.insets = new Insets(5, 5 ,10 ,5);
+        campoObs.setRows(4);
+        campoObs.setLineWrap(true);
+        panelBotonEditarEstacion.add(campoObs,cons14);
+
+        GridBagConstraints cons15 = new GridBagConstraints();
+        JButton botonAceptar = new JButton("Aceptar");
+        cons15.gridwidth = 2;
+        cons15.gridx = 0;
+        cons15.gridy = 11;
+        cons15.fill = GridBagConstraints.HORIZONTAL;
+        cons15.insets = new Insets(20,0,20,0);
+        panelBotonEditarEstacion.add(botonAceptar,cons15);
+
+        GridBagConstraints cons16 = new GridBagConstraints();
+        JButton botonAtras = new JButton("Atras");
+        cons16.gridwidth = 2;
+        cons16.gridx = 0;
+        cons16.gridy = 12;
+        cons16.fill = GridBagConstraints.HORIZONTAL;
+        cons16.insets = new Insets(20,0,60,0);
+        panelBotonEditarEstacion.add(botonAtras,cons16);
 
 
         botonAtras.addActionListener(e -> {InterfazFrame.setPanel(EditarEstacion.getInstance().getPanelEditarEstacion()); singleton=null;});
@@ -219,6 +238,20 @@ public class BotonEditarEstacion {
                     estado = EstadoEstacion.OPERATIVA;
                 else
                     estado = EstadoEstacion.MANTENIMIENTO;
+
+                if(estaciones.get(index).getEstado() != estado){
+                    System.out.println("guarda tarea de mantenimiento");
+
+                    if(estaciones.get(index).getEstado() == EstadoEstacion.OPERATIVA){
+                        System.out.println("comienza mantenimiento");
+                        GestorMantenimiento mant = new GestorMantenimiento();
+                        mant.crearTareaMantenimiento(campoObs.getText(), est);
+                        //TODO
+                    }else{
+                        System.out.println("termina mantenimiento");
+                        //TODO
+                    }
+                }
                 this.gestorEstacion.editarEstacion(est, nombre, apertura , cierre , estado);
 
             }

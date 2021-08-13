@@ -47,6 +47,7 @@ public class DarBajaEstacion {
         for(EstacionDeTransbordoMultimodal e: estaciones) {
             modelo.addElement(e.getNombreEstacion());
         }
+        if(modelo.isEmpty()){ modelo.add(0, "No hay estaciones disponibles");}
 
         GridBagConstraints cons1 = new GridBagConstraints();
         JList<String> campoLista = new JList<>(modelo);
@@ -84,6 +85,7 @@ public class DarBajaEstacion {
       			    int index = campoLista.getSelectedIndex();
       				this.gestorEstacion.eliminarEstacion(estaciones.get(index));
       				modelo.remove(index);
+                    if(modelo.isEmpty()){ modelo.add(0, "No hay estaciones disponibles");}
       				campoLista.setModel(modelo);
 
       			}

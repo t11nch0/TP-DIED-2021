@@ -27,7 +27,7 @@ public class InterfazRegistrarTransporte {
         panelRegistrarTransporte = new JPanel(new GridBagLayout());
 
         GridBagConstraints cons0 = new GridBagConstraints();
-        JLabel nombreMenu = new JLabel("REGISTRO DE TRANSPORTE");
+        JLabel nombreMenu = new JLabel("MENU DE TRANSPORTE");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
         //cons0.gridwidth = 2;
         cons0.gridx = 0;

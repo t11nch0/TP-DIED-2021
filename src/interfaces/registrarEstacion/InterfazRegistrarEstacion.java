@@ -26,7 +26,7 @@ public class InterfazRegistrarEstacion {
         panelRegistroEstacion = new JPanel(new GridBagLayout());
 
         GridBagConstraints cons0 = new GridBagConstraints();
-        JLabel nombreMenu = new JLabel("REGISTRO DE ESTACION");
+        JLabel nombreMenu = new JLabel("MENU DE ESTACION");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
         cons0.gridx = 0;
         cons0.gridy = 0;

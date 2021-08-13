@@ -58,13 +58,13 @@ public class InterfazPrincipal {
         panelMenuPrincipal.add(boton2,cons2);
 
         GridBagConstraints cons3 = new GridBagConstraints();
-        JButton boton3 = new JButton("Registrar Estaciones");
+        JButton boton3 = new JButton("Estaciones");
         cons3.gridx = 0;
         cons3.gridy = 3;
         cons3.fill = GridBagConstraints.BOTH;
         cons3.insets = new Insets(15,15,15,15);
         panelMenuPrincipal.add(boton3,cons3);
-
+/*
         GridBagConstraints cons4 = new GridBagConstraints();
         JButton boton4 = new JButton("Registrar Mantenimiento de Estación");
         cons4.gridx = 0;
@@ -73,8 +73,10 @@ public class InterfazPrincipal {
         cons4.insets = new Insets(15,15,15,15);
         panelMenuPrincipal.add(boton4,cons4);
 
+ */
+
         GridBagConstraints cons5 = new GridBagConstraints();
-        JButton boton5 = new JButton("Registrar Transporte");
+        JButton boton5 = new JButton("Transporte");
         cons5.gridx = 0;
         cons5.gridy = 5;
         cons5.fill = GridBagConstraints.BOTH;
@@ -82,7 +84,7 @@ public class InterfazPrincipal {
         panelMenuPrincipal.add(boton5,cons5);
 
         GridBagConstraints cons6 = new GridBagConstraints();
-        JButton boton6 = new JButton("Registrar Trayectos");
+        JButton boton6 = new JButton("Trayectos");
         cons6.gridx = 0;
         cons6.gridy = 6;
         cons6.fill = GridBagConstraints.BOTH;
@@ -105,7 +107,7 @@ public class InterfazPrincipal {
 
         boton3.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()));
 
-        boton4.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarMantenimientoEstacion.getInstance().getPanelRegistrarMantenimiento()));
+        //boton4.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarMantenimientoEstacion.getInstance().getPanelRegistrarMantenimiento()));
 
         boton5.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte()));
 

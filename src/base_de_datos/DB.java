@@ -60,7 +60,7 @@ public class DB
 					"         FOREIGN KEY (ID_DESTINO) REFERENCES died_db.estacion(ID)) ";
 	
 	private static final String TABLA_CREATE_CAMINO = 
-			"CREATE TABLE IF NOT EXISTS died_db.ruta ( "+
+			"CREATE TABLE IF NOT EXISTS died_db.camino ( "+
 			"		  ID SERIAL, "+
 			"		  DISTANCIA_TOTAL INTEGER, "+
 			"		  DURACION_TOTAL INTEGER, "+	
@@ -72,7 +72,7 @@ public class DB
 			"         FOREIGN KEY (ID_DESTINO) REFERENCES died_db.estacion(ID)) ";
 	
 	private static final String TABLA_CREATE_BOLETO = 
-			"CREATE TABLE IF NOT EXISTS died_db.ruta ( "+
+			"CREATE TABLE IF NOT EXISTS died_db.boleto ( "+
 			"		  ID SERIAL, "+
 			"		  NRO_BOLETO INTEGER, "+
 			"         EMAIL_CLIENTE VARCHAR(30) NULL, "+ 
