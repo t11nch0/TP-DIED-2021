@@ -1,47 +1,44 @@
 package interfaces.registrarEstacion;
 
 import interfaces.InterfazFrame;
-
 import javax.swing.*;
-
 import dominio.EstacionDeTransbordoMultimodal;
 import dominio.EstacionDeTransbordoMultimodal.EstadoEstacion;
 import excepciones.BaseDeDatosException;
 import excepciones.CamposIncorrectosException;
 import gestores.GestorEstacion;
-
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 
 public class BotonEditarEstacion {
 
     private static BotonEditarEstacion singleton;
     private final JPanel panelBotonEditarEstacion;
-	private GestorEstacion gestorEstacion;
-   	private List<EstacionDeTransbordoMultimodal> estaciones;
-   	private Integer indice;
+    private final GestorEstacion gestorEstacion;
 
+    public JPanel getPanelBotonEditarEstacion() {return panelBotonEditarEstacion;}
 
-    public JPanel getPanelBotonEditarEstacion(Integer index) {
-    	indice = index;
-    	return panelBotonEditarEstacion;
-    }
-
-    public static BotonEditarEstacion getInstance(){
+    public static BotonEditarEstacion getInstance(Integer index){
     	if(singleton == null){
-            singleton = new BotonEditarEstacion();
+            singleton = new BotonEditarEstacion(index);
         }
         return singleton;
     }
 
-    private BotonEditarEstacion() {
+    private BotonEditarEstacion(Integer index) {
+        gestorEstacion = new GestorEstacion();
         panelBotonEditarEstacion = new JPanel(new GridBagLayout());
-        this.gestorEstacion = new GestorEstacion();
-        this.estaciones = gestorEstacion.listarTodas();
+        GestorEstacion gestorEstacion = new GestorEstacion();
+        List<EstacionDeTransbordoMultimodal> estaciones = gestorEstacion.listarTodas();
+        EstacionDeTransbordoMultimodal est = estaciones.get(index);
+
+        String[] horas = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"};
+        String[] minutos = {"00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"};
 
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("EDITAR ESTACION");
@@ -50,176 +47,186 @@ public class BotonEditarEstacion {
         cons0.gridx = 0;
         cons0.gridy = 0;
         cons0.fill = GridBagConstraints.HORIZONTAL;
-        cons0.insets = new Insets(55,0,20,0);
+        cons0.insets = new Insets(55,15,20,0);
         panelBotonEditarEstacion.add(nombreMenu, cons0);
 
         GridBagConstraints cons1 = new GridBagConstraints();
-        JLabel labelId = new JLabel("ID: ");
+        JLabel labelNombre = new JLabel("Nombre: ");
         cons1.gridx = 0;
         cons1.gridy = 1;
         cons1.fill = GridBagConstraints.HORIZONTAL;
         cons1.insets = new Insets(10, 5 ,5 ,5);
-        panelBotonEditarEstacion.add(labelId,cons1);
+        panelBotonEditarEstacion.add(labelNombre,cons1);
 
         GridBagConstraints cons2 = new GridBagConstraints();
-        JTextField campoId = new JTextField();
+        JTextField campoNombre = new JTextField();
         cons2.gridwidth = 2;
         cons2.gridx = 0;
         cons2.gridy = 2;
         cons2.fill = GridBagConstraints.HORIZONTAL;
         cons2.insets = new Insets(5, 5 ,10 ,5);
-        panelBotonEditarEstacion.add(campoId,cons2);
+        campoNombre.setText(est.getNombreEstacion());
+        panelBotonEditarEstacion.add(campoNombre,cons2);
+
+        campoNombre.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(campoNombre.getText().length()>29) {
+                    e.consume();
+                }
+            }
+        });
 
         GridBagConstraints cons3 = new GridBagConstraints();
-        JLabel labelNombre = new JLabel("Nombre: ");
+        JLabel labelHApertura = new JLabel("Horario Apertura: ");
         cons3.gridx = 0;
         cons3.gridy = 3;
         cons3.fill = GridBagConstraints.HORIZONTAL;
         cons3.insets = new Insets(10, 5 ,5 ,5);
-        panelBotonEditarEstacion.add(labelNombre,cons3);
+        panelBotonEditarEstacion.add(labelHApertura,cons3);
 
         GridBagConstraints cons4 = new GridBagConstraints();
-        JTextField campoNombre = new JTextField();
-        campoNombre.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				if(campoNombre.getText().length()>29) {
-					e.consume();
-				}
-			}
-		});
-        cons4.gridwidth = 2;
+        JComboBox<String> campoAHora = new JComboBox<>();
+        cons4.gridwidth = 1;
         cons4.gridx = 0;
         cons4.gridy = 4;
         cons4.fill = GridBagConstraints.HORIZONTAL;
-        cons4.insets = new Insets(5, 5 ,10 ,5);
-        panelBotonEditarEstacion.add(campoNombre,cons4);
+        cons4.insets = new Insets(5, 10 ,10 ,10);
+        for(String a : horas)
+            campoAHora.addItem(a);
+        int horaA = est.getHorarioApertura().getHour();
+        campoAHora.setSelectedIndex(horaA);
+        panelBotonEditarEstacion.add(campoAHora,cons4);
 
         GridBagConstraints cons5 = new GridBagConstraints();
-        JLabel labelHApertura = new JLabel("Horario Apertura: ");
-        cons5.gridx = 0;
-        cons5.gridy = 5;
+        JLabel labelDosPuntos1 = new JLabel(": ");
+        cons5.gridx = 1;
+        cons5.gridy = 4;
         cons5.fill = GridBagConstraints.HORIZONTAL;
-        cons5.insets = new Insets(10, 5 ,5 ,5);
-        panelBotonEditarEstacion.add(labelHApertura,cons5);
+        cons5.insets = new Insets(5, 0 ,5 ,150);
+        panelBotonEditarEstacion.add(labelDosPuntos1,cons5);
 
         GridBagConstraints cons6 = new GridBagConstraints();
-        JTextField campoHApertura = new JTextField();
-        cons6.gridwidth = 2;
-        cons6.gridx = 0;
-        cons6.gridy = 6;
+        JComboBox<String> campoAMinutos = new JComboBox<>();
+        cons6.gridwidth = 1;
+        cons6.gridx = 1;
+        cons6.gridy = 4;
         cons6.fill = GridBagConstraints.HORIZONTAL;
-        cons6.insets = new Insets(5, 5 ,10 ,5);
-        panelBotonEditarEstacion.add(campoHApertura,cons6);
+        cons6.insets = new Insets(5, 15 ,10 ,60);
+        for(String b : minutos)
+            campoAMinutos.addItem(b);
+        int minutoA = est.getHorarioApertura().getMinute();
+        campoAMinutos.setSelectedIndex(minutoA/5);
+        panelBotonEditarEstacion.add(campoAMinutos,cons6);
 
         GridBagConstraints cons7 = new GridBagConstraints();
         JLabel labelHCierre = new JLabel("Horario Cierre: ");
         cons7.gridx = 0;
-        cons7.gridy = 7;
+        cons7.gridy = 5;
         cons7.fill = GridBagConstraints.HORIZONTAL;
         cons7.insets = new Insets(10, 5 ,5 ,5);
         panelBotonEditarEstacion.add(labelHCierre,cons7);
 
         GridBagConstraints cons8 = new GridBagConstraints();
-        JTextField campoHCierre = new JTextField();
-        cons8.gridwidth = 2;
+        JComboBox<String> campoCHora = new JComboBox<>();
+        cons8.gridwidth = 1;
         cons8.gridx = 0;
-        cons8.gridy = 8;
+        cons8.gridy = 6;
         cons8.fill = GridBagConstraints.HORIZONTAL;
-        cons8.insets = new Insets(5, 5 ,10 ,5);
-        panelBotonEditarEstacion.add(campoHCierre,cons8);
+        cons8.insets = new Insets(5, 10 ,10 ,10);
+        for(String c : horas)
+            campoCHora.addItem(c);
+        int horaC = est.getHorarioCierre().getHour();
+        campoCHora.setSelectedIndex(horaC);
+        panelBotonEditarEstacion.add(campoCHora,cons8);
 
         GridBagConstraints cons9 = new GridBagConstraints();
-        JLabel labelEstado = new JLabel("Estado: ");
-        cons9.gridx = 0;
-        cons9.gridy = 9;
+        JLabel labelDosPuntos2 = new JLabel(": ");
+        cons9.gridx = 1;
+        cons9.gridy = 6;
         cons9.fill = GridBagConstraints.HORIZONTAL;
-        cons9.insets = new Insets(10, 5 ,5 ,5);
-        panelBotonEditarEstacion.add(labelEstado,cons9);
+        cons9.insets = new Insets(5, 0 ,5 ,150);
+        panelBotonEditarEstacion.add(labelDosPuntos2,cons9);
 
         GridBagConstraints cons10 = new GridBagConstraints();
-        JComboBox<String> campoEstado = new JComboBox<>();
-        cons10.gridwidth = 2;
-        cons10.gridx = 0;
-        cons10.gridy = 10;
+        JComboBox<String> campoCMinutos = new JComboBox<>();
+        cons10.gridwidth = 1;
+        cons10.gridx = 1;
+        cons10.gridy = 6;
         cons10.fill = GridBagConstraints.HORIZONTAL;
-        cons10.insets = new Insets(5, 5 ,10 ,5);
-        campoEstado.addItem("Operativa");
-        campoEstado.addItem("Mantenimiento");
-        panelBotonEditarEstacion.add(campoEstado,cons10);
+        cons10.insets = new Insets(5, 15 ,10 ,60);
+        for(String d : minutos)
+            campoCMinutos.addItem(d);
+        int minutoC = est.getHorarioCierre().getMinute();
+        campoCMinutos.setSelectedIndex(minutoC/5);
+        panelBotonEditarEstacion.add(campoCMinutos,cons10);
 
         GridBagConstraints cons11 = new GridBagConstraints();
-        JButton botonAceptar = new JButton("Aceptar");
-        cons11.gridwidth = 2;
+        JLabel labelEstado = new JLabel("Estado: ");
         cons11.gridx = 0;
-        cons11.gridy = 11;
+        cons11.gridy = 7;
         cons11.fill = GridBagConstraints.HORIZONTAL;
-        cons11.insets = new Insets(40,0,30,0);
-        panelBotonEditarEstacion.add(botonAceptar,cons11);
+        cons11.insets = new Insets(30, 5 ,5 ,5);
+        panelBotonEditarEstacion.add(labelEstado,cons11);
 
         GridBagConstraints cons12 = new GridBagConstraints();
-        JButton botonAtras = new JButton("Atras");
+        JComboBox<String> campoEstado = new JComboBox<>();
         cons12.gridwidth = 2;
         cons12.gridx = 0;
-        cons12.gridy = 12;
+        cons12.gridy = 8;
         cons12.fill = GridBagConstraints.HORIZONTAL;
-        cons12.insets = new Insets(30,0,60,0);
-        panelBotonEditarEstacion.add(botonAtras,cons12);
+        cons12.insets = new Insets(5, 5 ,10 ,5);
+        campoEstado.addItem("Operativa");
+        campoEstado.addItem("Mantenimiento");
+        if ((est.getEstado() == EstadoEstacion.OPERATIVA)) {
+            campoEstado.setSelectedIndex(0);
+        } else {
+            campoEstado.setSelectedIndex(1);
+        }
+        panelBotonEditarEstacion.add(campoEstado,cons12);
 
-        botonAtras.addActionListener(e -> InterfazFrame.setPanel(EditarEstacion.getInstance().getPanelEditarEstacion()));
-        //
+        GridBagConstraints cons13 = new GridBagConstraints();
+        JButton botonAceptar = new JButton("Aceptar");
+        cons13.gridwidth = 2;
+        cons13.gridx = 0;
+        cons13.gridy = 9;
+        cons13.fill = GridBagConstraints.HORIZONTAL;
+        cons13.insets = new Insets(60,0,20,0);
+        panelBotonEditarEstacion.add(botonAceptar,cons13);
+
+        GridBagConstraints cons14 = new GridBagConstraints();
+        JButton botonAtras = new JButton("Atras");
+        cons14.gridwidth = 2;
+        cons14.gridx = 0;
+        cons14.gridy = 10;
+        cons14.fill = GridBagConstraints.HORIZONTAL;
+        cons14.insets = new Insets(20,0,60,0);
+        panelBotonEditarEstacion.add(botonAtras,cons14);
+
+
+        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(EditarEstacion.getInstance().getPanelEditarEstacion()); singleton=null;});
+
         botonAceptar.addActionListener(e->
 		{
-				EstacionDeTransbordoMultimodal estacion = estaciones.get(indice);
-				String id;
-				if(!campoId.getText().isEmpty())
-					id = campoId.getText(); //?
-				else
-					id = estacion.getId().toString(); //?
-				String nombre;
-				if(!campoNombre.getText().isEmpty())
-					nombre = campoNombre.getText();
-				else
-					nombre = estacion.getNombreEstacion();
-				LocalTime apertura;
-				if(!campoHApertura.getText().isEmpty()) {
-					apertura = LocalTime.parse(campoHApertura.getText());
-					}
-				else
-					apertura = estacion.getHorarioApertura(); //?
-				LocalTime cierre;
-				if(!campoHCierre.getText().isEmpty()) {
-					cierre = LocalTime.parse(campoHCierre.getText());
-				}
-				else
-					cierre = estacion.getHorarioCierre(); //?
-				EstadoEstacion estado;
-				if (((String) campoEstado.getSelectedItem()).equals("Operativa")) {
-					estado = EstadoEstacion.OPERATIVA;
-					if(!estacion.estadoOperativa())
-						try {
-							this.gestorEstacion.cambiarEstado(estacion, 1);
-						} catch (CamposIncorrectosException | SQLException | BaseDeDatosException e1) {
-							e1.printStackTrace();
-						}
-					}
-				else {
-					estado = EstadoEstacion.MANTENIMIENTO;
-					if(estacion.estadoOperativa())
-						try {
-							this.gestorEstacion.cambiarEstado(estacion, 0);
-						} catch (CamposIncorrectosException | SQLException | BaseDeDatosException e1) {
-							e1.printStackTrace();
-						}
-				}
-				
-				try {
-					this.gestorEstacion.editarEstacion(estacion, nombre, apertura, cierre, estado);
-				} catch (CamposIncorrectosException | SQLException | BaseDeDatosException e1) {
-					e1.printStackTrace();
-				}
-				
+            try
+            {
+                String nombre = campoNombre.getText();
+                LocalTime apertura = LocalTime.parse(campoAHora.getSelectedItem() + ":" + campoAMinutos.getSelectedItem());
+                LocalTime cierre = LocalTime.parse(campoCHora.getSelectedItem() + ":" + campoCMinutos.getSelectedItem());
+                //ESTADO
+                EstadoEstacion estado;
+                if (Objects.equals(campoEstado.getSelectedItem(), "Operativa"))
+                    estado = EstadoEstacion.OPERATIVA;
+                else
+                    estado = EstadoEstacion.MANTENIMIENTO;
+                this.gestorEstacion.editarEstacion(est, nombre, apertura , cierre , estado);
+
+            }
+            catch (SQLException | BaseDeDatosException | CamposIncorrectosException e1)
+            {
+                e1.printStackTrace();
+            }
+
 		});
-        //
     }
 }

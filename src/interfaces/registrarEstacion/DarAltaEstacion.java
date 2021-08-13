@@ -1,14 +1,11 @@
 package interfaces.registrarEstacion;
 
 import interfaces.InterfazFrame;
-
 import javax.swing.*;
-
 import dominio.EstacionDeTransbordoMultimodal.EstadoEstacion;
 import excepciones.BaseDeDatosException;
 import excepciones.CamposIncorrectosException;
 import gestores.GestorEstacion;
-
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -16,7 +13,7 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.Objects;
 
-public class DarAltaEstacion {
+public class DarAltaEstacion{
 
     private static DarAltaEstacion singleton;
     private final JPanel panelDarAltaEstacion;
@@ -47,7 +44,7 @@ public class DarAltaEstacion {
         cons0.gridx = 0;
         cons0.gridy = 0;
         cons0.fill = GridBagConstraints.HORIZONTAL;
-        cons0.insets = new Insets(55,0,20,0);
+        cons0.insets = new Insets(55,10,20,0);
         panelDarAltaEstacion.add(nombreMenu, cons0);
 
         GridBagConstraints cons1 = new GridBagConstraints();

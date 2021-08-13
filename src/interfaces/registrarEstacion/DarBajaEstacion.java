@@ -1,16 +1,12 @@
 package interfaces.registrarEstacion;
 
 import interfaces.InterfazFrame;
-
 import javax.swing.*;
 import java.util.List;
-import java.util.ArrayList;
 import gestores.GestorEstacion;
 import dominio.EstacionDeTransbordoMultimodal;
-//import dominio.EstacionDeTransbordoMultimodal.EstadoEstacion;
 import excepciones.BaseDeDatosException;
 import excepciones.CamposIncorrectosException;
-
 import java.awt.*;
 import java.sql.SQLException;
 
@@ -18,9 +14,8 @@ public class DarBajaEstacion {
 
     private static DarBajaEstacion singleton;
     private final JPanel panelDarBajaEstacion;
-    //
-   	private GestorEstacion gestorEstacion;
-   	private List<EstacionDeTransbordoMultimodal> estaciones; //?
+   	private final GestorEstacion gestorEstacion;
+   	private final List<EstacionDeTransbordoMultimodal> estaciones;
    	
     public JPanel getPanelDarBajaEstacion() {
         return panelDarBajaEstacion;
@@ -35,10 +30,9 @@ public class DarBajaEstacion {
 
     private DarBajaEstacion() {
         panelDarBajaEstacion = new JPanel(new GridBagLayout());
-        //
-        this.gestorEstacion = new GestorEstacion();
-        this.estaciones = gestorEstacion.listarTodas();
-        //
+        gestorEstacion = new GestorEstacion();
+        estaciones = gestorEstacion.listarTodas();
+
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("DAR BAJA ESTACION");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -49,63 +43,54 @@ public class DarBajaEstacion {
         cons0.insets = new Insets(55,0,40,0);
         panelDarBajaEstacion.add(nombreMenu, cons0);
 
-        GridBagConstraints cons2 = new GridBagConstraints();
-        List<String> lista = new ArrayList<String>();
+        DefaultListModel<String> modelo = new DefaultListModel<>();
         for(EstacionDeTransbordoMultimodal e: estaciones) {
-        	lista.add(e.getNombreEstacion());
+            modelo.addElement(e.getNombreEstacion());
         }
-        String[] data = lista.toArray(new String[0]);
 
-        JList<String> campoLista = new JList<>(data);
+        GridBagConstraints cons1 = new GridBagConstraints();
+        JList<String> campoLista = new JList<>(modelo);
+        cons1.gridwidth = 2;
+        cons1.gridx = 0;
+        cons1.gridy = 1;
+        cons1.fill = GridBagConstraints.BOTH;
+        cons1.insets = new Insets(15,0,40,0);
+        panelDarBajaEstacion.add(campoLista, cons1);
+
+        GridBagConstraints cons2 = new GridBagConstraints();
+        JButton botonEliminar = new JButton("Eliminar");
         cons2.gridwidth = 2;
         cons2.gridx = 0;
-        cons2.gridy = 1;
-        cons2.fill = GridBagConstraints.BOTH;
-        cons2.insets = new Insets(15,0,40,0);
-        panelDarBajaEstacion.add(campoLista, cons2);
+        cons2.gridy = 2;
+        cons2.fill = GridBagConstraints.HORIZONTAL;
+        cons2.insets = new Insets(10,0,30,0);
+        panelDarBajaEstacion.add(botonEliminar,cons2);
 
-        GridBagConstraints cons11 = new GridBagConstraints();
-        JButton botonEliminar = new JButton("Eliminar");
-        cons11.gridwidth = 2;
-        cons11.gridx = 0;
-        cons11.gridy = 2;
-        cons11.fill = GridBagConstraints.HORIZONTAL;
-        cons11.insets = new Insets(10,0,30,0);
-        panelDarBajaEstacion.add(botonEliminar,cons11);
-
-        GridBagConstraints cons12 = new GridBagConstraints();
+        GridBagConstraints cons3 = new GridBagConstraints();
         JButton botonAtras = new JButton("Atras");
-        cons12.gridwidth = 2;
-        cons12.gridx = 0;
-        cons12.gridy = 3;
-        cons12.fill = GridBagConstraints.HORIZONTAL;
-        cons12.insets = new Insets(30,0,60,0);
-        panelDarBajaEstacion.add(botonAtras,cons12);
+        cons3.gridwidth = 2;
+        cons3.gridx = 0;
+        cons3.gridy = 3;
+        cons3.fill = GridBagConstraints.HORIZONTAL;
+        cons3.insets = new Insets(30,0,60,0);
+        panelDarBajaEstacion.add(botonAtras,cons3);
 
-        botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()));
-        
-        
+        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()); singleton=null;});
+
         botonEliminar.addActionListener(e->
       		{
       			try 
       			{
-      				/*Integer id;
-      				for(EstacionDeTransbordoMultimodal est: estaciones)
-      					if(campoLista.getSelectedValue() == est.getNombreEstacion())
-      						id = est.getId();*/
-      				
-      				Integer index = campoLista.getSelectedIndex();
+      			    int index = campoLista.getSelectedIndex();
       				this.gestorEstacion.eliminarEstacion(estaciones.get(index));
+      				modelo.remove(index);
+      				campoLista.setModel(modelo);
+
       			}
-      			catch (SQLException | BaseDeDatosException e1) 
+      			catch (SQLException | BaseDeDatosException | CamposIncorrectosException e1)
       			{
       				e1.printStackTrace();
       			}
-      			catch (CamposIncorrectosException e2)
-      			{
-      				e2.printStackTrace();
-      			}
-      		});
-        
+            });
     }
 }

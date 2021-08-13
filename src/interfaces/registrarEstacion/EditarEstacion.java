@@ -1,23 +1,16 @@
 package interfaces.registrarEstacion;
 
 import interfaces.InterfazFrame;
-
 import javax.swing.*;
-
 import dominio.EstacionDeTransbordoMultimodal;
-import dominio.TareaMantenimiento;
 import gestores.GestorEstacion;
-
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EditarEstacion {
 
     private static EditarEstacion singleton;
     private final JPanel panelEditarEstacion;
-   	private GestorEstacion gestorEstacion;
-   	private List<EstacionDeTransbordoMultimodal> estaciones;
 
     public JPanel getPanelEditarEstacion() {
         return panelEditarEstacion;
@@ -32,8 +25,8 @@ public class EditarEstacion {
 
     private EditarEstacion() {
         panelEditarEstacion = new JPanel(new GridBagLayout());
-        this.gestorEstacion = new GestorEstacion();
-        this.estaciones = gestorEstacion.listarTodas();
+        GestorEstacion gestorEstacion = new GestorEstacion();
+        List<EstacionDeTransbordoMultimodal> estaciones = gestorEstacion.listarTodas();
         
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("EDITAR ESTACION");
@@ -45,58 +38,44 @@ public class EditarEstacion {
         cons0.insets = new Insets(55,0,40,0);
         panelEditarEstacion.add(nombreMenu, cons0);
 
-        GridBagConstraints cons2 = new GridBagConstraints();
-        List<String> lista = new ArrayList<String>();
+        DefaultListModel<String> modelo = new DefaultListModel<>();
         for(EstacionDeTransbordoMultimodal e: estaciones) {
-        	lista.add(e.getNombreEstacion());
+            modelo.addElement(e.getNombreEstacion());
         }
-        String[] data = lista.toArray(new String[0]);
-              
-        JList<String> campoLista = new JList<>(data);
+
+        GridBagConstraints cons1 = new GridBagConstraints();
+        JList<String> campoLista = new JList<>(modelo);
+        cons1.gridwidth = 2;
+        cons1.gridx = 0;
+        cons1.gridy = 1;
+        cons1.fill = GridBagConstraints.BOTH;
+        cons1.insets = new Insets(10,0,40,0);
+        panelEditarEstacion.add(campoLista, cons1);
+
+        GridBagConstraints cons2 = new GridBagConstraints();
+        JButton botonEditar = new JButton("Editar");
         cons2.gridwidth = 2;
         cons2.gridx = 0;
-        cons2.gridy = 1;
-        cons2.fill = GridBagConstraints.BOTH;
-        cons2.insets = new Insets(10,0,40,0);
-        panelEditarEstacion.add(campoLista, cons2);
+        cons2.gridy = 2;
+        cons2.fill = GridBagConstraints.HORIZONTAL;
+        cons2.insets = new Insets(10,0,30,0);
+        panelEditarEstacion.add(botonEditar,cons2);
 
-        GridBagConstraints cons11 = new GridBagConstraints();
-        JButton botonEditar = new JButton("Editar");
-        cons11.gridwidth = 2;
-        cons11.gridx = 0;
-        cons11.gridy = 2;
-        cons11.fill = GridBagConstraints.HORIZONTAL;
-        cons11.insets = new Insets(10,0,30,0);
-        panelEditarEstacion.add(botonEditar,cons11);
-
-        GridBagConstraints cons12 = new GridBagConstraints();
+        GridBagConstraints cons3 = new GridBagConstraints();
         JButton botonAtras = new JButton("Atras");
-        cons12.gridwidth = 2;
-        cons12.gridx = 0;
-        cons12.gridy = 3;
-        cons12.fill = GridBagConstraints.HORIZONTAL;
-        cons12.insets = new Insets(30,0,60,0);
-        panelEditarEstacion.add(botonAtras,cons12);
+        cons3.gridwidth = 2;
+        cons3.gridx = 0;
+        cons3.gridy = 3;
+        cons3.fill = GridBagConstraints.HORIZONTAL;
+        cons3.insets = new Insets(30,0,60,0);
+        panelEditarEstacion.add(botonAtras,cons3);
 
-        //
 
-      /*  for(EstacionDeTransbordoMultimodal est: estaciones) {
-        	System.out.println("ESTACION: "+est.getNombreEstacion());
-        	for(TareaMantenimiento m: gestorEstacion.mantenimientosEstacion(est)) {
-        		System.out.println("------------");
-        		System.out.println("id: "+m.getId());
-        		System.out.println("obs: "+m.getObservaciones());
-        		System.out.println("inicio: "+m.getFechaInicio());
-        		System.out.println("fin: "+m.getFechaFin());
-        	}
-        }*/
-        //
-        
-        botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()));
+        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()); singleton=null;});
 
         botonEditar.addActionListener(e -> {
         	Integer index = campoLista.getSelectedIndex();
-			InterfazFrame.setPanel(BotonEditarEstacion.getInstance().getPanelBotonEditarEstacion(index));
+			InterfazFrame.setPanel(BotonEditarEstacion.getInstance(index).getPanelBotonEditarEstacion());
 			});
     }
 
