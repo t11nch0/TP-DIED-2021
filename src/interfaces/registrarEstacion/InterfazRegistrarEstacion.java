@@ -91,7 +91,7 @@ public class InterfazRegistrarEstacion {
         botonBaja.addActionListener(e -> InterfazFrame.setPanel(DarBajaEstacion.getInstance().getPanelDarBajaEstacion()));
 
         botonAtributos.addActionListener(e -> InterfazFrame.setPanel(BuscarAtributosEstacion.getInstance().getPanelBuscarAtributosEstacion()));
-       
+
         botonMantenimientos.addActionListener(e -> InterfazFrame.setPanel(HistorialDeMantenimientos.getInstance().getPanelHistorialDeMantenimientos()));
 
         botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()));

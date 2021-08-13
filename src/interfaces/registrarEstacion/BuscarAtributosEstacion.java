@@ -1,17 +1,12 @@
 package interfaces.registrarEstacion;
 
 import interfaces.InterfazFrame;
-
 import javax.swing.*;
-
-
 import gestores.GestorEstacion;
 import dominio.EstacionDeTransbordoMultimodal;
-
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import java.util.List;
 
 public class BuscarAtributosEstacion {
@@ -36,8 +31,11 @@ public class BuscarAtributosEstacion {
 
     private BuscarAtributosEstacion() {
         panelBuscarAtributosEstacion = new JPanel(new GridBagLayout());
-        this.gestorEstacion = new GestorEstacion();
-        this.estaciones = gestorEstacion.listarTodas();
+        gestorEstacion = new GestorEstacion();
+        estaciones = gestorEstacion.listarTodas();
+
+        String[] horas = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"};
+        String[] minutos = {"00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"};
 
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("BUSCAR ESTACION POR ATRIBUTOS");
@@ -47,7 +45,7 @@ public class BuscarAtributosEstacion {
         cons0.gridx = 0;
         cons0.gridy = 0;
         cons0.fill = GridBagConstraints.HORIZONTAL;
-      //  cons0.insets = new Insets(55,0,20,0);
+        //cons0.insets = new Insets(55,0,20,0);
         cons0.insets = new Insets(40,0,10,0);
         panelBuscarAtributosEstacion.add(nombreMenu, cons0);
         
@@ -153,8 +151,14 @@ public class BuscarAtributosEstacion {
             
 
         botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()));
+
+
         botonBuscar.addActionListener(e -> {
             String[] listaCampos = {campoNombre.getText(), campoHApertura.getText(), campoHCierre.getText(), campoEstado.getSelectedItem().toString()};
             InterfazFrame.setPanel(BuscarEstacionesTabla.getInstance(listaCampos).getPanelBuscarEstacionesTabla(listaCampos));});
+
+
     }
+
+
 }

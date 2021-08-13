@@ -114,6 +114,8 @@ public class BuscarEstacionesTabla {
 			listaDeFiltros.add(RowFilter.regexFilter(lista[3],4));
 			
 		}
+
+
 		
 		if(listaDeFiltros.size() != 0) {
 			
