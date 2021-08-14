@@ -1,69 +1,50 @@
 package interfaces.registrarEstacion;
 
 import interfaces.InterfazFrame;
-
-//import javax.swing.JScrollPane;
 import javax.swing.*;
 import java.util.List;
 import java.util.LinkedList;
-
 import gestores.GestorEstacion;
 import dominio.EstacionDeTransbordoMultimodal;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
-
 import java.awt.*;
 
 public class BuscarEstacionesTabla {
 
     private static BuscarEstacionesTabla singleton;
     private final JPanel panelBuscarEstacionesTabla;
-    //
-   	private GestorEstacion gestorEstacion;
-   	private List<EstacionDeTransbordoMultimodal> estaciones;
-    private ModeloTablaEstaciones modeloTablaEstaciones;
-    private JTable tablaEstaciones;
-   	
-    public JPanel getPanelBuscarEstacionesTabla(String[] lista) {
-        return panelBuscarEstacionesTabla;
-    }
+
+    public JPanel getPanelBuscarEstacionesTabla() { return panelBuscarEstacionesTabla; }
 
     public static BuscarEstacionesTabla getInstance(String[] lista){
-        if(singleton == null){
+        if(singleton == null)
             singleton = new BuscarEstacionesTabla(lista);
-        }
         return singleton;
     }
     
-    
     private BuscarEstacionesTabla(String[] lista) {
         panelBuscarEstacionesTabla = new JPanel(new GridBagLayout());
-        //
-        this.gestorEstacion = new GestorEstacion();
-        this.estaciones = gestorEstacion.listarTodas();
-        //
+        GestorEstacion gestorEstacion = new GestorEstacion();
+        List<EstacionDeTransbordoMultimodal> estaciones = gestorEstacion.listarTodas();
+
         GridBagConstraints cons0 = new GridBagConstraints();
-        JLabel nombreMenu = new JLabel("TABLA ESTACIONES"); //?
+        JLabel nombreMenu = new JLabel("TABLA ESTACIONES");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
         cons0.gridwidth = 2;
-        cons0.ipady = 100;
         cons0.gridx = 0;
         cons0.gridy = 0;
         cons0.fill = GridBagConstraints.HORIZONTAL;
-      //  cons0.insets = new Insets(55,0,40,0);
-        cons0.insets = new Insets(40,0,10,0);
+        cons0.insets = new Insets(40,55,40,0);
         panelBuscarEstacionesTabla.add(nombreMenu, cons0);
 
-
-      
         GridBagConstraints cons10 = new GridBagConstraints();
-       // GridBagConstraints cons11 = new GridBagConstraints();
- 		modeloTablaEstaciones = new ModeloTablaEstaciones(estaciones);
- 		tablaEstaciones = new JTable();
- 		tablaEstaciones.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        ModeloTablaEstaciones modeloTablaEstaciones = new ModeloTablaEstaciones(estaciones);
+
+        JTable tablaEstaciones = new JTable();
+ 		tablaEstaciones.setFont(new Font("Dialog", Font.PLAIN, 12));
  		tablaEstaciones.setModel(modeloTablaEstaciones);
- 		TableRowSorter<TableModel> orden =  new TableRowSorter<TableModel>(modeloTablaEstaciones);
+ 		TableRowSorter<TableModel> orden = new TableRowSorter<>(modeloTablaEstaciones);
  		tablaEstaciones.setRowSorter(orden);
  		cons10.gridwidth = 2;
         cons10.gridx = 0;
@@ -71,22 +52,21 @@ public class BuscarEstacionesTabla {
         cons10.fill = GridBagConstraints.BOTH;
         cons10.insets = new Insets(15,0,40,0);
         panelBuscarEstacionesTabla.add(tablaEstaciones, cons10);
-        
 
-        GridBagConstraints cons12 = new GridBagConstraints();
+        GridBagConstraints cons2 = new GridBagConstraints();
         JButton botonAtras = new JButton("Atras");
-        cons12.gridwidth = 2;
-        cons12.gridx = 0;
-        cons12.gridy = 3;
-        cons12.fill = GridBagConstraints.HORIZONTAL;
-        cons12.insets = new Insets(30,0,60,0);
-        panelBuscarEstacionesTabla.add(botonAtras,cons12);
+        cons2.gridwidth = 2;
+        cons2.gridx = 0;
+        cons2.gridy = 3;
+        cons2.fill = GridBagConstraints.HORIZONTAL;
+        cons2.insets = new Insets(30,0,60,0);
+        panelBuscarEstacionesTabla.add(botonAtras,cons2);
 
-        botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()));
-        
-        
+        botonAtras.addActionListener(e -> InterfazFrame.setPanel(BuscarAtributosEstacion.getInstance().getPanelBuscarAtributosEstacion()));
+
+
+
         LinkedList<RowFilter> listaDeFiltros = new LinkedList<RowFilter>();
-		
 
         listaDeFiltros.add(RowFilter.regexFilter("",0));
 		//if(!lista[1].isEmpty()) {
@@ -115,8 +95,6 @@ public class BuscarEstacionesTabla {
 			
 		}
 
-
-		
 		if(listaDeFiltros.size() != 0) {
 			
 			orden.setRowFilter(RowFilter.andFilter((Iterable)listaDeFiltros)); //?

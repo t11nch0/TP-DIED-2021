@@ -22,9 +22,8 @@ public class DarBajaEstacion {
     }
 
     public static DarBajaEstacion getInstance(){
-        if(singleton == null){
+        if(singleton == null)
             singleton = new DarBajaEstacion();
-        }
         return singleton;
     }
 

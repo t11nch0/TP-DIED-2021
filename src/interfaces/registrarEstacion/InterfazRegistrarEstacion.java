@@ -16,9 +16,8 @@ public class InterfazRegistrarEstacion {
     }
 
     public static InterfazRegistrarEstacion getInstance(){
-        if(singleton == null){
+        if(singleton == null)
             singleton = new InterfazRegistrarEstacion();
-        }
         return singleton;
     }
 

@@ -25,9 +25,8 @@ public class BotonEditarEstacion{
     public JPanel getPanelBotonEditarEstacion() {return panelBotonEditarEstacion;}
 
     public static BotonEditarEstacion getInstance(Integer index){
-    	if(singleton == null){
+    	if(singleton == null)
             singleton = new BotonEditarEstacion(index);
-        }
         return singleton;
     }
 

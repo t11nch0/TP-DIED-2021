@@ -24,9 +24,8 @@ public class DarAltaEstacion{
     }
 
     public static DarAltaEstacion getInstance(){
-        if(singleton == null){
+        if(singleton == null)
             singleton = new DarAltaEstacion();
-        }
         return singleton;
     }
 
