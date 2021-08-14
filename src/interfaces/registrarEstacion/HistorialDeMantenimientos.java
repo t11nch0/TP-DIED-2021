@@ -1,13 +1,16 @@
 package interfaces.registrarEstacion;
 
 import interfaces.InterfazFrame;
+
 import javax.swing.*;
+
 import dominio.EstacionDeTransbordoMultimodal;
 import dominio.TareaMantenimiento;
 import dominio.EstacionDeTransbordoMultimodal.EstadoEstacion;
 import excepciones.BaseDeDatosException;
 import excepciones.CamposIncorrectosException;
 import gestores.GestorEstacion;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -29,8 +32,9 @@ public class HistorialDeMantenimientos {
     }
 
     public static HistorialDeMantenimientos getInstance(){
-        if(singleton == null)
+        if(singleton == null){
             singleton = new HistorialDeMantenimientos();
+        }
         return singleton;
     }
 
@@ -41,12 +45,12 @@ public class HistorialDeMantenimientos {
         this.estaciones = gestorEstacion.listarTodas();
         //
         GridBagConstraints cons0 = new GridBagConstraints();
-        JLabel nombreMenu = new JLabel("HISTORIAL DE \r MANTENIMIENTOS");
+        JLabel nombreMenu = new JLabel("HISTORIAL DE MANTENIMIENTOS");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
         cons0.gridwidth = 2;
         cons0.gridx = 0;
         cons0.gridy = 0;
-        cons0.fill = GridBagConstraints.VERTICAL;
+        cons0.fill = GridBagConstraints.HORIZONTAL;
         cons0.insets = new Insets(55,0,20,0);
         panelHistorialDeMantenimientos.add(nombreMenu, cons0);
 
@@ -120,8 +124,10 @@ public class HistorialDeMantenimientos {
 			for(TareaMantenimiento m: gestorEstacion.mantenimientosEstacion(estaciones.get(campoEstacion.getSelectedIndex()))){
 	        	modelo.addElement("                                            Tarea de mantenimiento "+i);
 	        	modelo.addElement("Fecha Inicio: "+m.getFechaInicio().toString());
-	        	if(m.getFechaFin().toString().isEmpty())
-	        		modelo.addElement("  -");
+	    
+	        	//if(m.getFechaFin().toString().isEmpty())
+	        	if(m.getFechaFin() == null)
+	        		modelo.addElement("Fecha Fin: -");
 	        	else
 	        		modelo.addElement("Fecha Fin: "+m.getFechaFin().toString());
 	        	modelo.addElement("Observaciones: "+m.getObservaciones());

@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
 
 import dominio.TareaMantenimiento;
 import excepciones.BaseDeDatosException;
@@ -60,8 +60,10 @@ public class Mantenimiento_DAO_PostgreSQL implements Mantenimiento_DAO{
 				pstmt.setDate(2, null);
 			}       
 			pstmt.setString(3, mantenimiento.getObservaciones());
-			pstmt.setInt(4, mantenimiento.getEstacion().getId());
-
+			//pstmt.setInt(4, mantenimiento.getEstacion().getId());
+			//cambio
+			pstmt.setInt(4, mantenimiento.getIdEstacion());
+			
 			rs = pstmt.executeQuery();
 			while(rs.next()) 
 			{
@@ -118,7 +120,8 @@ public class Mantenimiento_DAO_PostgreSQL implements Mantenimiento_DAO{
 				}
 				
 				pstmt.setString(3, mantenimiento.getObservaciones()); 
-				pstmt.setInt(4, mantenimiento.getEstacion().getId());
+				pstmt.setInt(4, mantenimiento.getIdEstacion());
+				pstmt.setInt(5, mantenimiento.getId()); //?
 				
 				pstmt.executeUpdate();
 				conn.commit(); 
@@ -150,7 +153,6 @@ public class Mantenimiento_DAO_PostgreSQL implements Mantenimiento_DAO{
 		List<TareaMantenimiento> lista = new ArrayList<TareaMantenimiento>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		Estacion_DAO estacionDAO = new Estacion_DAO_PostgreSQL();
 		try 
 		{
 			pstmt= conn.prepareStatement(SELECT_ALL_MANTENIMIENTO);
@@ -169,9 +171,9 @@ public class Mantenimiento_DAO_PostgreSQL implements Mantenimiento_DAO{
 					mantenimiento.setFechaFin(rs.getDate("FECHA_FIN").toLocalDate());
 				}
 				mantenimiento.setObservaciones(rs.getString("OBSERVACIONES"));
-				mantenimiento.setEstacion(estacionDAO.buscarPorId(rs.getInt("ID_ESTACION")));
-				
-				
+				mantenimiento.setIdEstacion(rs.getInt("ID_ESTACION"));
+		
+				//
 				lista.add(mantenimiento);
 			}			
 		} 
@@ -195,12 +197,61 @@ public class Mantenimiento_DAO_PostgreSQL implements Mantenimiento_DAO{
 	}
 	
 	
-	public List<TareaMantenimiento> buscarPorIdEstacion(Integer idEstacion){
+/*	public List<TareaMantenimiento> buscarPorIdEstacion(Integer idEstacion){
 		return this.buscarTodos()
 				.stream()
 				.filter(m -> m.getEstacion().getId() == idEstacion)
 				.collect(Collectors.toList());
+	}*/
+	
+	public List<TareaMantenimiento> buscarPorIdEstacion(Integer idEstacion){
+		List<TareaMantenimiento> lista = new ArrayList<TareaMantenimiento>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+		try 
+		{
+			//pstmt= conn.prepareStatement(SELECT_ALL_MANTENIMIENTO);
+			pstmt= conn.prepareStatement("SELECT * FROM died_db.tarea_mantenimiento WHERE ID_ESTACION = "+ idEstacion);
+			//selecciona todos?
+			rs = pstmt.executeQuery();
+			while(rs.next()) 
+			{
+				TareaMantenimiento mantenimiento = new TareaMantenimiento();
+				
+				mantenimiento.setId((rs.getInt("ID")));
+				if(rs.getDate("FECHA_INICIO") != null)
+				{
+					mantenimiento.setFechaInicio(rs.getDate("FECHA_INICIO").toLocalDate());
+				}
+				if(rs.getDate("FECHA_FIN") != null)
+				{
+					mantenimiento.setFechaFin(rs.getDate("FECHA_FIN").toLocalDate());
+				}
+				mantenimiento.setObservaciones(rs.getString("OBSERVACIONES"));
+				
+				mantenimiento.setIdEstacion(idEstacion);
+					
+				lista.add(mantenimiento);
+			}			
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		finally 
+		{
+			try 
+			{
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();				
+			}
+			catch(SQLException e) 
+			{
+				e.printStackTrace();
+			}
+		}	
+		return lista;
 	}
-
 }
 	

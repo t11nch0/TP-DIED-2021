@@ -11,6 +11,6 @@ public interface Mantenimiento_DAO {
 	TareaMantenimiento insertarMantenimiento(TareaMantenimiento mantenimiento) throws BaseDeDatosException, SQLException;
 	TareaMantenimiento finalizarMantenimiento(TareaMantenimiento mantenimiento) throws BaseDeDatosException, SQLException;
 	
-	List<TareaMantenimiento> buscarPorIdEstacion(Integer idEstacion); //?
+	List<TareaMantenimiento> buscarPorIdEstacion(Integer idEstacion);
 		
 }

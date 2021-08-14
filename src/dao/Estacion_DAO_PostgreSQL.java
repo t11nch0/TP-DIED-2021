@@ -8,7 +8,6 @@ import java.sql.Connection;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 import dominio.EstacionDeTransbordoMultimodal;
@@ -16,10 +15,12 @@ import dominio.EstacionDeTransbordoMultimodal;
 import dominio.EstacionDeTransbordoMultimodal.EstadoEstacion;
 import excepciones.BaseDeDatosException;
 import gestores.GestorConexion;
+import gestores.GestorMantenimiento;
 
 public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 
 	private final Connection conn = GestorConexion.getConnection();
+	GestorMantenimiento gestorMantenimiento = new GestorMantenimiento();
 	
 	private static final String SELECT_ALL_ESTACION =
 	"SELECT * FROM died_db.estacion"; 
@@ -46,7 +47,7 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 	public EstacionDeTransbordoMultimodal insertarEstacion(EstacionDeTransbordoMultimodal estacion) 
 			throws BaseDeDatosException, SQLException {
 		PreparedStatement pstmt = null;
-		ResultSet rs;
+		ResultSet rs = null;
 		
 		try 
 		{
@@ -160,9 +161,9 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 	@Override
 	public List<EstacionDeTransbordoMultimodal> buscarTodas() 
 	{
-		List<EstacionDeTransbordoMultimodal> lista = new ArrayList<>();
+		List<EstacionDeTransbordoMultimodal> lista = new ArrayList<EstacionDeTransbordoMultimodal>();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		ResultSet rs = null;		
 		try 
 		{
 			pstmt= conn.prepareStatement(SELECT_ALL_ESTACION);
@@ -172,9 +173,14 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 				EstacionDeTransbordoMultimodal estacion = new EstacionDeTransbordoMultimodal(); //null?
 				estacion.setId((rs.getInt("ID")));
 				estacion.setNombreEstacion(rs.getString("NOMBRE"));
-				switch (rs.getString("ESTADO")) {
-					case "OPERATIVA" -> estacion.setEstado(EstadoEstacion.OPERATIVA);
-					case "EN_MANTENIMIENTO" -> estacion.setEstado(EstadoEstacion.MANTENIMIENTO);
+				switch(rs.getString("ESTADO"))
+				{
+				case "OPERATIVA":
+					estacion.setEstado(EstadoEstacion.OPERATIVA);
+					break;
+				case "MANTENIMIENTO":
+					estacion.setEstado(EstadoEstacion.MANTENIMIENTO);
+					break;
 				}
 				if(rs.getTime("HORARIO_APERTURA") != null)
 				{
@@ -185,7 +191,7 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 					estacion.setHorarioCierre(rs.getTime("HORARIO_CIERRE").toLocalTime());
 				}
 
-				// FALTAN tareas de Mantenimientos (?)
+				estacion.setMantenimientos(gestorMantenimiento.buscarPorIdEstacion(rs.getInt("ID")));
 				
 				lista.add(estacion);
 			}			
@@ -301,9 +307,14 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 				{
 					estacion.setId(rs.getInt("ID"));
 					estacion.setNombreEstacion(rs.getString("NOMBRE"));
-					switch (rs.getString("ESTADO")) {
-						case "OPERATIVA" -> estacion.setEstado(EstadoEstacion.OPERATIVA);
-						case "EN_MANTENIMIENTO" -> estacion.setEstado(EstadoEstacion.MANTENIMIENTO);
+					switch(rs.getString("ESTADO"))
+					{
+					case "OPERATIVA":
+						estacion.setEstado(EstadoEstacion.OPERATIVA);
+						break;
+					case "MANTENIMIENTO":
+						estacion.setEstado(EstadoEstacion.MANTENIMIENTO);
+						break;
 					}
 					if(rs.getTime("HORARIO_APERTURA") != null)
 					{
@@ -313,6 +324,9 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 					{
 						estacion.setHorarioCierre(rs.getTime("HORARIO_CIERRE").toLocalTime());
 					}
+					
+					estacion.setMantenimientos(gestorMantenimiento.buscarPorIdEstacion(id));
+					
 				}
 			} 
 			catch (SQLException e) 
@@ -333,82 +347,6 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 			}	
 			return estacion;
 		}
-	}
-
-	@Override
-	public List<EstacionDeTransbordoMultimodal> filtrar(String[] param) {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		List<EstacionDeTransbordoMultimodal> resultado = new ArrayList<>();
-		String consulta = "SELECT * FROM died_db.estacion e WHERE 1=1";
-		int contador = 1;
-
-		if(!param[0].isEmpty()){
-			consulta += "AND e.nombre = ?";
-		}
-		if (!Objects.equals(param[1], "--:--")){
-			consulta += "AND CAST(e.horario_apertura AS VARCHAR) = ?";
-		}
-		if (!Objects.equals(param[2], "--:--")){
-			consulta += "AND CAST(e.horario_cierre AS VARCHAR) = ?";
-		}
-		if (!Objects.equals(param[3], "Seleccionar estado...")){
-			consulta += "AND e.estado = ?";
-		}
-		consulta += ";";
-
-		try{
-
-			pstmt = conn.prepareStatement(consulta);
-			if(!param[0].isEmpty()){
-				pstmt.setString(contador, param[0]);
-				contador++;
-			}
-			if (!Objects.equals(param[1], "--:--")){
-				param[1]+= ":00";
-				pstmt.setString(contador, param[1]);
-				contador++;
-			}
-			if (!Objects.equals(param[2], "--:--")){
-				param[2]+= ":00";
-				pstmt.setString(contador, param[2]);
-				contador++;
-			}
-			if (!Objects.equals(param[3], "Seleccionar estado...")){
-				pstmt.setString(contador, param[3]);
-			}
-
-			rs = pstmt.executeQuery();
-
-			while(rs.next()){
-
-				EstacionDeTransbordoMultimodal est = new EstacionDeTransbordoMultimodal();
-				est.setId(rs.getInt("id"));
-				est.setNombreEstacion(rs.getString("nombre"));
-				est.setHorarioApertura(rs.getTimestamp("horario_apertura").toLocalDateTime().toLocalTime());
-				est.setHorarioCierre(rs.getTimestamp("horario_cierre").toLocalDateTime().toLocalTime());
-				est.setEstado(EstadoEstacion.valueOf(rs.getString("estado")));
-
-				resultado.add(est);
-			}
-		}
-		catch (SQLException e){
-
-			e.printStackTrace();
-		}
-		finally{
-
-			try{
-
-				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();
-			}
-			catch(SQLException e){
-
-				e.printStackTrace();
-			}
-		}
-		return resultado;
 	}
 
 }

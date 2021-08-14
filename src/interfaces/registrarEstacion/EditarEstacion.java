@@ -17,8 +17,9 @@ public class EditarEstacion {
     }
 
     public static EditarEstacion getInstance(){
-        if(singleton == null)
+        if(singleton == null){
             singleton = new EditarEstacion();
+        }
         return singleton;
     }
 

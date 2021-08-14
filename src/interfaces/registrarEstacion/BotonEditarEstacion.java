@@ -21,17 +21,20 @@ public class BotonEditarEstacion{
     private static BotonEditarEstacion singleton;
     private final JPanel panelBotonEditarEstacion;
     private final GestorEstacion gestorEstacion;
+    private final GestorMantenimiento gestorMantenimiento;
 
     public JPanel getPanelBotonEditarEstacion() {return panelBotonEditarEstacion;}
 
     public static BotonEditarEstacion getInstance(Integer index){
-    	if(singleton == null)
+    	if(singleton == null){
             singleton = new BotonEditarEstacion(index);
+        }
         return singleton;
     }
 
     private BotonEditarEstacion(Integer index) {
         gestorEstacion = new GestorEstacion();
+        gestorMantenimiento = new GestorMantenimiento();
         panelBotonEditarEstacion = new JPanel(new GridBagLayout());
         List<EstacionDeTransbordoMultimodal> estaciones = gestorEstacion.listarTodas();
         EstacionDeTransbordoMultimodal est = estaciones.get(index);
@@ -243,12 +246,15 @@ public class BotonEditarEstacion{
 
                     if(estaciones.get(index).getEstado() == EstadoEstacion.OPERATIVA){
                         System.out.println("comienza mantenimiento");
-                        GestorMantenimiento mant = new GestorMantenimiento();
-                        mant.crearTareaMantenimiento(campoObs.getText(), est);
+                    //    GestorMantenimiento mant = new GestorMantenimiento();
+                      //  mant.crearTareaMantenimiento(campoObs.getText(), est);
+                        this.gestorMantenimiento.crearTareaMantenimiento(campoObs.getText(), est);
                         //TODO
                     }else{
                         System.out.println("termina mantenimiento");
                         //TODO
+                        this.gestorMantenimiento.finalizarTareaMantenimiento(campoObs.getText(), est);
+                        
                     }
                 }
                 this.gestorEstacion.editarEstacion(est, nombre, apertura , cierre , estado);
