@@ -40,7 +40,7 @@ public class GestorEstacion {
 	{
 			
 			StringBuilder mensajeAMostrar = new StringBuilder();
-			List<String> lista_de_campos_erroneos = new ArrayList<String>();
+			List<String> lista_de_campos_erroneos = new ArrayList<>();
 			if(nombreEstacion.isEmpty())
 			{
 				lista_de_campos_erroneos.add("Nombre");
@@ -153,5 +153,9 @@ public class GestorEstacion {
 			else
 				return 0;
 		}
+	}
+	public List<EstacionDeTransbordoMultimodal> filtrar(String[] param) throws CamposIncorrectosException, SQLException, BaseDeDatosException {
+
+		return estacionDAO.filtrar(param);
 	}
 }

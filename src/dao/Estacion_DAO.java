@@ -15,6 +15,8 @@ public interface Estacion_DAO {
 	
 	boolean existeNombreDeEstacion(String nombre);
 	EstacionDeTransbordoMultimodal buscarPorId(Integer id);
+
+	List<EstacionDeTransbordoMultimodal> filtrar(String[] param);
 	
 	//Las busquedas por atributos se resuelven al mostrar en pantalla. Se buscan todas y se omite lo innecesario.
 }

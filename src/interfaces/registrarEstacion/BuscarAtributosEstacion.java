@@ -7,6 +7,7 @@ import dominio.EstacionDeTransbordoMultimodal;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,8 +15,6 @@ public class BuscarAtributosEstacion {
 
     private static BuscarAtributosEstacion singleton;
     private final JPanel panelBuscarAtributosEstacion;
-    private ModeloTablaEstaciones modeloTablaEstaciones;
-    private JTable tablaEstaciones;
 
     public JPanel getPanelBuscarAtributosEstacion() {
         return panelBuscarAtributosEstacion;
@@ -30,7 +29,7 @@ public class BuscarAtributosEstacion {
     private BuscarAtributosEstacion() {
         panelBuscarAtributosEstacion = new JPanel(new GridBagLayout());
         GestorEstacion gestorEstacion = new GestorEstacion();
-        List<EstacionDeTransbordoMultimodal> estaciones = gestorEstacion.listarTodas();
+        //List<EstacionDeTransbordoMultimodal> estaciones = gestorEstacion.listarTodas();
 
         String[] horas = {"--", "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13",
                           "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"};
@@ -176,8 +175,8 @@ public class BuscarAtributosEstacion {
         cons13.fill = GridBagConstraints.HORIZONTAL;
         cons13.insets = new Insets(5, 10, 10, 10);
         campoEstado.addItem("Seleccionar estado...");
-        campoEstado.addItem("Operativa");
-        campoEstado.addItem("Mantenimiento");
+        campoEstado.addItem("OPERATIVA");
+        campoEstado.addItem("MANTENIMIENTO");
         panelBuscarAtributosEstacion.add(campoEstado, cons13);
 
         GridBagConstraints cons14 = new GridBagConstraints();
@@ -198,7 +197,7 @@ public class BuscarAtributosEstacion {
         cons15.insets = new Insets(30, 30, 60, 30);
         panelBuscarAtributosEstacion.add(botonAtras, cons15);
 
-        botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()));
+        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()); singleton = null;});
 
 
         botonBuscar.addActionListener(e -> {

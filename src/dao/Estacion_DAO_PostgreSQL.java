@@ -8,6 +8,7 @@ import java.sql.Connection;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 import dominio.EstacionDeTransbordoMultimodal;
@@ -45,7 +46,7 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 	public EstacionDeTransbordoMultimodal insertarEstacion(EstacionDeTransbordoMultimodal estacion) 
 			throws BaseDeDatosException, SQLException {
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		ResultSet rs;
 		
 		try 
 		{
@@ -159,7 +160,7 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 	@Override
 	public List<EstacionDeTransbordoMultimodal> buscarTodas() 
 	{
-		List<EstacionDeTransbordoMultimodal> lista = new ArrayList<EstacionDeTransbordoMultimodal>();
+		List<EstacionDeTransbordoMultimodal> lista = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try 
@@ -332,6 +333,82 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 			}	
 			return estacion;
 		}
+	}
+
+	@Override
+	public List<EstacionDeTransbordoMultimodal> filtrar(String[] param) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<EstacionDeTransbordoMultimodal> resultado = new ArrayList<>();
+		String consulta = "SELECT * FROM died_db.estacion e WHERE 1=1";
+		int contador = 1;
+
+		if(!param[0].isEmpty()){
+			consulta += "AND e.nombre = ?";
+		}
+		if (!Objects.equals(param[1], "--:--")){
+			consulta += "AND CAST(e.horario_apertura AS VARCHAR) = ?";
+		}
+		if (!Objects.equals(param[2], "--:--")){
+			consulta += "AND CAST(e.horario_cierre AS VARCHAR) = ?";
+		}
+		if (!Objects.equals(param[3], "Seleccionar estado...")){
+			consulta += "AND e.estado = ?";
+		}
+		consulta += ";";
+
+		try{
+
+			pstmt = conn.prepareStatement(consulta);
+			if(!param[0].isEmpty()){
+				pstmt.setString(contador, param[0]);
+				contador++;
+			}
+			if (!Objects.equals(param[1], "--:--")){
+				param[1]+= ":00";
+				pstmt.setString(contador, param[1]);
+				contador++;
+			}
+			if (!Objects.equals(param[2], "--:--")){
+				param[2]+= ":00";
+				pstmt.setString(contador, param[2]);
+				contador++;
+			}
+			if (!Objects.equals(param[3], "Seleccionar estado...")){
+				pstmt.setString(contador, param[3]);
+			}
+
+			rs = pstmt.executeQuery();
+
+			while(rs.next()){
+
+				EstacionDeTransbordoMultimodal est = new EstacionDeTransbordoMultimodal();
+				est.setId(rs.getInt("id"));
+				est.setNombreEstacion(rs.getString("nombre"));
+				est.setHorarioApertura(rs.getTimestamp("horario_apertura").toLocalDateTime().toLocalTime());
+				est.setHorarioCierre(rs.getTimestamp("horario_cierre").toLocalDateTime().toLocalTime());
+				est.setEstado(EstadoEstacion.valueOf(rs.getString("estado")));
+
+				resultado.add(est);
+			}
+		}
+		catch (SQLException e){
+
+			e.printStackTrace();
+		}
+		finally{
+
+			try{
+
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+			}
+			catch(SQLException e){
+
+				e.printStackTrace();
+			}
+		}
+		return resultado;
 	}
 
 }
