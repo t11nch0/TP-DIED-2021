@@ -355,7 +355,7 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO{
 		int contador = 1;
 
 		if(!param[0].isEmpty()){
-			consulta += "AND e.nombre = ?";
+			consulta += "AND e.nombre LIKE CONCAT(?, '%')";
 		}
 		if (!Objects.equals(param[1], "--:--")){
 			consulta += "AND CAST(e.horario_apertura AS VARCHAR) = ?";
