@@ -1,40 +1,39 @@
 package interfaces.registrarTransporte;
 
 import interfaces.InterfazFrame;
-
 import javax.swing.*;
-
 import dominio.LineaTransporte.EstadoLinea;
 import excepciones.BaseDeDatosException;
 import excepciones.CamposIncorrectosException;
 import gestores.GestorLineaTransporte;
-
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class DarAltaTransporte {
 
     private static DarAltaTransporte singleton;
     private final JPanel panelDarAltaTransporte;
-    private GestorLineaTransporte gestorLinea;
+    private final GestorLineaTransporte gestorLinea;
 
     public JPanel getPanelDarAltaTransporte() {
         return panelDarAltaTransporte;
     }
 
     public static DarAltaTransporte getInstance(){
-        if(singleton == null){
+        if(singleton == null)
             singleton = new DarAltaTransporte();
-        }
         return singleton;
     }
 
     private DarAltaTransporte() {
         panelDarAltaTransporte = new JPanel(new GridBagLayout());
-        this.gestorLinea = new GestorLineaTransporte();
+        gestorLinea = new GestorLineaTransporte();
         
         GridBagConstraints cons0 = new GridBagConstraints();
-        JLabel nombreMenu = new JLabel("ALTA DE LINEA DE TRANSPORTE");
+        JLabel nombreMenu = new JLabel("ALTA DE TRANSPORTE");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
         cons0.gridwidth = 2;
         cons0.gridx = 0;
@@ -60,6 +59,15 @@ public class DarAltaTransporte {
         cons2.insets = new Insets(5, 5 ,10 ,5);
         panelDarAltaTransporte.add(campoNombre,cons2);
 
+        campoNombre.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(campoNombre.getText().length()>29) {
+                    e.consume();
+                }
+            }
+        });
+
         GridBagConstraints cons3 = new GridBagConstraints();
         JLabel labelColor = new JLabel("Color: ");
         cons3.gridx = 0;
@@ -69,20 +77,19 @@ public class DarAltaTransporte {
         panelDarAltaTransporte.add(labelColor,cons3);
 
         GridBagConstraints cons4 = new GridBagConstraints();
-       // JComboBox<String> campoColor = new JComboBox<>();
-        JTextField campoColor = new JTextField();
+        JComboBox<String> campoColor = new JComboBox<>();
         cons4.gridwidth = 2;
         cons4.gridx = 0;
         cons4.gridy = 4;
         cons4.fill = GridBagConstraints.HORIZONTAL;
         cons4.insets = new Insets(5, 5 ,10 ,5);
-       /* campoColor.addItem("ROJO");
+        campoColor.addItem("ROJO");
         campoColor.addItem("AZUL");
         campoColor.addItem("VERDE");
         campoColor.addItem("AMARILLO");
         campoColor.addItem("NARANJA");
         campoColor.addItem("CELESTE");
-        campoColor.addItem("VIOLETA");*/
+        campoColor.addItem("VIOLETA");
         panelDarAltaTransporte.add(campoColor,cons4);
 
         GridBagConstraints cons5 = new GridBagConstraints();
@@ -101,7 +108,7 @@ public class DarAltaTransporte {
         cons6.fill = GridBagConstraints.HORIZONTAL;
         cons6.insets = new Insets(5, 5 ,10 ,5);
         campoEstado.addItem("Activa");
-        campoEstado.addItem("No Activa");
+        campoEstado.addItem("Inactiva");
         panelDarAltaTransporte.add(campoEstado,cons6);
 
         GridBagConstraints cons7 = new GridBagConstraints();
@@ -110,7 +117,7 @@ public class DarAltaTransporte {
         cons7.gridx = 0;
         cons7.gridy = 7;
         cons7.fill = GridBagConstraints.HORIZONTAL;
-        cons7.insets = new Insets(40,0,30,0);
+        cons7.insets = new Insets(60,0,20,0);
         panelDarAltaTransporte.add(botonAceptar,cons7);
 
         GridBagConstraints cons12 = new GridBagConstraints();
@@ -119,33 +126,30 @@ public class DarAltaTransporte {
         cons12.gridx = 0;
         cons12.gridy = 12;
         cons12.fill = GridBagConstraints.HORIZONTAL;
-        cons12.insets = new Insets(30,0,60,0);
+        cons12.insets = new Insets(20,0,60,0);
         panelDarAltaTransporte.add(botonAtras,cons12);
 
-        botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte()));
-        botonAceptar.addActionListener(e->
-		{
-			try 
-			{
+        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte());singleton = null;});
+
+        botonAceptar.addActionListener(e-> {
+
+			try{
+
 				String nombre = campoNombre.getText();
-				String color = campoColor.getText();
+				String color = Objects.requireNonNull(campoColor.getSelectedItem()).toString();
 				//ESTADO
 				EstadoLinea estado;
-				if (((String) campoEstado.getSelectedItem()).equals("Activa")) 
+				if ((Objects.equals(campoEstado.getSelectedItem(),"Activa")))
 					estado = EstadoLinea.ACTIVA;
 				else	
-					estado = EstadoLinea.NO_ACTIVA;
-				this.gestorLinea.crearLinea(nombre, color, estado);
+					estado = EstadoLinea.INACTIVA;
+				gestorLinea.crearLinea(nombre, color, estado);
 			
 			}
-			catch (SQLException | BaseDeDatosException e1) 
-			{
+			catch (SQLException | BaseDeDatosException | CamposIncorrectosException e1){
+
 				e1.printStackTrace();
 			}
-			catch (CamposIncorrectosException e2)
-			{
-				e2.printStackTrace();
-			}
-		});
+        });
     }
 }

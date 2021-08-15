@@ -13,7 +13,7 @@ public class LineaTransporte {
 	
     public enum EstadoLinea 
 	{
-		ACTIVA, NO_ACTIVA;
+		ACTIVA, INACTIVA;
 	}
 
 	public LineaTransporte(Integer id, String nombre, String color, EstadoLinea estado) {

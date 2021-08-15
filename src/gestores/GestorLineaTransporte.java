@@ -6,6 +6,7 @@ import java.util.List;
 
 import dao.LineaTransporte_DAO;
 import dao.LineaTransporte_DAO_PostgreSQL;
+import dominio.EstacionDeTransbordoMultimodal;
 import dominio.LineaTransporte;
 import dominio.LineaTransporte.EstadoLinea;
 import excepciones.BaseDeDatosException;
@@ -13,7 +14,7 @@ import excepciones.CamposIncorrectosException;
 
 public class GestorLineaTransporte {
 	
-	private LineaTransporte_DAO lineaDAO;
+	private final LineaTransporte_DAO lineaDAO;
 	public GestorLineaTransporte() 
 	{
 		super();
@@ -80,6 +81,11 @@ public class GestorLineaTransporte {
 	public LineaTransporte buscarPorId(Integer id) 
 	{
 		return lineaDAO.buscarPorId(id);
+	}
+
+	public List<LineaTransporte> filtrar(String[] param) throws CamposIncorrectosException, SQLException, BaseDeDatosException {
+
+		return lineaDAO.filtrar(param);
 	}
 	
 }

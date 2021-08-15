@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
+import dominio.EstacionDeTransbordoMultimodal;
 import dominio.LineaTransporte;
 import dominio.LineaTransporte.EstadoLinea;
 import excepciones.BaseDeDatosException;
@@ -60,7 +62,7 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 				l.setColor(rs.getString("COLOR"));
 				switch (rs.getString("ESTADO_LINEA")) {
 					case "ACTIVA" -> l.setEstado(EstadoLinea.ACTIVA);
-					case "NO_ACTIVA" -> l.setEstado(EstadoLinea.NO_ACTIVA);
+					case "NO_ACTIVA" -> l.setEstado(EstadoLinea.INACTIVA);
 				}
 				// ? Lista
 				//l.setTrayectos(trayectoDAO.buscarPorIdLinea(l.getId()));
@@ -260,7 +262,7 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 					linea.setNombre(rs.getString("COLOR"));
 					switch (rs.getString("ESTADO_LINEA")) {
 						case "ACTIVA" -> linea.setEstado(EstadoLinea.ACTIVA);
-						case "NO_ACTIVA" -> linea.setEstado(EstadoLinea.NO_ACTIVA);
+						case "NO_ACTIVA" -> linea.setEstado(EstadoLinea.INACTIVA);
 					}
 					//linea.setTrayectos(trayectoDAO.buscarPorIdLinea(linea.getId())); //??
 					// bucle?
@@ -286,5 +288,73 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 		}
 	}
 
-	
+	@Override
+	public List<LineaTransporte> filtrar(String[] param) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<LineaTransporte> resultado = new ArrayList<>();
+		String consulta = "SELECT * FROM died_db.linea l WHERE 1=1";
+		int contador = 1;
+
+		if(!param[0].isEmpty()){
+			consulta += "AND l.nombre LIKE CONCAT(?, '%')";
+		}
+		if(!Objects.equals(param[1], "Seleccionar color...")){
+			consulta += "AND l.color = ?";
+		}
+		if(!Objects.equals(param[2], "Seleccionar estado...")){
+			consulta += "AND l.estado_linea = ?";
+		}
+
+		consulta += ";";
+
+		try{
+
+			pstmt = conn.prepareStatement(consulta);
+
+			if(!param[0].isEmpty()){
+				pstmt.setString(contador, param[0]);
+				contador++;
+			}
+			if(!Objects.equals(param[1], "Seleccionar color...")){
+				pstmt.setString(contador, param[1]);
+				contador++;
+			}
+			if(!Objects.equals(param[2], "Seleccionar estado...")){
+				pstmt.setString(contador, param[2]);
+			}
+
+			rs = pstmt.executeQuery();
+
+			while(rs.next()){
+
+				LineaTransporte lin = new LineaTransporte();
+				lin.setId(rs.getInt("id"));
+				lin.setNombre(rs.getString("nombre"));
+				lin.setColor(rs.getString("color"));
+				lin.setEstado(LineaTransporte.EstadoLinea.valueOf(rs.getString("estado_linea")));
+
+				resultado.add(lin);
+			}
+		}
+		catch (SQLException e){
+
+			e.printStackTrace();
+		}
+		finally{
+
+			try{
+
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+			}
+			catch(SQLException e){
+
+				e.printStackTrace();
+			}
+		}
+		return resultado;
+	}
+
+
 }

@@ -76,7 +76,7 @@ public class EditarEstacion {
 
         botonEditar.addActionListener(e -> {
         	Integer index = campoLista.getSelectedIndex();
-            singleton=null;
+            singleton = null;
 			InterfazFrame.setPanel(BotonEditarEstacion.getInstance(index).getPanelBotonEditarEstacion());
 			});
     }

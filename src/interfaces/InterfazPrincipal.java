@@ -76,7 +76,7 @@ public class InterfazPrincipal {
  */
 
         GridBagConstraints cons5 = new GridBagConstraints();
-        JButton boton5 = new JButton("Transporte");
+        JButton boton5 = new JButton("Transportes");
         cons5.gridx = 0;
         cons5.gridy = 5;
         cons5.fill = GridBagConstraints.BOTH;

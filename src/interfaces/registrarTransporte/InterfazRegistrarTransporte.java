@@ -17,9 +17,8 @@ public class InterfazRegistrarTransporte {
     }
 
     public static InterfazRegistrarTransporte getInstance(){
-        if(singleton == null){
+        if(singleton == null)
             singleton = new InterfazRegistrarTransporte();
-        }
         return singleton;
     }
 

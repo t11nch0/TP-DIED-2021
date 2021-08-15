@@ -22,8 +22,9 @@ public class DarBajaEstacion {
     }
 
     public static DarBajaEstacion getInstance(){
-        if(singleton == null)
+        if(singleton == null){
             singleton = new DarBajaEstacion();
+        }
         return singleton;
     }
 
@@ -75,17 +76,21 @@ public class DarBajaEstacion {
         cons3.insets = new Insets(30,0,60,0);
         panelDarBajaEstacion.add(botonAtras,cons3);
 
-        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()); singleton=null;});
+        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()); singleton = null;});
 
         botonEliminar.addActionListener(e->
       		{
       			try 
       			{
+
       			    int index = campoLista.getSelectedIndex();
       				this.gestorEstacion.eliminarEstacion(estaciones.get(index));
       				modelo.remove(index);
+                    campoLista.setModel(modelo);
+
                     if(modelo.isEmpty()){ modelo.add(0, "No hay estaciones disponibles");}
-      				campoLista.setModel(modelo);
+
+      				InterfazFrame.setPanel(DarBajaEstacion.getInstance().getPanelDarBajaEstacion());
 
       			}
       			catch (SQLException | BaseDeDatosException | CamposIncorrectosException e1)

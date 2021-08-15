@@ -1,44 +1,36 @@
 package interfaces.registrarTransporte;
 
 import interfaces.InterfazFrame;
-import interfaces.registrarEstacion.InterfazRegistrarEstacion;
-
 import javax.swing.*;
-
-import dominio.EstacionDeTransbordoMultimodal;
 import dominio.LineaTransporte;
 import excepciones.BaseDeDatosException;
 import excepciones.CamposIncorrectosException;
-import gestores.GestorEstacion;
 import gestores.GestorLineaTransporte;
-
 import java.awt.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DarBajaTransporte {
 
     private static DarBajaTransporte singleton;
     private final JPanel panelDarBajaTransporte;
-    private GestorLineaTransporte gestorLinea;
-   	private List<LineaTransporte> lineas;
+    private final GestorLineaTransporte gestorLinea;
+    private final  List<LineaTransporte> transportes;
     
     public JPanel getPanelDarBajaTransporte() {
         return panelDarBajaTransporte;
     }
 
     public static DarBajaTransporte getInstance(){
-        if(singleton == null){
+        if(singleton == null)
             singleton = new DarBajaTransporte();
-        }
         return singleton;
     }
 
     private DarBajaTransporte() {
         panelDarBajaTransporte = new JPanel(new GridBagLayout());
-        this.gestorLinea = new GestorLineaTransporte();
-        this.lineas = gestorLinea.listarTodas();
+        gestorLinea = new GestorLineaTransporte();
+        transportes = gestorLinea.listarTodas();
 
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("DAR BAJA TRANSPORTE");
@@ -50,33 +42,21 @@ public class DarBajaTransporte {
         cons0.insets = new Insets(55,0,40,0);
         panelDarBajaTransporte.add(nombreMenu, cons0);
 
-        GridBagConstraints cons2 = new GridBagConstraints();
-        
-        List<String> lista = new ArrayList<String>();
-        for(LineaTransporte l: lineas) {
-        	lista.add(l.getNombre());
+        DefaultListModel<String> modelo = new DefaultListModel<>();
+        for(LineaTransporte t: transportes) {
+            modelo.addElement(t.getNombre());
         }
-        String[] data = lista.toArray(new String[0]);
-        
-        JList<String> campoLista = new JList<>(data);
+        if(modelo.isEmpty()){ modelo.add(0, "No hay transportes disponibles");}
+
+        GridBagConstraints cons2 = new GridBagConstraints();
+        JList<String> campoLista = new JList<>(modelo);
         cons2.gridwidth = 2;
         cons2.gridx = 0;
         cons2.gridy = 1;
         cons2.fill = GridBagConstraints.BOTH;
         cons2.insets = new Insets(10,0,40,0);
         panelDarBajaTransporte.add(campoLista, cons2);
-/*
-        GridBagConstraints cons3 = new GridBagConstraints();
-        JScrollBar scrollLista = new JScrollBar(JScrollBar.VERTICAL, 1, 10, 0, 100);
-        cons3.gridwidth = 0;
-        cons3.gridheight = 4;
-        cons3.gridx = 2;
-        cons3.gridy = 3;
-        cons3.fill = GridBagConstraints.BOTH;
-        cons3.anchor = GridBagConstraints.WEST;
-        //cons3.insets = new Insets(55,0,40,0);
-        panelDarBajaEstacion.add(scrollLista,cons3);
- */
+
         GridBagConstraints cons11 = new GridBagConstraints();
         JButton botonEliminar = new JButton("Eliminar");
         cons11.gridwidth = 2;
@@ -95,26 +75,26 @@ public class DarBajaTransporte {
         cons12.insets = new Insets(30,0,60,0);
         panelDarBajaTransporte.add(botonAtras,cons12);
 
+        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte()); singleton = null;});
 
-        botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte()));
+        botonEliminar.addActionListener(e-> {
 
-        botonEliminar.addActionListener(e->
-  		{
-  			try 
-  			{
-  				//?  				
-  				Integer index = campoLista.getSelectedIndex(); //?
-  				this.gestorLinea.eliminarLinea(lineas.get(index));
+  			try{
+
+  				int index = campoLista.getSelectedIndex();
+  				gestorLinea.eliminarLinea(transportes.get(index));
+                modelo.remove(index);
+                campoLista.setModel(modelo);
+
+                if(modelo.isEmpty()){ modelo.add(0, "No hay transportes disponibles");}
+
+                InterfazFrame.setPanel(DarBajaTransporte.getInstance().getPanelDarBajaTransporte());
   			}
-  			catch (SQLException | BaseDeDatosException e1) 
-  			{
+  			catch (SQLException | BaseDeDatosException | CamposIncorrectosException e1){
+
   				e1.printStackTrace();
   			}
-  			catch (CamposIncorrectosException e2)
-  			{
-  				e2.printStackTrace();
-  			}
-  		});
+        });
 
     }
 }

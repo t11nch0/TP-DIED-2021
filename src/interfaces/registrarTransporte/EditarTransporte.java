@@ -1,25 +1,16 @@
 package interfaces.registrarTransporte;
 
 import interfaces.InterfazFrame;
-import interfaces.registrarEstacion.BotonEditarEstacion;
-import interfaces.registrarEstacion.InterfazRegistrarEstacion;
-
 import javax.swing.*;
-
-import dominio.EstacionDeTransbordoMultimodal;
 import dominio.LineaTransporte;
 import gestores.GestorLineaTransporte;
-
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EditarTransporte {
 
     private static EditarTransporte singleton;
     private final JPanel panelEditarTransporte;
-    private GestorLineaTransporte gestorLinea;
-   	private List<LineaTransporte> lineas;
 
     public JPanel getPanelEditarTransporte() {
         return panelEditarTransporte;
@@ -34,8 +25,8 @@ public class EditarTransporte {
 
     private EditarTransporte() {
         panelEditarTransporte = new JPanel(new GridBagLayout());
-        this.gestorLinea = new GestorLineaTransporte();
-        this.lineas = gestorLinea.listarTodas();
+        GestorLineaTransporte gestorLinea = new GestorLineaTransporte();
+        List<LineaTransporte> transportes = gestorLinea.listarTodas();
 
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("EDITAR TRANSPORTE");
@@ -47,32 +38,21 @@ public class EditarTransporte {
         cons0.insets = new Insets(55,0,40,0);
         panelEditarTransporte.add(nombreMenu, cons0);
 
-        GridBagConstraints cons2 = new GridBagConstraints();
-        List<String> lista = new ArrayList<String>();
-        for(LineaTransporte l: lineas) {
-        	lista.add(l.getNombre());
+        DefaultListModel<String> modelo = new DefaultListModel<>();
+        for(LineaTransporte t: transportes) {
+            modelo.addElement(t.getNombre());
         }
-        String[] data = lista.toArray(new String[0]);
-        
-        JList<String> campoLista = new JList<>(data);
+        if(modelo.isEmpty()){ modelo.add(0, "No hay transportes disponibles");}
+
+        GridBagConstraints cons2 = new GridBagConstraints();
+        JList<String> campoLista = new JList<>(modelo);
         cons2.gridwidth = 2;
         cons2.gridx = 0;
         cons2.gridy = 1;
         cons2.fill = GridBagConstraints.BOTH;
         cons2.insets = new Insets(10,0,40,0);
         panelEditarTransporte.add(campoLista, cons2);
-/*
-        GridBagConstraints cons3 = new GridBagConstraints();
-        JScrollBar scrollLista = new JScrollBar(JScrollBar.VERTICAL, 1, 10, 0, 100);
-        cons3.gridwidth = 0;
-        cons3.gridheight = 4;
-        cons3.gridx = 2;
-        cons3.gridy = 3;
-        cons3.fill = GridBagConstraints.BOTH;
-        cons3.anchor = GridBagConstraints.WEST;
-        //cons3.insets = new Insets(55,0,40,0);
-        panelEditarEstacion.add(scrollLista,cons3);
- */
+
         GridBagConstraints cons11 = new GridBagConstraints();
         JButton botonEditar = new JButton("Editar");
         cons11.gridwidth = 2;
@@ -91,11 +71,12 @@ public class EditarTransporte {
         cons12.insets = new Insets(30,0,60,0);
         panelEditarTransporte.add(botonAtras,cons12);
 
-        botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte()));
+        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte()); singleton = null;});
 
         botonEditar.addActionListener(e -> {
         	Integer index = campoLista.getSelectedIndex();
-        	InterfazFrame.setPanel(BotonEditarTransporte.getInstance().getPanelBotonEditarTransporte(index));
+            singleton = null;
+        	InterfazFrame.setPanel(BotonEditarTransporte.getInstance(index).getPanelBotonEditarTransporte());
         });
     }
 }

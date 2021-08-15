@@ -1,46 +1,37 @@
 package interfaces.registrarTransporte;
 
 import interfaces.InterfazFrame;
-
 import javax.swing.*;
-
-import dominio.EstacionDeTransbordoMultimodal;
 import dominio.LineaTransporte;
 import dominio.LineaTransporte.EstadoLinea;
-import dominio.EstacionDeTransbordoMultimodal.EstadoEstacion;
 import excepciones.BaseDeDatosException;
 import excepciones.CamposIncorrectosException;
 import gestores.GestorLineaTransporte;
-
 import java.awt.*;
 import java.sql.SQLException;
-import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 
 public class BotonEditarTransporte {
 
     private static BotonEditarTransporte singleton;
     private final JPanel panelBotonEditarTransporte;
-    private GestorLineaTransporte gestorLinea;
-   	private List<LineaTransporte> lineas;
-   	private Integer indice;
 
-    public JPanel getPanelBotonEditarTransporte(Integer index) {
-    	indice = index;
+    public JPanel getPanelBotonEditarTransporte() {
     	return panelBotonEditarTransporte;
     }
 
-    public static BotonEditarTransporte getInstance(){
-        if(singleton == null){
-            singleton = new BotonEditarTransporte();
-        }
+    public static BotonEditarTransporte getInstance(Integer index){
+        if(singleton == null)
+            singleton = new BotonEditarTransporte(index);
         return singleton;
     }
 
-    private BotonEditarTransporte() {
+    private BotonEditarTransporte(Integer index) {
         panelBotonEditarTransporte = new JPanel(new GridBagLayout());
-        this.gestorLinea = new GestorLineaTransporte();
-        this.lineas = gestorLinea.listarTodas();
+        GestorLineaTransporte gestorLinea = new GestorLineaTransporte();
+        List<LineaTransporte> lineas = gestorLinea.listarTodas();
+        LineaTransporte lin = lineas.get(index);
 
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("EDITAR TRANSPORTE");
@@ -67,6 +58,7 @@ public class BotonEditarTransporte {
         cons2.gridy = 2;
         cons2.fill = GridBagConstraints.HORIZONTAL;
         cons2.insets = new Insets(5, 5 ,10 ,5);
+        campoNombre.setText(lin.getNombre());
         panelBotonEditarTransporte.add(campoNombre,cons2);
 
         GridBagConstraints cons3 = new GridBagConstraints();
@@ -78,20 +70,28 @@ public class BotonEditarTransporte {
         panelBotonEditarTransporte.add(labelColor,cons3);
 
         GridBagConstraints cons4 = new GridBagConstraints();
-   //     JComboBox<String> campoColor = new JComboBox<>();
-        JTextField campoColor = new JTextField();
+        JComboBox<String> campoColor = new JComboBox<>();
         cons4.gridwidth = 2;
         cons4.gridx = 0;
         cons4.gridy = 4;
         cons4.fill = GridBagConstraints.HORIZONTAL;
         cons4.insets = new Insets(5, 5 ,10 ,5);
-       /* campoColor.addItem("ROJO");
+        campoColor.addItem("ROJO");
         campoColor.addItem("AZUL");
         campoColor.addItem("VERDE");
         campoColor.addItem("AMARILLO");
         campoColor.addItem("NARANJA");
         campoColor.addItem("CELESTE");
-        campoColor.addItem("VIOLETA");*/
+        campoColor.addItem("VIOLETA");
+        switch (lin.getColor()) {
+            case "ROJO" -> campoColor.setSelectedIndex(0);
+            case "AZUL" -> campoColor.setSelectedIndex(1);
+            case "VERDE" -> campoColor.setSelectedIndex(2);
+            case "AMARILLO" -> campoColor.setSelectedIndex(3);
+            case "NARANJA" -> campoColor.setSelectedIndex(4);
+            case "CELESTE" -> campoColor.setSelectedIndex(5);
+            case "VIOLETA" -> campoColor.setSelectedIndex(6);
+        }
         panelBotonEditarTransporte.add(campoColor,cons4);
 
         GridBagConstraints cons9 = new GridBagConstraints();
@@ -110,7 +110,12 @@ public class BotonEditarTransporte {
         cons10.fill = GridBagConstraints.HORIZONTAL;
         cons10.insets = new Insets(5, 5 ,10 ,5);
         campoEstado.addItem("Activa");
-        campoEstado.addItem("No Activa");
+        campoEstado.addItem("Inactiva");
+        if ((lin.getEstado() == EstadoLinea.ACTIVA)) {
+            campoEstado.setSelectedIndex(0);
+        } else {
+            campoEstado.setSelectedIndex(1);
+        }
         panelBotonEditarTransporte.add(campoEstado,cons10);
 
         GridBagConstraints cons11 = new GridBagConstraints();
@@ -131,39 +136,30 @@ public class BotonEditarTransporte {
         cons12.insets = new Insets(30,0,60,0);
         panelBotonEditarTransporte.add(botonAtras,cons12);
 
-        botonAtras.addActionListener(e -> InterfazFrame.setPanel(EditarTransporte.getInstance().getPanelEditarTransporte()));
-        botonAceptar.addActionListener(e->
-      		{
-      				
-      				LineaTransporte linea = lineas.get(indice);
-      			/*	String id;
-      				if(!campoId.getText().isEmpty())
-      					id = campoId.getText(); //?
-      				else
-      					id = linea.getId().toString(); //? */
-      				String nombre;
-      				if(!campoNombre.getText().isEmpty())
-      					nombre = campoNombre.getText();
-      				else
-      					nombre = linea.getNombre();
-      				String color;
-      				if(!campoColor.getText().isEmpty())
-      					color = campoColor.getText();
-      				else
-      					color = linea.getColor();
-      				
-      				EstadoLinea estado;
-      				if (((String) campoEstado.getSelectedItem()).equals("Activa")) 
-      					estado = EstadoLinea.ACTIVA;
-      				else 
-      					estado = EstadoLinea.NO_ACTIVA;
-      				
-      				try {
-      					this.gestorLinea.editarLinea(linea, nombre, color, estado);
-      				} catch (CamposIncorrectosException | SQLException | BaseDeDatosException e1) {
-      					e1.printStackTrace();
-      				}
-      				
-      		});
+        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(EditarTransporte.getInstance().getPanelEditarTransporte()); singleton = null;});
+
+        botonAceptar.addActionListener(e-> {
+
+            try{
+
+                String nombre = campoNombre.getText();
+                String color = Objects.requireNonNull(campoColor.getSelectedItem()).toString();
+                //ESTADO
+                EstadoLinea estado;
+                if ((Objects.equals(campoEstado.getSelectedItem(),"Activa")))
+                    estado = EstadoLinea.ACTIVA;
+                else
+                    estado = EstadoLinea.INACTIVA;
+
+                gestorLinea.editarLinea(lin, nombre, color, estado);
+
+
+            }catch (CamposIncorrectosException | SQLException | BaseDeDatosException ex) {
+                    ex.printStackTrace();
+            }
+
+
+        });
+
     }
 }
