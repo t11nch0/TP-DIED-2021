@@ -2,9 +2,7 @@ package interfaces.ventaBoleto;
 
 import interfaces.InterfazFrame;
 import interfaces.InterfazPrincipal;
-
 import javax.swing.*;
-
 import dominio.EstacionDeTransbordoMultimodal;
 import dominio.Ruta;
 import excepciones.BaseDeDatosException;
@@ -12,19 +10,18 @@ import excepciones.CamposIncorrectosException;
 import gestores.GestorBoleto;
 import gestores.GestorCamino;
 import gestores.GestorEstacion;
-
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 public class InterfazVentaBoleto{
 
     private static InterfazVentaBoleto singleton;
     private final JPanel panelVenta;
-	private GestorEstacion gestorEstacion;
-	private GestorCamino gestorCamino;
-	private GestorBoleto gestorBoleto;
-	private List<EstacionDeTransbordoMultimodal> estaciones;
+    private final GestorCamino gestorCamino;
+	private final GestorBoleto gestorBoleto;
+	private final List<EstacionDeTransbordoMultimodal> estaciones;
 
     public JPanel getPanelVenta() {
         return panelVenta;
@@ -39,10 +36,10 @@ public class InterfazVentaBoleto{
 
     private InterfazVentaBoleto() {
         panelVenta= new JPanel(new GridBagLayout());
-        this.gestorEstacion = new GestorEstacion();
-        this.gestorCamino = new GestorCamino();
-        this.gestorBoleto = new GestorBoleto();
-        this.estaciones = gestorEstacion.listarTodas();
+        GestorEstacion gestorEstacion = new GestorEstacion();
+        gestorCamino = new GestorCamino();
+        gestorBoleto = new GestorBoleto();
+        estaciones = gestorEstacion.listarTodas();
 
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("VENTA DE BOLETO");
@@ -98,24 +95,20 @@ public class InterfazVentaBoleto{
         }
         panelVenta.add(campoEstacionDestino,cons4);
 
-   
-        JList<String> listaRapido = new JList<String>();
-        DefaultListModel<String> modeloRapido = new DefaultListModel<String>();
+        JList<String> listaRapido = new JList<>();
+        DefaultListModel<String> modeloRapido = new DefaultListModel<>();
         listaRapido.setModel(modeloRapido);
         modeloRapido.addElement(" ");
         
-        JList<String> listaCorto = new JList<String>();
-        DefaultListModel<String> modeloCorto = new DefaultListModel<String>();
+        JList<String> listaCorto = new JList<>();
+        DefaultListModel<String> modeloCorto = new DefaultListModel<>();
         listaCorto.setModel(modeloCorto);
         modeloCorto.addElement(" ");
         
-        JList<String> listaBarato = new JList<String>();
-        DefaultListModel<String> modeloBarato = new DefaultListModel<String>();
+        JList<String> listaBarato = new JList<>();
+        DefaultListModel<String> modeloBarato = new DefaultListModel<>();
         listaBarato.setModel(modeloBarato);
         modeloBarato.addElement(" ");
-        
-     // EstacionDeTransbordoMultimodal origen = null;
-    //  EstacionDeTransbordoMultimodal destino = null;
 
         GridBagConstraints cons5 = new GridBagConstraints();
         JTabbedPane paneles = new JTabbedPane();
@@ -124,11 +117,10 @@ public class InterfazVentaBoleto{
         cons5.gridy = 3;
         cons5.fill = GridBagConstraints.BOTH;
         cons5.insets = new Insets(10,0,20,0);
-        panelVenta.add(paneles, cons5);
-        
         paneles.addTab("Mas rapido", listaRapido);
         paneles.addTab("Menor Distancia", listaCorto);
         paneles.addTab("Mas Barato", listaBarato);
+        panelVenta.add(paneles, cons5);
 
         GridBagConstraints cons6 = new GridBagConstraints();
         JButton botonBuscar = new JButton("Buscar");
@@ -146,8 +138,7 @@ public class InterfazVentaBoleto{
         cons7.gridy = 7;
         cons7.fill = GridBagConstraints.HORIZONTAL;
         cons7.insets = new Insets(10,0,30,0);
-        panelVenta.add(botonComprar,cons6);
-
+        panelVenta.add(botonComprar,cons7);
 
         GridBagConstraints cons12 = new GridBagConstraints();
         JButton botonAtras = new JButton("Atras");
@@ -158,69 +149,68 @@ public class InterfazVentaBoleto{
         cons12.insets = new Insets(30,0,60,0);
         panelVenta.add(botonAtras,cons12);
 
-        //botonComprar.addActionListener();
+        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()); singleton = null;});
 
-        botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()));
         botonBuscar.addActionListener(e -> {
         	modeloRapido.clear();
         	modeloCorto.clear();
         	modeloBarato.clear();
         	int i = 1;
+
         	for(EstacionDeTransbordoMultimodal estacionO: estaciones) {
-            	if(campoEstacionOrigen.getSelectedItem() == estacionO.getNombreEstacion()) //?
-            		{
-            		for(EstacionDeTransbordoMultimodal estacionD: estaciones)
-            			if(campoEstacionDestino.getSelectedItem().equals(estacionD.getNombreEstacion())) {
-            				for(Ruta r: gestorCamino.caminoMasRapido(estacionO, estacionD).getRutas()) {
-            		        	modeloRapido.addElement(i+"er ruta: "+r.getOrigen().getNombreEstacion()+" -> "+r.getDestino().getNombreEstacion());
-            		        	i++;
-            				}
-            				i = 1;
-            				for(Ruta r: gestorCamino.caminoMasCorto(estacionO, estacionD).getRutas()) {
-            		        	modeloCorto.addElement(i+"er ruta: "+r.getOrigen().getNombreEstacion()+" -> "+r.getDestino().getNombreEstacion());
-            		        	i++;
-            				}
-            				i = 1;
-            				for(Ruta r: gestorCamino.caminoMasBarato(estacionO, estacionD).getRutas()) {
-            		        	modeloBarato.addElement(i+"er ruta: "+r.getOrigen().getNombreEstacion()+" -> "+r.getDestino().getNombreEstacion());
-            		        	i++;
-            				} //?
-            			modeloRapido.addElement("Duracion total: "+gestorCamino.caminoMasRapido(estacionO, estacionD).getDuracionTotal()+" minutos");
-            			modeloRapido.addElement("Distancia total: "+gestorCamino.caminoMasRapido(estacionO, estacionD).getDistanciaTotal() +" kilometros");
-            			modeloRapido.addElement("Costo total: $"+gestorCamino.caminoMasRapido(estacionO, estacionD).getCostoTotal());
-            			
-            			modeloCorto.addElement("Distancia total: "+gestorCamino.caminoMasCorto(estacionO, estacionD).getDistanciaTotal() +" kilometros");
-            			modeloCorto.addElement("Duracion total: "+gestorCamino.caminoMasCorto(estacionO, estacionD).getDuracionTotal()+" minutos");
-            			modeloCorto.addElement("Costo total: $"+gestorCamino.caminoMasCorto(estacionO, estacionD).getCostoTotal());
-            			
-            			modeloBarato.addElement("Costo total: $"+gestorCamino.caminoMasBarato(estacionO, estacionD).getCostoTotal());
-            			modeloBarato.addElement("Duracion total: "+gestorCamino.caminoMasBarato(estacionO, estacionD).getDuracionTotal()+" minutos");
-            			modeloBarato.addElement("Distancia total: "+gestorCamino.caminoMasBarato(estacionO, estacionD).getDistanciaTotal() +" kilometros");
-            			}
-            		}
+                if (campoEstacionOrigen.getSelectedItem() == estacionO.getNombreEstacion()) {
+
+                    for (EstacionDeTransbordoMultimodal estacionD : estaciones) {
+                        if (Objects.equals(campoEstacionDestino.getSelectedItem(), estacionD.getNombreEstacion())) {
+
+                            for (Ruta r : gestorCamino.caminoMasRapido(estacionO, estacionD).getRutas()) {
+                                modeloRapido.addElement(i + "er ruta: " + r.getOrigen().getNombreEstacion() + " -> " + r.getDestino().getNombreEstacion());
+                                i++;
+                            }
+                            i = 1;
+                            for (Ruta r : gestorCamino.caminoMasCorto(estacionO, estacionD).getRutas()) {
+                                modeloCorto.addElement(i + "er ruta: " + r.getOrigen().getNombreEstacion() + " -> " + r.getDestino().getNombreEstacion());
+                                i++;
+                            }
+                            i = 1;
+                            for (Ruta r : gestorCamino.caminoMasBarato(estacionO, estacionD).getRutas()) {
+                                modeloBarato.addElement(i + "er ruta: " + r.getOrigen().getNombreEstacion() + " -> " + r.getDestino().getNombreEstacion());
+                                i++;
+                            }
+
+                            modeloRapido.addElement("Duracion total: " + gestorCamino.caminoMasRapido(estacionO, estacionD).getDuracionTotal() + " minutos");
+                            modeloRapido.addElement("Distancia total: " + gestorCamino.caminoMasRapido(estacionO, estacionD).getDistanciaTotal() + " kilometros");
+                            modeloRapido.addElement("Costo total: $" + gestorCamino.caminoMasRapido(estacionO, estacionD).getCostoTotal());
+
+                            modeloCorto.addElement("Distancia total: " + gestorCamino.caminoMasCorto(estacionO, estacionD).getDistanciaTotal() + " kilometros");
+                            modeloCorto.addElement("Duracion total: " + gestorCamino.caminoMasCorto(estacionO, estacionD).getDuracionTotal() + " minutos");
+                            modeloCorto.addElement("Costo total: $" + gestorCamino.caminoMasCorto(estacionO, estacionD).getCostoTotal());
+
+                            modeloBarato.addElement("Costo total: $" + gestorCamino.caminoMasBarato(estacionO, estacionD).getCostoTotal());
+                            modeloBarato.addElement("Duracion total: " + gestorCamino.caminoMasBarato(estacionO, estacionD).getDuracionTotal() + " minutos");
+                            modeloBarato.addElement("Distancia total: " + gestorCamino.caminoMasBarato(estacionO, estacionD).getDistanciaTotal() + " kilometros");
+                        }
+                    }
+                }
+                listaRapido.setModel(modeloRapido);
+                listaCorto.setModel(modeloCorto);
+                listaBarato.setModel(modeloBarato);
             }
-        	listaRapido.setModel(modeloRapido);
-        	listaCorto.setModel(modeloCorto);
-        	listaBarato.setModel(modeloBarato);        	
         });
+
         botonComprar.addActionListener(e->
 		{
 			try 
 			{
-				// 
-				// ?
-				//
+                InterfazFrame.setPanel(InterfazComprarBoleto.getInstance().getPanelCompraBoleto());
+
 				this.gestorBoleto.crearBoleto(null, null, null, null, null);
 
 			}
-			catch (SQLException | BaseDeDatosException e1) 
+			catch (SQLException | BaseDeDatosException | CamposIncorrectosException e1)
 			{
 				e1.printStackTrace();
 			}
-			catch (CamposIncorrectosException e2)
-			{
-				e2.printStackTrace();
-			}
-		});
+        });
     }
 }
