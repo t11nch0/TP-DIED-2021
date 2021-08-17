@@ -1,29 +1,51 @@
 package interfaces.ventaBoleto;
 
 import dominio.EstacionDeTransbordoMultimodal;
+import dominio.Ruta;
+import excepciones.BaseDeDatosException;
+import excepciones.CamposIncorrectosException;
+import gestores.GestorBoleto;
+//
+import gestores.GestorCamino;
+import dominio.Camino;
+//
 import interfaces.InterfazFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class InterfazComprarBoleto {
 
     private static InterfazComprarBoleto singleton;
     private final JPanel panelCompraBoleto;
+    //
+    private GestorCamino gestorCamino;
+    private GestorBoleto gestorBoleto;
+  //private List<Camino> caminos;
+    private Camino camino;
 
     public JPanel getPanelCompraBoleto() { return panelCompraBoleto;}
 
-    public static InterfazComprarBoleto getInstance(){
+  //public static InterfazComprarBoleto getInstance(int argumento1, int argumento2, int argumento3){
+    public static InterfazComprarBoleto getInstance(EstacionDeTransbordoMultimodal argumento1, EstacionDeTransbordoMultimodal argumento2, int argumento3){
         if(singleton == null){
-            singleton= new InterfazComprarBoleto();
+            singleton= new InterfazComprarBoleto(argumento1, argumento2, argumento3);
         }
         return singleton;
     }
-
-    private InterfazComprarBoleto() {
+    
+  //private InterfazComprarBoleto(int argumento1, int argumento2, int argumento3) {
+    private InterfazComprarBoleto(EstacionDeTransbordoMultimodal argumento1, EstacionDeTransbordoMultimodal argumento2, int argumento3) {
 
         panelCompraBoleto = new JPanel( new GridBagLayout());
-
+        gestorCamino = new GestorCamino();
+        gestorBoleto = new GestorBoleto();
+     // caminos = gestorCamino.todosCaminos(null, null);
+        camino = gestorCamino.todosCaminos(argumento1, argumento2).get(argumento3);
+        
+        
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("COMPRAR BOLETO");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -83,7 +105,9 @@ public class InterfazComprarBoleto {
         panelCompraBoleto.add(labelCostoBoleto, cons5);
 
         GridBagConstraints cons6 = new GridBagConstraints();
-        JLabel campoCostoBoleto = new JLabel("200.000 PESOS");
+       // JLabel campoCostoBoleto = new JLabel("200.000 PESOS");
+        JLabel campoCostoBoleto = new JLabel(camino.getCostoTotal().toString());
+       // campoCostoBoleto.setText(camino.getCostoTotal().toString();
         cons6.gridwidth = 2;
         cons6.gridx = 0;
         cons6.gridy = 3;
@@ -112,8 +136,25 @@ public class InterfazComprarBoleto {
         botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazVentaBoleto.getInstance().getPanelVenta()); singleton = null;});
 
         botonComprar.addActionListener(e -> {
-
-            //TODO
+       	
+        	System.out.println(camino.getOrigen().getNombreEstacion());
+        	for(Ruta r: camino.getRutas()) {
+        		System.out.println(" "+r.getDestino().getNombreEstacion());
+        	}
+        	
+        	//Integer numeroBoleto = rd.nextInt(100) + 1;
+        	Integer numBoleto =  (int)(Math.random()*(9999-1000+1)+1000); //? 
+        	String email = campoEmailCliente.getText();
+        	String nombre = campoNombreCliente.getText();
+         	LocalDate fechaBoleto = LocalDate.now();
+        	try {
+			
+        		gestorBoleto.crearBoleto(numBoleto, email, nombre, fechaBoleto, camino);
+			
+        	} catch (CamposIncorrectosException | SQLException | BaseDeDatosException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
         });
 
