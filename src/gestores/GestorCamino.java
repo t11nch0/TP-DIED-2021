@@ -21,6 +21,9 @@ public class GestorCamino {
 	private GestorEstacion gestorEstacion;
 	private GestorTrayecto gestorTrayecto; //?
 	private GestorLineaTransporte gestorLinea;
+	//
+	//List<Camino> listaCaminos; //?
+	Integer listaCaminoSize = 0;
 	public GestorCamino() 
 	{
 		super(); 
@@ -35,16 +38,21 @@ public class GestorCamino {
 	
 		Camino c = new Camino();
 		this.actualizarModelo(c, distancia, duracion, costo, origen, destino); //?
+	//	listaCaminos.add(c);
 		return c; 
 	}
 	
 	public void actualizarModelo(Camino c, Integer distancia, Integer duracion, Double costo, EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino)
 	{
+		c.setId(listaCaminoSize + 3); //? AAA
 		c.setDistanciaTotal(distancia);
 		c.setDuracionTotal(duracion);
+		//listaDeRutas?
+		c.setRutas(c.getRutas());
 		c.setCostoTotal(costo); 
 		c.setOrigen(origen);
 		c.setDestino(destino);
+		listaCaminoSize++;
 	}
 	
 	//
@@ -68,6 +76,14 @@ public class GestorCamino {
 			//?
 			camino = new Camino(distancia, duracion, costo, origen, destino);
 			camino.agregarRutas(c);
+			//
+			try {
+				this.crearCamino(distancia, duracion, costo, origen, destino);
+			} catch (CamposIncorrectosException | SQLException | BaseDeDatosException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//
 			caminosProbables.add(camino);
 		}
 		return caminosProbables;		
