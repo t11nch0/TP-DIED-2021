@@ -12,14 +12,15 @@ public class Ruta {
 	private EstadoRuta estado;
 	private Double costo;
 	private Trayecto trayecto; 
+	private Integer idTrayecto;
 
     public enum EstadoRuta 
 	{
-		ACTIVA, NO_ACTIVA;
+		ACTIVA, INACTIVA;
 	}
     
     public Ruta(Integer id, EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino,
-    		Integer distancia, Integer duracion, Integer pasajeros, EstadoRuta estado, Double costo, Trayecto trayecto) {
+    		Integer distancia, Integer duracion, Integer pasajeros, EstadoRuta estado, Double costo, Integer idTrayecto) {
     	
     	this.id = id;
     	this.origen = origen;
@@ -29,9 +30,24 @@ public class Ruta {
     	this.pasajerosMaximos = pasajeros;
     	this.estado = estado; 
     	this.costo = costo;   	
-    	this.trayecto = trayecto; 
-    	
+    	//this.trayecto = trayecto;  //null?
+    	this.trayecto = null;
+    	this.idTrayecto = idTrayecto;
     }
+    
+    //?
+    public Ruta(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino,
+    		Integer distancia, Integer duracion, Integer pasajeros, EstadoRuta estado, Double costo) {
+    	//Para creacion de trayectos (?)
+    	this.origen = origen;
+    	this.destino = destino;
+    	this.distanciaKilometros = distancia;
+    	this.duracionViajeMinutos = duracion;
+    	this.pasajerosMaximos = pasajeros;
+    	this.estado = estado; 
+    	this.costo = costo;
+    }
+    //
     
 	public Ruta() {
 		super();
@@ -109,6 +125,22 @@ public class Ruta {
 		this.trayecto = trayecto;
 	}
 	
-      
+	public boolean esActiva() {
+		return(estado == EstadoRuta.ACTIVA);
+	}
+
+	public Integer getIdTrayecto() {
+		return idTrayecto;
+	}
+
+	public void setIdTrayecto(Integer idTrayecto) {
+		this.idTrayecto = idTrayecto;
+	}
+	
+	public void relacionarTrayecto(Trayecto t) {
+		this.trayecto = t;
+	}
+	//?
 }
+
 

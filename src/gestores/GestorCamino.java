@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 import dominio.Camino;
 import dominio.EstacionDeTransbordoMultimodal;
 import dominio.EstacionDeTransbordoMultimodal.EstadoEstacion;
@@ -18,11 +19,15 @@ public class GestorCamino {
  	
 	private GestorRuta gestorRuta;
 	private GestorEstacion gestorEstacion;
+	private GestorTrayecto gestorTrayecto; //?
+	private GestorLineaTransporte gestorLinea;
 	public GestorCamino() 
 	{
 		super(); 
 		this.gestorRuta = new GestorRuta();
+		this.gestorTrayecto = new GestorTrayecto(); //?
 		this.gestorEstacion = new GestorEstacion();
+		this.gestorLinea = new GestorLineaTransporte();
 	}
 	
 	public Camino crearCamino(Integer distancia, Integer duracion, Double costo, EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino) throws CamposIncorrectosException, SQLException, BaseDeDatosException
@@ -47,8 +52,7 @@ public class GestorCamino {
 	public List<Camino> todosCaminos(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino){
 	
 		List<Camino> caminosProbables = new ArrayList<>(); 
-		List<List<Ruta>> caminos = this.buscar(origen, destino);
-
+		List<List<Ruta>> caminos = buscar(origen, destino); 
 		for(List<Ruta> c: caminos) {  
 			Integer distancia = 0;
 			Integer duracion = 0;
@@ -61,6 +65,7 @@ public class GestorCamino {
 				costo += r.getCosto();
 			}
 			
+			//?
 			camino = new Camino(distancia, duracion, costo, origen, destino);
 			camino.agregarRutas(c);
 			caminosProbables.add(camino);
@@ -72,33 +77,80 @@ public class GestorCamino {
 		List<List<Ruta>> lista = new ArrayList<>();
 		List<EstacionDeTransbordoMultimodal> estacionesMarcadas = new ArrayList<>();
 		estacionesMarcadas.add(origen);
-		List<Ruta> camino = new ArrayList<>();
-		buscarAux(origen, destino, estacionesMarcadas, lista, camino);
+	
+		//buscarAux(origen, destino, estacionesMarcadas, lista, camino);
+		//
+		buscarAux2(origen, destino, estacionesMarcadas, lista, new ArrayList<>());
+		//
 		return lista;
 	}
-	
-	public void buscarAux(EstacionDeTransbordoMultimodal estacion1, EstacionDeTransbordoMultimodal estacion2, 
+		
+	//
+/*	public void buscarAux(EstacionDeTransbordoMultimodal estacion1, EstacionDeTransbordoMultimodal estacion2, 
 			List<EstacionDeTransbordoMultimodal> estacionesMarcadas, List<List<Ruta>> lista, List<Ruta> camino) {
-		if(estacion1.equals(estacion2))
+		if(estacion1.getNombreEstacion().equals(estacion2.getNombreEstacion())) {
 			lista.add(camino);
+		}
 		else {
 			List<Ruta> copiaCamino = null;
 			List<Ruta> rutasSalen = gestorRuta.getRutasConOrigen(estacion1); 
 			List<EstacionDeTransbordoMultimodal> copiaestacionesMarcadas = null;
-			estacionesMarcadas.add(estacion1);
-			
-			for(Ruta r: rutasSalen) { 
-				// 
-				if(!estacionesMarcadas.contains(r.getDestino()) && r.getDestino().getEstado().equals(EstadoEstacion.OPERATIVA)) { 
+			estacionesMarcadas.add(estacion1);	
+			for(Ruta r: rutasSalen){ 
+				if(noContiene(estacionesMarcadas, r.getDestino()) && r.getDestino().estadoOperativa()) { 
 					copiaCamino = camino.stream().collect(Collectors.toList());
-					copiaCamino.add(r);
+					copiaCamino.add(r);//
 					copiaestacionesMarcadas = estacionesMarcadas.stream().collect(Collectors.toList());
 					buscarAux(r.getDestino(), estacion2, copiaestacionesMarcadas, lista, copiaCamino);
 				}
 			}
 		}
+	}*/
+	
+//otra forma
+	public void buscarAux2(EstacionDeTransbordoMultimodal estacion1, EstacionDeTransbordoMultimodal estacion2, 
+			List<EstacionDeTransbordoMultimodal> estacionesMarcadas, List<List<Ruta>> lista, List<Ruta> camino) {
+		if(estacion1.getNombreEstacion().equals(estacion2.getNombreEstacion())) {
+			lista.add(camino);
+		}
+		else {
+			List<Ruta> copiaCamino = null;
+			List<Ruta> rutasSalen = gestorRuta.getRutasConOrigen(estacion1); 
+			List<EstacionDeTransbordoMultimodal> copiaEstacionesMarcadas = null;
+			//
+		/*	for(Ruta r: rutasSalen) {
+				System.out.println("r.getId(): "+r.getId());
+				System.out.println("r.getIdTrayecto(): "+r.getIdTrayecto());
+				System.out.println("r.getTrayecto().getId: "+r.getTrayecto().getId());
+				System.out.println("r.getTrayecto().getIdLinea: "+r.getTrayecto().getIdLinea());
+				System.out.println("r.getTrayecto().getLinea().getId: "+r.getTrayecto().getLinea().getId());
+			}*/
+			//
+			estacionesMarcadas.add(estacion1);
+			for(Ruta r: rutasSalen) {
+				if(noContiene(estacionesMarcadas, r.getDestino()) && r.getDestino().estadoOperativa() && r.getTrayecto().getLinea().esActiva()) {
+					copiaEstacionesMarcadas = estacionesMarcadas.stream().collect(Collectors.toList());
+					copiaCamino = camino.stream().collect(Collectors.toList());
+					copiaCamino.add(r);
+					buscarAux2(r.getDestino(), estacion2, copiaEstacionesMarcadas, lista, copiaCamino);
+				}
+			}
+			
+		}
+		
 	}
-
+	
+	
+	public Boolean noContiene(List<EstacionDeTransbordoMultimodal> lista, EstacionDeTransbordoMultimodal estacion) {
+			
+		for(EstacionDeTransbordoMultimodal e: lista) {
+			if(e.getNombreEstacion().equals(estacion.getNombreEstacion())) {
+				return false;
+			}
+			
+		}
+		return true; //??
+	}
 	//
 	public Camino caminoMasCorto(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino) {
 		
@@ -118,7 +170,7 @@ public class GestorCamino {
 	public Camino caminoMasRapido(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino) {
 		
 		List<Camino> lista = this.todosCaminos(origen, destino);
-		
+
 		Integer minimo = lista.get(0).getDuracionTotal(); 
 		Camino caminoRapido = lista.get(0);
 		for(Camino c: lista) { 
@@ -127,6 +179,7 @@ public class GestorCamino {
 				caminoRapido = c;
 			}
 		}
+
 		return caminoRapido;
 	}
 	
@@ -157,7 +210,7 @@ public class GestorCamino {
 		}
 		List<List<Ruta>> caminos = new ArrayList<List<Ruta>>();
 		List<EstacionDeTransbordoMultimodal> lista = new ArrayList<EstacionDeTransbordoMultimodal>();
-		buscarAux(origen, destino, lista, caminos, new ArrayList<Ruta>());
+		buscarAux2(origen, destino, lista, caminos, new ArrayList<Ruta>());
 		for(List<Ruta> c: caminos) {
 			if(caminoRamas(c, ramas))
 					flujoMax += minimo(c, ramas);

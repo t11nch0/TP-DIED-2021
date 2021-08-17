@@ -6,11 +6,14 @@ public class Trayecto {
 
 	private Integer id;
 	private LineaTransporte linea; 
+	private Integer idLinea;
 	private List<Ruta> tramos; 
 	
-	public Trayecto(Integer id, LineaTransporte linea, List<Ruta> tramos) { 
+	//public Trayecto(Integer id, LineaTransporte linea, List<Ruta> tramos) {
+	public Trayecto(Integer id, Integer idLinea, List<Ruta> tramos) {
 		this.id = id;
-		this.linea= linea;
+		this.idLinea = idLinea;
+		this.linea = null; //?
 		this.tramos = tramos;
 	}
 	
@@ -26,6 +29,14 @@ public class Trayecto {
 		this.id = id;
 	}
 
+	public Integer getIdLinea() {
+		return idLinea;
+	}
+
+	public void setIdLinea(Integer idLinea) {
+		this.idLinea = idLinea;
+	}
+	
 	public List<Ruta> getTramos() {
 		return tramos;
 	}
@@ -45,6 +56,14 @@ public class Trayecto {
 	public void agregarRuta(Ruta r) {
 		this.tramos.add(r);
 	}
+	//?
+	public void relacionarLinea(LineaTransporte l) {
+		this.linea = l;	
+	}
+	
+	public void relacionarTramos(List<Ruta> lista) {
+		this.tramos = lista;
+	} //Se usa?
 	
 }	
 	

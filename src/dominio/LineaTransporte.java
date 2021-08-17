@@ -73,4 +73,12 @@ public class LineaTransporte {
 		this.trayectos.add(trayecto);
 		} 
 	
+	public void relacionarTrayectos(List<Trayecto> listaT) {
+		this.trayectos = listaT;
+	} //?
+	
+	public boolean esActiva() {
+		return(estado == EstadoLinea.ACTIVA);
+	}
+	
 }

@@ -4,12 +4,24 @@ import interfaces.InterfazFrame;
 import interfaces.InterfazPrincipal;
 
 import javax.swing.*;
+//
+import java.util.List;
+import dominio.EstacionDeTransbordoMultimodal;
+import gestores.GestorCamino;
+import gestores.GestorEstacion;
+//
+
 import java.awt.*;
 
 public class InterfazInformacionEstacion {
 
     private static InterfazInformacionEstacion singleton;
     private final JPanel panelInformacionEstacion;
+    //
+    private GestorEstacion gestorEstacion;
+    private GestorCamino gestorCamino;
+    private List<EstacionDeTransbordoMultimodal> estaciones;
+    //
 
     public JPanel getPanelInformacionEstacion() {
         return panelInformacionEstacion;
@@ -23,6 +35,13 @@ public class InterfazInformacionEstacion {
     }
 
     private InterfazInformacionEstacion() {
+    	//
+		//super();
+		this.gestorEstacion = new GestorEstacion();
+		this.gestorCamino = new GestorCamino();
+		this.estaciones = gestorEstacion.listarTodas();
+   	
+    	//
         panelInformacionEstacion = new JPanel(new GridBagLayout());
 
         GridBagConstraints cons0 = new GridBagConstraints();
@@ -63,7 +82,9 @@ public class InterfazInformacionEstacion {
         cons3.fill = GridBagConstraints.HORIZONTAL;
         cons3.insets = new Insets(35, 5 ,0 ,5);
         campoEstacionOrigen.addItem("Seleccionar estacion...");
-        campoEstacionOrigen.addItem("...");
+        for(EstacionDeTransbordoMultimodal e: estaciones) {
+        	campoEstacionOrigen.addItem(e.getNombreEstacion());
+        }
         panelInformacionEstacion.add(campoEstacionOrigen,cons3);
 
         GridBagConstraints cons4 = new GridBagConstraints();
@@ -84,7 +105,9 @@ public class InterfazInformacionEstacion {
         cons5.fill = GridBagConstraints.HORIZONTAL;
         cons5.insets = new Insets(35, 5 ,0 ,5);
         campoEstacionDestino.addItem("Seleccionar estacion...");
-        campoEstacionDestino.addItem("...");
+        for(EstacionDeTransbordoMultimodal e: estaciones) {
+        	campoEstacionDestino.addItem(e.getNombreEstacion());
+        }
         panelInformacionEstacion.add(campoEstacionDestino,cons5);
 
         GridBagConstraints cons6 = new GridBagConstraints();
@@ -110,8 +133,22 @@ public class InterfazInformacionEstacion {
         panelInformacionEstacion.add(pageRank, cons7);
 
         GridBagConstraints cons8 = new GridBagConstraints();
-        String[] data = {"Estacion1", "Estacion2", "Estacion3", "Estacion4", "Estacion5", "Estacion6", "Estacion7", "Estacion8", "Estacion9", "Estacion10"};
-        JList<String> campoLista = new JList<>(data);
+      //  String[] data = {"Estacion1", "Estacion2", "Estacion3", "Estacion4", "Estacion5", "Estacion6", "Estacion7", "Estacion8", "Estacion9", "Estacion10"};
+       // JList<String> campoLista = new JList<>(data);
+        
+        JList<String> campoLista = new JList<String>();
+        DefaultListModel<String> modelo = new DefaultListModel<String>();
+        campoLista.setModel(modelo);
+       // modelo.addElement("LISTA DE ESTACIONES ORDENADAS"); //?
+        
+        //
+        List<EstacionDeTransbordoMultimodal> listaPR = gestorCamino.pageRank();
+        for(EstacionDeTransbordoMultimodal e: listaPR) {
+        	modelo.addElement(e.getNombreEstacion()); //?
+        	//mostrar mas que el nombre?
+        }
+        //
+        
         cons8.gridwidth = 2;
         cons8.gridheight = 1;
         cons8.gridx = 0;
@@ -151,6 +188,25 @@ public class InterfazInformacionEstacion {
         panelInformacionEstacion.add(botonAtras,cons12);
 
         botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()));
-
+       // flujoMaximoEncontrado.invalidate();
+      //  flujoMaximoEncontradoString = "hola";
+        
+       campoEstacionDestino.addActionListener(e -> 
+       		{
+       		//Si selecciona primero la estacion destino SE ROMPE (?)
+       		EstacionDeTransbordoMultimodal origen = null;
+       		EstacionDeTransbordoMultimodal destino= null;
+        	for(EstacionDeTransbordoMultimodal est: estaciones) {
+        		if(campoEstacionOrigen.getSelectedItem() == est.getNombreEstacion())
+        			origen = est;
+        		//else if ?
+        		if(campoEstacionDestino.getSelectedItem() == est.getNombreEstacion())
+        			destino = est;
+       		}
+        	Integer flujoMax = gestorCamino.flujoMaximo(origen, destino);
+        	flujoMaximoEncontrado.setText(flujoMax.toString());
+       		});
+ 
+        
     }
 }
