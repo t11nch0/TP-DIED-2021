@@ -2,14 +2,10 @@ package interfaces.ventaBoleto;
 
 import interfaces.InterfazFrame;
 import interfaces.InterfazPrincipal;
-
 import javax.swing.*;
-
 import dominio.Camino;
 import dominio.EstacionDeTransbordoMultimodal;
-import dominio.LineaTransporte;
 import dominio.Ruta;
-import dominio.Trayecto;
 import excepciones.BaseDeDatosException;
 import excepciones.CamposIncorrectosException;
 import gestores.GestorBoleto;
@@ -18,11 +14,9 @@ import gestores.GestorEstacion;
 import gestores.GestorLineaTransporte;
 import gestores.GestorRuta;
 import gestores.GestorTrayecto;
-import dominio.LineaTransporte.EstadoLinea;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Objects;
 
 public class InterfazVentaBoleto{
 
