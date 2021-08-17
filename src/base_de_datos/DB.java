@@ -85,8 +85,9 @@ public class DB
 //			"		  ID_TRAYECTO INTEGER, "+ //? ??
 			"		  PRIMARY KEY (ID), "+
 			"         FOREIGN KEY (ID_ORIGEN) REFERENCES died_db.estacion(ID), "+
-			"         FOREIGN KEY (ID_DESTINO) REFERENCES died_db.estacion(ID), "+
-			"         FOREIGN KEY (ID_CAMINO) REFERENCES died_db.camino(ID)) ";
+//			"         FOREIGN KEY (ID_DESTINO) REFERENCES died_db.estacion(ID), "+
+			"         FOREIGN KEY (ID_DESTINO) REFERENCES died_db.estacion(ID)) ";
+//			"         FOREIGN KEY (ID_CAMINO) REFERENCES died_db.camino(ID)) ";
 	
 
 	//? ???
