@@ -16,7 +16,7 @@ public class Boleto_DAO_PostgreSQL implements Boleto_DAO
 	private final Connection conn = GestorConexion.getConnection();
 
 	private static final String INSERT_BOLETO =
-			"INSERT INTO died_db.boleto (NRO_BOLETO, EMAIL, NOMBRE, FECHA_VENTA, ORIGEN, DESTINO, CAMINO, COSTO) VALUES (?,?,?,?,?,?,?,?) RETURNING ID";
+			"INSERT INTO died_db.boleto (NRO_BOLETO, EMAIL_CLIENTE, NOMBRE_CLIENTE, FECHA_VENTA, ID_ORIGEN, ID_DESTINO, ID_CAMINO, COSTO) VALUES (?,?,?,?,?,?,?,?) RETURNING ID";
 	
 	
 	@Override
@@ -49,7 +49,8 @@ public class Boleto_DAO_PostgreSQL implements Boleto_DAO
 				}
 				pstmt.setInt(5, boleto.getOrigen().getId()); 
 				pstmt.setInt(6, boleto.getDestino().getId()); 
-				pstmt.setInt(7, boleto.getCamino().getId());
+			//	pstmt.setInt(7, boleto.getCamino().getId()); //SOLUCIONAR (null)
+				pstmt.setInt(7, 99);
 				pstmt.setDouble(8, boleto.getCosto());
 					
 				rs = pstmt.executeQuery(); 
