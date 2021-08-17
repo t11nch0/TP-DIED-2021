@@ -83,14 +83,22 @@ public class BotonEditarTransporte {
         campoColor.addItem("NARANJA");
         campoColor.addItem("CELESTE");
         campoColor.addItem("VIOLETA");
+
         switch (lin.getColor()) {
-            case "ROJO" -> campoColor.setSelectedIndex(0);
-            case "AZUL" -> campoColor.setSelectedIndex(1);
-            case "VERDE" -> campoColor.setSelectedIndex(2);
-            case "AMARILLO" -> campoColor.setSelectedIndex(3);
-            case "NARANJA" -> campoColor.setSelectedIndex(4);
-            case "CELESTE" -> campoColor.setSelectedIndex(5);
-            case "VIOLETA" -> campoColor.setSelectedIndex(6);
+            case "ROJO":
+            	campoColor.setSelectedIndex(0); break;
+            case "AZUL":
+        	    campoColor.setSelectedIndex(1); break;
+            case "VERDE":
+            	campoColor.setSelectedIndex(2); break;
+            case "AMARILLO":
+        	    campoColor.setSelectedIndex(3); break;
+            case "NARANJA":
+        	    campoColor.setSelectedIndex(4); break;
+        	case "CELESTE":
+                campoColor.setSelectedIndex(5); break;
+            case "VIOLETA":
+        	    campoColor.setSelectedIndex(6); break;
         }
         panelBotonEditarTransporte.add(campoColor,cons4);
 

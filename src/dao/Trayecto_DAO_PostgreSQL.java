@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import dominio.Ruta;
 import dominio.Trayecto;
@@ -35,7 +37,7 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO{
 		ResultSet rs = null;
 		
 		LineaTransporte_DAO lineaDAO = new LineaTransporte_DAO_PostgreSQL();
-		Ruta_DAO rutaDAO = new Ruta_DAO_PostgreSQL();
+		//Ruta_DAO rutaDAO = new Ruta_DAO_PostgreSQL();
 		
 		try 
 		{
@@ -45,10 +47,11 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO{
 			{
 				Trayecto t = new Trayecto();
 				t.setId((rs.getInt("ID")));
-				t.setLinea(lineaDAO.buscarPorId(rs.getInt("ID_LINEA"))); 
+				t.setIdLinea(rs.getInt("ID_LINEA"));
+				//t.setLinea(lineaDAO.buscarPorId(rs.getInt("ID_LINEA"))); 
 				//
-				t.setTramos(rutaDAO.buscarPorIdTrayecto(t.getId())); 
-
+			//	t.setTramos(rutaDAO.buscarPorIdTrayecto(rs.getInt("ID"))); 
+				//? despues los relaciono
 				lista.add(t);
 			}			
 		} 
@@ -71,7 +74,7 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO{
 		return lista;
 }
 	
-	public List<Trayecto> buscarPorIdLinea(Integer id){
+/*	public List<Trayecto> buscarPorIdLinea(Integer id){
 		
 		List<Trayecto> lista = new ArrayList<Trayecto>();
 		PreparedStatement pstmt = null;
@@ -88,11 +91,14 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO{
 			{ 
 				Trayecto t = new Trayecto();
 				t.setId(rs.getInt("ID"));
-				t.setLinea(lineaDAO.buscarPorId(rs.getInt("ID_LINEA")));
+				//
+				t.setIdLinea(id);
+				//
+				//t.setLinea(lineaDAO.buscarPorId(rs.getInt("ID_LINEA")));
 				t.getTramos().addAll(rutaDAO.buscarPorIdTrayecto(t.getId())); 
 				
 				lista.add(t);
-			}			
+			}				
 		} 
 		catch (SQLException e) 
 		{
@@ -112,7 +118,7 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO{
 		}	
 		return lista;
 		
-	}
+	}*/
 	
 	@Override	
 	public Trayecto insertarTrayecto(Trayecto trayecto) 
@@ -128,7 +134,7 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO{
 			conn.setAutoCommit(false); 		
 			pstmt= conn.prepareStatement(INSERT_TRAYECTO);
 			
-			pstmt.setInt(1, trayecto.getLinea().getId());
+			pstmt.setInt(1, trayecto.getIdLinea());
 			for(Ruta unaRuta: tramos)
 			{
 				rutaDAO.insertarRuta(unaRuta);
@@ -179,7 +185,7 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO{
 				conn.setAutoCommit(false);  
 				pstmt= conn.prepareStatement(UPDATE_TRAYECTO);
 				
-				pstmt.setInt(1, trayecto.getLinea().getId());
+				pstmt.setInt(1, trayecto.getIdLinea());
 				for(Ruta unaRuta: tramos)
 				{
 					rutaDAO.insertarRuta(unaRuta); 
@@ -210,11 +216,81 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO{
 			return trayecto; 
 		}
 
-	@Override
+	/*	@Override
 	public Trayecto buscarPorId(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
+	}*/
+	
+	//cambio
+/*	@Override
+	public Trayecto buscarPorId(Integer id) {
+		Trayecto trayecto = new Trayecto();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+		LineaTransporte_DAO lineaDAO = new LineaTransporte_DAO_PostgreSQL();
+		
+		try 
+		{
+			
+			pstmt= conn.prepareStatement("SELECT * FROM died_db.trayecto WHERE ID = "+ id); 
+			rs = pstmt.executeQuery();
+			//????
+			while(rs.next()) 
+			{
+				trayecto.setId(rs.getInt("ID"));
+				//?
+				// 
+				trayecto.setIdLinea(rs.getInt("ID_LINEA"));
+				//
+				//trayecto.setLinea(lineaDAO.buscarPorId(rs.getInt("ID_LINEA")));
+				
+				//lista de rutas??
+			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		finally 
+		{
+			try 
+			{
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();				
+			}
+			catch(SQLException e) 
+			{
+				e.printStackTrace();
+			}
+		}	
+		return trayecto;
+	}*/
+	
+	@Override
+	public Trayecto buscarPorId(Integer id) {
+		return this.buscarTodos()
+				.stream()
+				.filter(t -> t.getId() == id)
+				.findFirst()
+				.get();		
 	}
 	
 	
+	
+	@Override
+	public List<Trayecto> buscarPorIdLinea(Integer idLinea) {
+		return this.buscarTodos()
+				.stream()
+				.filter(t -> Objects.equals(t.getIdLinea(), idLinea))
+				.collect(Collectors.toList());
+	} //?
 }
+
+
+	
+	
+	
+	
+

@@ -1,31 +1,19 @@
 package interfaces.registrarEstacion;
 
 import interfaces.InterfazFrame;
-
 import javax.swing.*;
-
 import dominio.EstacionDeTransbordoMultimodal;
 import dominio.TareaMantenimiento;
-import dominio.EstacionDeTransbordoMultimodal.EstadoEstacion;
-import excepciones.BaseDeDatosException;
-import excepciones.CamposIncorrectosException;
 import gestores.GestorEstacion;
-
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.sql.SQLException;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class HistorialDeMantenimientos {
 
     private static HistorialDeMantenimientos singleton;
     private final JPanel panelHistorialDeMantenimientos;
-    //
-	private GestorEstacion gestorEstacion;
-   	private List<EstacionDeTransbordoMultimodal> estaciones;
+	private final GestorEstacion gestorEstacion;
+   	private final List<EstacionDeTransbordoMultimodal> estaciones;
 
     public JPanel getPanelHistorialDeMantenimientos() {
         return panelHistorialDeMantenimientos;
@@ -40,10 +28,9 @@ public class HistorialDeMantenimientos {
 
     private HistorialDeMantenimientos() {
         panelHistorialDeMantenimientos = new JPanel(new GridBagLayout());
-        //
-        this.gestorEstacion = new GestorEstacion();
-        this.estaciones = gestorEstacion.listarTodas();
-        //
+        gestorEstacion = new GestorEstacion();
+        estaciones = gestorEstacion.listarTodas();
+
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("HISTORIAL DE MANTENIMIENTOS");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -74,20 +61,16 @@ public class HistorialDeMantenimientos {
         }
         panelHistorialDeMantenimientos.add(campoEstacion,cons2);
 
-        GridBagConstraints cons11 = new GridBagConstraints();
+        GridBagConstraints cons3 = new GridBagConstraints();
         JButton botonBuscar = new JButton("Buscar");
-        cons11.gridwidth = 2;
-        cons11.gridx = 0;
-        cons11.gridy = 3;
-        cons11.fill = GridBagConstraints.HORIZONTAL;
-        //cons11.insets = new Insets(40,0,30,0);
-        cons11.insets = new Insets(10, 5, 5, 5);
-        panelHistorialDeMantenimientos.add(botonBuscar,cons11);
-        
-        JList<String> listaLista = new JList<String>();
-        DefaultListModel<String> modelo = new DefaultListModel<String>();
-         
-        listaLista.setModel(modelo);
+        cons3.gridwidth = 2;
+        cons3.gridx = 0;
+        cons3.gridy = 3;
+        cons3.fill = GridBagConstraints.HORIZONTAL;
+        cons3.insets = new Insets(10, 90, 5, 90);
+        panelHistorialDeMantenimientos.add(botonBuscar,cons3);
+
+        DefaultListModel<String> modelo = new DefaultListModel<>();
         modelo.addElement("                                               SELECCIONE UNA ESTACION");
         modelo.addElement("                                                     Y PRESIONE BUSCAR");
         modelo.addElement("                   ");
@@ -95,15 +78,16 @@ public class HistorialDeMantenimientos {
         modelo.addElement("                   ");
         modelo.addElement("                   ");
         modelo.addElement("                   ");
-        
-      
-        GridBagConstraints cons3 = new GridBagConstraints();
-        cons3.gridwidth = 2;
-        cons3.gridx = 0;
-        cons3.gridy = 4;
-        cons3.fill = GridBagConstraints.BOTH;
-        cons3.insets = new Insets(10,0,40,0);
-        panelHistorialDeMantenimientos.add(listaLista, cons3);
+
+        JList<String> listaLista = new JList<>(modelo);
+        GridBagConstraints cons4 = new GridBagConstraints();
+        cons4.gridwidth = 2;
+        cons4.gridx = 0;
+        cons4.gridy = 4;
+        cons4.fill = GridBagConstraints.BOTH;
+        cons4.insets = new Insets(10,0,40,0);
+        JScrollPane scroll = new JScrollPane(listaLista);
+        panelHistorialDeMantenimientos.add(scroll, cons4);
 
         
         GridBagConstraints cons12 = new GridBagConstraints();
@@ -116,7 +100,8 @@ public class HistorialDeMantenimientos {
         panelHistorialDeMantenimientos.add(botonAtras,cons12);
 
         
-        botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()));
+        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()); singleton = null;});
+
         botonBuscar.addActionListener(e->
 		{
 			modelo.clear();
@@ -133,6 +118,10 @@ public class HistorialDeMantenimientos {
 	        	modelo.addElement("Observaciones: "+m.getObservaciones());
 	        	i++;
 	        }
+			if((gestorEstacion.mantenimientosEstacion(estaciones.get(campoEstacion.getSelectedIndex()))).isEmpty()){
+			    modelo.add(0,"                                         No se han realizado mantenimientos");
+            }
+
 			listaLista.setModel(modelo);
 			
 		});

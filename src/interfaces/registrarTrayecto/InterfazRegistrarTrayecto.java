@@ -3,12 +3,29 @@ package interfaces.registrarTrayecto;
 import interfaces.InterfazFrame;
 import interfaces.InterfazPrincipal;
 import javax.swing.*;
+
+import dominio.EstacionDeTransbordoMultimodal;
+import dominio.LineaTransporte;
+import dominio.Ruta;
+import gestores.GestorEstacion;
+import gestores.GestorLineaTransporte;
+import gestores.GestorRuta;
+
+import java.util.List;
+
 import java.awt.*;
 
 public class InterfazRegistrarTrayecto {
 
     private static InterfazRegistrarTrayecto singleton;
     private final JPanel panelRegistroTrayecto;
+    private GestorLineaTransporte gestorLinea;
+    private GestorEstacion gestorEstacion;
+	private GestorRuta gestorRuta;
+    private List<LineaTransporte> lineas;
+	private List<EstacionDeTransbordoMultimodal> estaciones;
+
+    
 
     public JPanel getPanelRegistroTrayecto() {
         return panelRegistroTrayecto;
@@ -23,7 +40,13 @@ public class InterfazRegistrarTrayecto {
 
     private InterfazRegistrarTrayecto() {
         panelRegistroTrayecto = new JPanel(new GridBagLayout());
-
+        //this.lineas = gestorLinea.listarTodas(); //AAAA
+        gestorEstacion = new GestorEstacion();
+        gestorRuta = new GestorRuta();
+        gestorLinea = new GestorLineaTransporte();
+        this.lineas = gestorLinea.getTodasLineas();
+        this.estaciones = gestorEstacion.listarTodas();
+        
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("MENU DE TRAYECTO");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -51,11 +74,10 @@ public class InterfazRegistrarTrayecto {
         cons2.gridy = 1;
         cons2.fill = GridBagConstraints.HORIZONTAL;
         cons2.insets = new Insets(35, 5 ,0 ,5);
-        /*
-        for(EstacionDeTransbordoMultimodal e: estaciones) {
-            campoEstOrigen.addItem(e.getNombreEstacion());
+        campoTransporte.addItem("Seleccionar transporte...");
+        for(LineaTransporte l: lineas) {
+        	campoTransporte.addItem(l.getNombre()); // y color?
         }
-         */
         panelRegistroTrayecto.add(campoTransporte,cons2);
 
         GridBagConstraints cons3 = new GridBagConstraints();
@@ -75,11 +97,10 @@ public class InterfazRegistrarTrayecto {
         cons4.gridy = 2;
         cons4.fill = GridBagConstraints.HORIZONTAL;
         cons4.insets = new Insets(35, 5 ,0 ,5);
-        /*
+        campoEstOrigen.addItem("Seleccionar estacion...");
         for(EstacionDeTransbordoMultimodal e: estaciones) {
             campoEstOrigen.addItem(e.getNombreEstacion());
-        }
-         */
+        }      
         panelRegistroTrayecto.add(campoEstOrigen,cons4);
 
         GridBagConstraints cons5 = new GridBagConstraints();
@@ -99,11 +120,18 @@ public class InterfazRegistrarTrayecto {
         cons6.gridy = 3;
         cons6.fill = GridBagConstraints.HORIZONTAL;
         cons6.insets = new Insets(35, 5 ,0 ,5);
-        /*
+        campoEstDestino.addItem("Seleccionar estacion...");
+       /* for(EstacionDeTransbordoMultimodal e: estaciones) {
+        	campoEstDestino.addItem(e.getNombreEstacion());
+        }*/
         for(EstacionDeTransbordoMultimodal e: estaciones) {
-            campoEstOrigen.addItem(e.getNombreEstacion());
+        	if(campoEstOrigen.getSelectedItem().equals(e.getNombreEstacion())) {
+        		System.out.println(e.getNombreEstacion());
+        		for(Ruta r: gestorRuta.getRutasConOrigen(e)) {
+        			campoEstDestino.addItem(r.getDestino().getNombreEstacion());
+		        }
+        	}
         }
-         */
         panelRegistroTrayecto.add(campoEstDestino,cons6);
 
         GridBagConstraints cons7 = new GridBagConstraints();
@@ -144,5 +172,26 @@ public class InterfazRegistrarTrayecto {
         panelRegistroTrayecto.add(botonAtras,cons12);
 
         botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()));
+        campoEstOrigen.addActionListener(e -> 	
+        				{
+        					//Muestro como opcion las estaciones que tienen como origen a e1;
+        					campoEstDestino.removeAllItems();
+        			        campoEstDestino.addItem("Seleccionar estacion...");
+        			        for(EstacionDeTransbordoMultimodal est: estaciones) {
+        			        	if(campoEstOrigen.getSelectedItem().equals(est.getNombreEstacion())) {
+        			        		System.out.println(est.getNombreEstacion());
+        			        		for(Ruta r: gestorRuta.getRutasConOrigen(est)) {
+        			        			campoEstDestino.addItem(r.getDestino().getNombreEstacion());
+        					        }
+        			        	}
+        			        }
+        					
+        					
+        					/*System.out.println(campoEstOrigen.getSelectedIndex());
+        					System.out.println(campoEstOrigen.getSelectedItem());
+        					System.out.println(estaciones.get(campoEstOrigen.getSelectedIndex()).getNombreEstacion());*/
+        				});
+    
+    
     }
 }

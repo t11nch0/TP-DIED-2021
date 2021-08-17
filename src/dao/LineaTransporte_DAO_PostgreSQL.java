@@ -14,6 +14,7 @@ import dominio.LineaTransporte;
 import dominio.LineaTransporte.EstadoLinea;
 import excepciones.BaseDeDatosException;
 import gestores.GestorConexion;
+import gestores.GestorTrayecto;
 
 public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 {
@@ -61,11 +62,16 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 				l.setNombre(rs.getString("NOMBRE"));
 				l.setColor(rs.getString("COLOR"));
 				switch (rs.getString("ESTADO_LINEA")) {
-					case "ACTIVA" -> l.setEstado(EstadoLinea.ACTIVA);
-					case "NO_ACTIVA" -> l.setEstado(EstadoLinea.INACTIVA);
+					case "ACTIVA":
+						l.setEstado(EstadoLinea.ACTIVA);
+						break;
+					case "INACTIVA":
+						l.setEstado(EstadoLinea.INACTIVA);
+						break;
 				}
 				// ? Lista
 				//l.setTrayectos(trayectoDAO.buscarPorIdLinea(l.getId()));
+				l.setTrayectos(trayectoDAO.buscarPorIdLinea((rs.getInt("ID"))));
 				//bucle
 				lista.add(l);
 			}			
@@ -259,12 +265,17 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 				{
 					linea.setId(rs.getInt("ID"));
 					linea.setNombre(rs.getString("NOMBRE"));
-					linea.setNombre(rs.getString("COLOR"));
+					linea.setColor(rs.getString("COLOR"));
 					switch (rs.getString("ESTADO_LINEA")) {
-						case "ACTIVA" -> linea.setEstado(EstadoLinea.ACTIVA);
-						case "NO_ACTIVA" -> linea.setEstado(EstadoLinea.INACTIVA);
+						case "ACTIVA":
+							linea.setEstado(EstadoLinea.ACTIVA);
+							break;
+						case "INACTIVA":
+							linea.setEstado(EstadoLinea.INACTIVA);
+							break;
 					}
-					//linea.setTrayectos(trayectoDAO.buscarPorIdLinea(linea.getId())); //??
+					linea.setTrayectos(trayectoDAO.buscarPorIdLinea(linea.getId())); //??
+					//AAAAAAAAAAA
 					// bucle?
 				}
 			} 

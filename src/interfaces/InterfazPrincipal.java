@@ -50,7 +50,7 @@ public class InterfazPrincipal {
         panelMenuPrincipal.add(boton1,cons1);
 
         GridBagConstraints cons2 = new GridBagConstraints();
-        JButton boton2 = new JButton("Información de Estaciones");
+        JButton boton2 = new JButton("Informacion de Estaciones");
         cons2.gridx = 0;
         cons2.gridy = 2;
         cons2.fill = GridBagConstraints.BOTH;
