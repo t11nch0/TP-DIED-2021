@@ -195,14 +195,7 @@ public class Mantenimiento_DAO_PostgreSQL implements Mantenimiento_DAO{
 		}	
 		return lista;
 	}
-	
-	
-/*	public List<TareaMantenimiento> buscarPorIdEstacion(Integer idEstacion){
-		return this.buscarTodos()
-				.stream()
-				.filter(m -> m.getEstacion().getId() == idEstacion)
-				.collect(Collectors.toList());
-	}*/
+
 	
 	public List<TareaMantenimiento> buscarPorIdEstacion(Integer idEstacion){
 		List<TareaMantenimiento> lista = new ArrayList<TareaMantenimiento>();
