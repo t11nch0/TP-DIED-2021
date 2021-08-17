@@ -31,7 +31,7 @@ public class GestorMantenimiento {
     public TareaMantenimiento finalizarTareaMantenimiento(String observaciones, EstacionDeTransbordoMultimodal estacion) throws BaseDeDatosException, SQLException {
         TareaMantenimiento m = this.buscarPorIdEstacion(estacion.getId()).get(estacion.getMantenimientos().size() - 1);
         LocalDate fechaFin = LocalDate.now();
-        this.actualizarModelo(m, m.getFechaInicio(), fechaFin, observaciones, estacion.getId());
+        this.actualizarModelo2(m, m.getFechaInicio(), fechaFin, observaciones, estacion.getId());
         return mantenimientoDAO.finalizarMantenimiento(m);
     }
 
@@ -39,6 +39,13 @@ public class GestorMantenimiento {
         m.setFechaInicio(inicio);
         m.setFechaFin(fin);
         m.setObservaciones(observaciones); //
+        m.setIdEstacion(idEstacion); //?
+    }
+
+    public void actualizarModelo2(TareaMantenimiento m, LocalDate inicio, LocalDate fin, String observaciones, Integer idEstacion) {
+        m.setFechaInicio(inicio);
+        m.setFechaFin(fin);
+        m.setObservaciones(m.getObservaciones() + " // "+observaciones); //
         m.setIdEstacion(idEstacion); //?
     }
 

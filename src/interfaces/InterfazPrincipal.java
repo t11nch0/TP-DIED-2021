@@ -2,7 +2,6 @@ package interfaces;
 
 import interfaces.informacionEstacion.InterfazInformacionEstacion;
 import interfaces.registrarTransporte.InterfazRegistrarTransporte;
-import interfaces.registrarMantenimientoEstacion.InterfazRegistrarMantenimientoEstacion;
 import interfaces.registrarEstacion.InterfazRegistrarEstacion;
 import interfaces.registrarTrayecto.InterfazRegistrarTrayecto;
 import interfaces.ventaBoleto.InterfazVentaBoleto;
