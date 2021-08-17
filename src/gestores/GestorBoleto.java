@@ -32,8 +32,10 @@ public class GestorBoleto {
 		b.setEmailCliente(email);
 		b.setNombreCliente(nombre);
 		b.setFechaVenta(fecha);
+		b.setOrigen(camino.getOrigen());
+		b.setDestino(camino.getDestino());
 		b.setCamino(camino);
-		b.setCosto(camino.getCostoTotal());
+		b.setCosto(camino.getCostoTotal()); //?
 	}
 	
 	public List<Boleto> listarTodos() 
