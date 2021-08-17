@@ -39,10 +39,12 @@ public class EditarEstacion {
         panelEditarEstacion.add(nombreMenu, cons0);
 
         DefaultListModel<String> modelo = new DefaultListModel<>();
-        for(EstacionDeTransbordoMultimodal e: estaciones) {
+        for (EstacionDeTransbordoMultimodal e : estaciones) {
             modelo.addElement(e.getNombreEstacion());
         }
-        if(modelo.isEmpty()){ modelo.add(0, "No hay estaciones disponibles");}
+        if (modelo.isEmpty()) {
+            modelo.add(0, "No hay estaciones disponibles");
+        }
 
         GridBagConstraints cons1 = new GridBagConstraints();
         JList<String> campoLista = new JList<>(modelo);
@@ -50,7 +52,7 @@ public class EditarEstacion {
         cons1.gridx = 0;
         cons1.gridy = 1;
         cons1.fill = GridBagConstraints.BOTH;
-        cons1.insets = new Insets(10,0,40,0);
+        cons1.insets = new Insets(10, 0, 40, 0);
         panelEditarEstacion.add(campoLista, cons1);
 
         GridBagConstraints cons2 = new GridBagConstraints();

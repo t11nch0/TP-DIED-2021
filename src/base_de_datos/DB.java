@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DB 
-{
+public class DB {
+
 	private static boolean _TABLAS_CREADAS = false;
 
 	private static final String TABLA_CREATE_ESTACION =
@@ -81,23 +81,20 @@ public class DB
 			"		  ID_ORIGEN INTEGER, "+
 			"		  ID_DESTINO INTEGER, "+
 			"		  ID_CAMINO INTEGER, "+
-			"         COSTO DECIMAL(14,2), "+ //?
-//			"		  ID_TRAYECTO INTEGER, "+ //? ??
+			"         COSTO DECIMAL(14,2), "+
 			"		  PRIMARY KEY (ID), "+
 			"         FOREIGN KEY (ID_ORIGEN) REFERENCES died_db.estacion(ID), "+
-//			"         FOREIGN KEY (ID_DESTINO) REFERENCES died_db.estacion(ID), "+
 			"         FOREIGN KEY (ID_DESTINO) REFERENCES died_db.estacion(ID)) ";
-//			"         FOREIGN KEY (ID_CAMINO) REFERENCES died_db.camino(ID)) ";
 	
 
-	//? ???
-	public static void verificarCrearTablas(Connection conn) 
-	{
-		if(!_TABLAS_CREADAS) 
-		{
+	public static void verificarCrearTablas(Connection conn) {
+
+		if(!_TABLAS_CREADAS) {
+
 			Statement stmt = null;
-			try 
-			{
+
+			try {
+
 				stmt = conn.createStatement();
 				stmt.execute(TABLA_CREATE_ESTACION);
 				stmt.execute(TABLA_CREATE_TAREA_MANTENIMIENTO);
@@ -107,23 +104,22 @@ public class DB
 				stmt.execute(TABLA_CREATE_CAMINO);
 				stmt.execute(TABLA_CREATE_BOLETO);
 				_TABLAS_CREADAS = true;
-			}
-			catch (SQLException e) 
-			{
+
+			} catch (SQLException e) {
+
 				e.printStackTrace();
-			}
-			finally 
-			{
-					try 
-					{
+
+			} finally {
+
+					try {
+
 						if(stmt!=null) stmt.close();
-					} 
-					catch (SQLException e) 
-					{
+
+					} catch (SQLException e) {
+
 						e.printStackTrace();
 					}
 			}
 		}
 	}
-
 }

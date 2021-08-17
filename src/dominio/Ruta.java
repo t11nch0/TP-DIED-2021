@@ -2,145 +2,143 @@ package dominio;
 
 
 public class Ruta {
-	
-	private Integer id;
-	private EstacionDeTransbordoMultimodal origen;
-	private EstacionDeTransbordoMultimodal destino;
-	private Integer distanciaKilometros;
-	private Integer duracionViajeMinutos;
-	private Integer pasajerosMaximos;
-	private EstadoRuta estado;
-	private Double costo;
-	private Trayecto trayecto; 
-	private Integer idTrayecto;
 
-    public enum EstadoRuta 
-	{
-		ACTIVA, INACTIVA;
-	}
-    
+    private Integer id;
+    private EstacionDeTransbordoMultimodal origen;
+    private EstacionDeTransbordoMultimodal destino;
+    private Integer distanciaKilometros;
+    private Integer duracionViajeMinutos;
+    private Integer pasajerosMaximos;
+    private EstadoRuta estado;
+    private Double costo;
+    private Trayecto trayecto;
+    private Integer idTrayecto;
+
+    public enum EstadoRuta {
+        ACTIVA, INACTIVA
+    }
+
     public Ruta(Integer id, EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino,
-    		Integer distancia, Integer duracion, Integer pasajeros, EstadoRuta estado, Double costo, Integer idTrayecto) {
-    	
-    	this.id = id;
-    	this.origen = origen;
-    	this.destino = destino;
-    	this.distanciaKilometros = distancia;
-    	this.duracionViajeMinutos = duracion;
-    	this.pasajerosMaximos = pasajeros;
-    	this.estado = estado; 
-    	this.costo = costo;   	
-    	//this.trayecto = trayecto;  //null?
-    	this.trayecto = null;
-    	this.idTrayecto = idTrayecto;
+                Integer distancia, Integer duracion, Integer pasajeros, EstadoRuta estado, Double costo, Integer idTrayecto) {
+
+        this.id = id;
+        this.origen = origen;
+        this.destino = destino;
+        this.distanciaKilometros = distancia;
+        this.duracionViajeMinutos = duracion;
+        this.pasajerosMaximos = pasajeros;
+        this.estado = estado;
+        this.costo = costo;
+        //this.trayecto = trayecto;  //null?
+        this.trayecto = null;
+        this.idTrayecto = idTrayecto;
     }
-    
-    //?
+
     public Ruta(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino,
-    		Integer distancia, Integer duracion, Integer pasajeros, EstadoRuta estado, Double costo) {
-    	//Para creacion de trayectos (?)
-    	this.origen = origen;
-    	this.destino = destino;
-    	this.distanciaKilometros = distancia;
-    	this.duracionViajeMinutos = duracion;
-    	this.pasajerosMaximos = pasajeros;
-    	this.estado = estado; 
-    	this.costo = costo;
+                Integer distancia, Integer duracion, Integer pasajeros, EstadoRuta estado, Double costo) {
+        //Para creacion de trayectos (?)
+        this.origen = origen;
+        this.destino = destino;
+        this.distanciaKilometros = distancia;
+        this.duracionViajeMinutos = duracion;
+        this.pasajerosMaximos = pasajeros;
+        this.estado = estado;
+        this.costo = costo;
     }
-    //
-    
-	public Ruta() {
-		super();
-	}
-	public Integer getId() {
-		return id;
-	}
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Ruta() {
+        super();
+    }
 
-	public EstacionDeTransbordoMultimodal getOrigen() {
-		return origen;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setOrigen(EstacionDeTransbordoMultimodal origen) {
-		this.origen = origen;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public EstacionDeTransbordoMultimodal getDestino() {
-		return destino;
-	}
+    public EstacionDeTransbordoMultimodal getOrigen() {
+        return origen;
+    }
 
-	public void setDestino(EstacionDeTransbordoMultimodal destino) {
-		this.destino = destino;
-	}
+    public void setOrigen(EstacionDeTransbordoMultimodal origen) {
+        this.origen = origen;
+    }
 
-	public Integer getDistanciaKilometros() {
-		return distanciaKilometros;
-	}
+    public EstacionDeTransbordoMultimodal getDestino() {
+        return destino;
+    }
 
-	public void setDistanciaKilometros(Integer distanciaKilometros) {
-		this.distanciaKilometros = distanciaKilometros;
-	}
+    public void setDestino(EstacionDeTransbordoMultimodal destino) {
+        this.destino = destino;
+    }
 
-	public Integer getDuracionViajeMinutos() {
-		return duracionViajeMinutos;
-	}
+    public Integer getDistanciaKilometros() {
+        return distanciaKilometros;
+    }
 
-	public void setDuracionViajeMinutos(Integer duracionViajeMinutos) {
-		this.duracionViajeMinutos = duracionViajeMinutos;
-	}
+    public void setDistanciaKilometros(Integer distanciaKilometros) {
+        this.distanciaKilometros = distanciaKilometros;
+    }
 
-	public Integer getPasajerosMaximos() {
-		return pasajerosMaximos;
-	}
+    public Integer getDuracionViajeMinutos() {
+        return duracionViajeMinutos;
+    }
 
-	public void setPasajerosMaximos(Integer pasajerosMaximos) {
-		this.pasajerosMaximos = pasajerosMaximos;
-	}
+    public void setDuracionViajeMinutos(Integer duracionViajeMinutos) {
+        this.duracionViajeMinutos = duracionViajeMinutos;
+    }
 
-	public EstadoRuta getEstadoRuta() {
-		return estado;
-	}
+    public Integer getPasajerosMaximos() {
+        return pasajerosMaximos;
+    }
 
-	public void setEstadoRuta(EstadoRuta estado) {
-		this.estado = estado;
-	}
+    public void setPasajerosMaximos(Integer pasajerosMaximos) {
+        this.pasajerosMaximos = pasajerosMaximos;
+    }
 
-	public Double getCosto() {
-		return costo;
-	}
+    public EstadoRuta getEstadoRuta() {
+        return estado;
+    }
 
-	public void setCosto(Double costo) {
-		this.costo = costo;
-	}
+    public void setEstadoRuta(EstadoRuta estado) {
+        this.estado = estado;
+    }
+
+    public Double getCosto() {
+        return costo;
+    }
+
+    public void setCosto(Double costo) {
+        this.costo = costo;
+    }
 
 
-	public Trayecto getTrayecto() {
-		return trayecto;
-	}
+    public Trayecto getTrayecto() {
+        return trayecto;
+    }
 
-	public void setTrayecto(Trayecto trayecto) {
-		this.trayecto = trayecto;
-	}
-	
-	public boolean esActiva() {
-		return(estado == EstadoRuta.ACTIVA);
-	}
+    public void setTrayecto(Trayecto trayecto) {
+        this.trayecto = trayecto;
+    }
 
-	public Integer getIdTrayecto() {
-		return idTrayecto;
-	}
+    public boolean esActiva() {
+        return (estado == EstadoRuta.ACTIVA);
+    }
 
-	public void setIdTrayecto(Integer idTrayecto) {
-		this.idTrayecto = idTrayecto;
-	}
-	
-	public void relacionarTrayecto(Trayecto t) {
-		this.trayecto = t;
-	}
-	//?
+    public Integer getIdTrayecto() {
+        return idTrayecto;
+    }
+
+    public void setIdTrayecto(Integer idTrayecto) {
+        this.idTrayecto = idTrayecto;
+    }
+
+    public void relacionarTrayecto(Trayecto t) {
+        this.trayecto = t;
+    }
+
 }
 
 

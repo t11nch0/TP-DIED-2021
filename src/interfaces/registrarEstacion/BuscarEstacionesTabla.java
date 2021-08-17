@@ -1,10 +1,13 @@
 package interfaces.registrarEstacion;
 
 import interfaces.InterfazFrame;
+
 import javax.swing.*;
 import java.util.List;
+
 import gestores.GestorEstacion;
 import dominio.EstacionDeTransbordoMultimodal;
+
 import java.awt.*;
 
 public class BuscarEstacionesTabla {
@@ -13,20 +16,22 @@ public class BuscarEstacionesTabla {
     private final JPanel panelBuscarEstacionesTabla;
     List<EstacionDeTransbordoMultimodal> estaciones;
 
-    public JPanel getPanelBuscarEstacionesTabla() { return panelBuscarEstacionesTabla; }
+    public JPanel getPanelBuscarEstacionesTabla() {
+        return panelBuscarEstacionesTabla;
+    }
 
-    public static BuscarEstacionesTabla getInstance(String[] lista){
-        if(singleton == null)
+    public static BuscarEstacionesTabla getInstance(String[] lista) {
+        if (singleton == null)
             singleton = new BuscarEstacionesTabla(lista);
         return singleton;
     }
-    
+
     private BuscarEstacionesTabla(String[] lista) {
         panelBuscarEstacionesTabla = new JPanel(new GridBagLayout());
         GestorEstacion gestorEstacion = new GestorEstacion();
-        try{
+        try {
             estaciones = gestorEstacion.filtrar(lista);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -38,7 +43,7 @@ public class BuscarEstacionesTabla {
         cons0.gridy = 0;
         cons0.fill = GridBagConstraints.HORIZONTAL;
         cons0.anchor = GridBagConstraints.CENTER;
-        cons0.insets = new Insets(40,105,40,0);
+        cons0.insets = new Insets(40, 105, 40, 0);
         panelBuscarEstacionesTabla.add(nombreMenu, cons0);
 
         ModeloTablaEstaciones modeloTablaEstaciones = new ModeloTablaEstaciones(estaciones);
@@ -46,10 +51,10 @@ public class BuscarEstacionesTabla {
         GridBagConstraints cons1 = new GridBagConstraints();
         JTable tablaEstaciones = new JTable(modeloTablaEstaciones);
         tablaEstaciones.setFont(new Font("Dialog", Font.PLAIN, 12));
- 		cons1.gridwidth = 1;
+        cons1.gridwidth = 1;
         cons1.gridx = 0;
         cons1.gridy = 1;
-        cons1.insets = new Insets(15,0,40,0);
+        cons1.insets = new Insets(15, 0, 40, 0);
         JScrollPane pane = new JScrollPane(tablaEstaciones);
         panelBuscarEstacionesTabla.add(pane, cons1);
 
@@ -59,10 +64,13 @@ public class BuscarEstacionesTabla {
         cons2.gridx = 0;
         cons2.gridy = 3;
         cons2.fill = GridBagConstraints.HORIZONTAL;
-        cons2.insets = new Insets(30,0,60,0);
-        panelBuscarEstacionesTabla.add(botonAtras,cons2);
+        cons2.insets = new Insets(30, 0, 60, 0);
+        panelBuscarEstacionesTabla.add(botonAtras, cons2);
 
-        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(BuscarAtributosEstacion.getInstance().getPanelBuscarAtributosEstacion()); singleton = null;});
+        botonAtras.addActionListener(e -> {
+            InterfazFrame.setPanel(BuscarAtributosEstacion.getInstance().getPanelBuscarAtributosEstacion());
+            singleton = null;
+        });
 
     }
 }

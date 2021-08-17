@@ -2,6 +2,7 @@ package interfaces.registrarEstacion;
 
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+
 import dominio.EstacionDeTransbordoMultimodal;
 
 public class ModeloTablaEstaciones extends AbstractTableModel {

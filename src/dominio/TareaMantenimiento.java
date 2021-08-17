@@ -1,64 +1,66 @@
 package dominio;
+
 import java.time.LocalDate;
 
 public class TareaMantenimiento {
 
-	private Integer id;
-	private LocalDate fechaInicio; 
-	private LocalDate fechaFin; 
-	private String observaciones;
-//	private EstacionDeTransbordoMultimodal estacion; //bucle?
-	private Integer idEstacion;
-	
-	//public TareaMantenimiento(Integer id, LocalDate inicio, String observaciones, EstacionDeTransbordoMultimodal estacion) {
-	public TareaMantenimiento(Integer id, LocalDate inicio, String observaciones, Integer idEstacion) {
-		this.id = id;
-		this.fechaInicio = inicio;
-		this.fechaFin = null;
-		this.observaciones = observaciones;
-		//this.estacion = estacion;
-		//this.idEstacion = estacion.getId(); //?
-		this.idEstacion = idEstacion;
-	}
-	public TareaMantenimiento() {
-		super();
-	}
+    private Integer id;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+    private String observaciones;
+    //	private EstacionDeTransbordoMultimodal estacion; //bucle?
+    private Integer idEstacion;
 
-	public Integer getId() {
-		return id;
-	}
+    //public TareaMantenimiento(Integer id, LocalDate inicio, String observaciones, EstacionDeTransbordoMultimodal estacion) {
+    public TareaMantenimiento(Integer id, LocalDate inicio, String observaciones, Integer idEstacion) {
+        this.id = id;
+        this.fechaInicio = inicio;
+        this.fechaFin = null;
+        this.observaciones = observaciones;
+        //this.estacion = estacion;
+        //this.idEstacion = estacion.getId(); //?
+        this.idEstacion = idEstacion;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public TareaMantenimiento() {
+        super();
+    }
 
-	public LocalDate getFechaInicio() {
-		return fechaInicio;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setFechaInicio(LocalDate fechaInicio) {
-		this.fechaInicio = fechaInicio;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public LocalDate getFechaFin() {
-		return fechaFin;
-	}
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
+    }
 
-	public void setFechaFin(LocalDate fechaFin) {
-		this.fechaFin = fechaFin;
-	}
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
 
-	public String getObservaciones() {
-		return observaciones;
-	}
+    public LocalDate getFechaFin() {
+        return fechaFin;
+    }
 
-	public void setObservaciones(String observaciones) {
-		this.observaciones = observaciones;
-	}
-	
-	public void finalizarTareaMantenimiento(LocalDate fechaFin) {
-		this.fechaFin = fechaFin;
-	}
+    public void setFechaFin(LocalDate fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
+    public void finalizarTareaMantenimiento(LocalDate fechaFin) {
+        this.fechaFin = fechaFin;
+    }
 	
 	/*public EstacionDeTransbordoMultimodal getEstacion() {
 		return estacion;
@@ -66,13 +68,14 @@ public class TareaMantenimiento {
 	public void setEstacion(EstacionDeTransbordoMultimodal estacion) {
 		this.estacion = estacion;
 	}*/
-	
-	public Integer getIdEstacion() {
-		return idEstacion;
-	}
-	public void setIdEstacion(Integer idEstacion) {
-		this.idEstacion = idEstacion;
-	}	
-	
-	
+
+    public Integer getIdEstacion() {
+        return idEstacion;
+    }
+
+    public void setIdEstacion(Integer idEstacion) {
+        this.idEstacion = idEstacion;
+    }
+
+
 }

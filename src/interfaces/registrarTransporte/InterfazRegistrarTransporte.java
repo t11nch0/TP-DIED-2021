@@ -16,8 +16,8 @@ public class InterfazRegistrarTransporte {
         return panelRegistrarTransporte;
     }
 
-    public static InterfazRegistrarTransporte getInstance(){
-        if(singleton == null)
+    public static InterfazRegistrarTransporte getInstance() {
+        if (singleton == null)
             singleton = new InterfazRegistrarTransporte();
         return singleton;
     }
@@ -32,7 +32,7 @@ public class InterfazRegistrarTransporte {
         cons0.gridx = 0;
         cons0.gridy = 0;
         cons0.fill = GridBagConstraints.HORIZONTAL;
-        cons0.insets = new Insets(55,0,20,0);
+        cons0.insets = new Insets(55, 0, 20, 0);
         panelRegistrarTransporte.add(nombreMenu, cons0);
 
         GridBagConstraints cons1 = new GridBagConstraints();
@@ -40,32 +40,32 @@ public class InterfazRegistrarTransporte {
         cons1.gridx = 0;
         cons1.gridy = 1;
         cons1.fill = GridBagConstraints.BOTH;
-        cons1.insets = new Insets(40,20,10,20);
-        panelRegistrarTransporte.add(botonAlta,cons1);
+        cons1.insets = new Insets(40, 20, 10, 20);
+        panelRegistrarTransporte.add(botonAlta, cons1);
 
         GridBagConstraints cons2 = new GridBagConstraints();
         JButton botonEdicion = new JButton("Editar");
         cons2.gridx = 0;
         cons2.gridy = 2;
         cons2.fill = GridBagConstraints.BOTH;
-        cons2.insets = new Insets(10,20,10,20);
-        panelRegistrarTransporte.add(botonEdicion,cons2);
+        cons2.insets = new Insets(10, 20, 10, 20);
+        panelRegistrarTransporte.add(botonEdicion, cons2);
 
         GridBagConstraints cons3 = new GridBagConstraints();
         JButton botonBaja = new JButton("Dar Baja");
         cons3.gridx = 0;
         cons3.gridy = 3;
         cons3.fill = GridBagConstraints.BOTH;
-        cons3.insets = new Insets(10,20,10,20);
-        panelRegistrarTransporte.add(botonBaja,cons3);
+        cons3.insets = new Insets(10, 20, 10, 20);
+        panelRegistrarTransporte.add(botonBaja, cons3);
 
         GridBagConstraints cons4 = new GridBagConstraints();
         JButton botonAtributos = new JButton("Buscar Atributos");
         cons4.gridx = 0;
         cons4.gridy = 4;
         cons4.fill = GridBagConstraints.BOTH;
-        cons4.insets = new Insets(10,20,10,20);
-        panelRegistrarTransporte.add(botonAtributos,cons4);
+        cons4.insets = new Insets(10, 20, 10, 20);
+        panelRegistrarTransporte.add(botonAtributos, cons4);
 
         GridBagConstraints cons12 = new GridBagConstraints();
         JButton botonAtras = new JButton("Atras");
@@ -74,8 +74,8 @@ public class InterfazRegistrarTransporte {
         cons12.gridy = 7;
         cons12.fill = GridBagConstraints.HORIZONTAL;
         cons12.anchor = GridBagConstraints.PAGE_END;
-        cons12.insets = new Insets(40,41,60,41);
-        panelRegistrarTransporte.add(botonAtras,cons12);
+        cons12.insets = new Insets(40, 41, 60, 41);
+        panelRegistrarTransporte.add(botonAtras, cons12);
 
         botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()));
 

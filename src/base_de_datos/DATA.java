@@ -4,9 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DATA 
-{
-	private static boolean _DATA_INSERTADA = false; //?
+public class DATA {
+
+	private static boolean _DATA_INSERTADA = false;
 	
 
 	private static final String DATA_INSERT_ESTACION = 
@@ -106,45 +106,42 @@ public class DATA
 	
 
 	
-	public static void verificarInsertarData(Connection conn) 
-	{
-		if(!_DATA_INSERTADA) 
-		{
+	public static void verificarInsertarData(Connection conn) {
+
+		if(!_DATA_INSERTADA) {
+
 			Statement stmt = null;
-			try 
-			{
+
+			try {
+
 				stmt = conn.createStatement();
-				//If no insertó las de estacion, que las otra no ejecute (?)
-				//Nombre de estacion con UNIQUE + ON CONFLICT DO NOTHING
-				
-				//stmt.execute(DATA_INSERT_ESTACION);
-				if(stmt.execute(DATA_INSERT_ESTACION)) //????
-				{
-				stmt.execute(DATA_INSERT_TAREA_MANTENIMIENTO);
-				stmt.execute(DATA_INSERT_LINEA);
-				stmt.execute(DATA_INSERT_TRAYECTO);
-				stmt.execute(DATA_INSERT_RUTA);
-				stmt.execute(DATA_INSERT_CAMINO);
-				stmt.execute(DATA_INSERT_BOLETO);
+
+				if(stmt.execute(DATA_INSERT_ESTACION)) {
+
+					stmt.execute(DATA_INSERT_TAREA_MANTENIMIENTO);
+					stmt.execute(DATA_INSERT_LINEA);
+					stmt.execute(DATA_INSERT_TRAYECTO);
+					stmt.execute(DATA_INSERT_RUTA);
+					stmt.execute(DATA_INSERT_CAMINO);
+					stmt.execute(DATA_INSERT_BOLETO);
+
 				}
 				_DATA_INSERTADA = true;
-			}
-			catch (SQLException e) 
-			{
+			} catch (SQLException e) {
+
 				e.printStackTrace();
-			}
-			finally 
-			{
-					try 
-					{
+
+			} finally {
+
+					try {
+
 						if(stmt!=null) stmt.close();
-					} 
-					catch (SQLException e) 
-					{
+
+					} catch (SQLException e) {
+
 						e.printStackTrace();
 					}
 			}
 		}
 	}
-
 }

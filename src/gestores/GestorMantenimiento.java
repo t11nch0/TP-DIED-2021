@@ -13,46 +13,41 @@ import excepciones.CamposIncorrectosException;
 
 public class GestorMantenimiento {
 
-	private Mantenimiento_DAO mantenimientoDAO;
-	
-	public GestorMantenimiento() {
-		super();
-		this.mantenimientoDAO = new Mantenimiento_DAO_PostgreSQL();//?
-	}
-	
+    private Mantenimiento_DAO mantenimientoDAO;
 
-	
-	public TareaMantenimiento crearTareaMantenimiento(String observaciones, EstacionDeTransbordoMultimodal estacion) throws CamposIncorrectosException, SQLException, BaseDeDatosException
-	{ 
-		TareaMantenimiento m = new TareaMantenimiento();
-		LocalDate fechaInicio = LocalDate.now();
-		this.actualizarModelo(m, fechaInicio, null, observaciones, estacion.getId()); 
-		return mantenimientoDAO.insertarMantenimiento(m);
-	}
-	public TareaMantenimiento finalizarTareaMantenimiento(String observaciones, EstacionDeTransbordoMultimodal estacion) throws BaseDeDatosException, SQLException {
-		TareaMantenimiento m = this.buscarPorIdEstacion(estacion.getId()).get(estacion.getMantenimientos().size()-1);
-		LocalDate fechaFin = LocalDate.now();
-		this.actualizarModelo(m, m.getFechaInicio(), fechaFin, observaciones, estacion.getId()); 
-		return mantenimientoDAO.finalizarMantenimiento(m);
-	}
-	
-	public void actualizarModelo(TareaMantenimiento m, LocalDate inicio, LocalDate fin, String observaciones, Integer idEstacion)
+    public GestorMantenimiento() {
+        super();
+        this.mantenimientoDAO = new Mantenimiento_DAO_PostgreSQL();//?
+    }
 
-	{
-		m.setFechaInicio(inicio); 
-		m.setFechaFin(fin);
-		m.setObservaciones(observaciones); //
-		m.setIdEstacion(idEstacion); //?
-	}
-	
-	public List<TareaMantenimiento> listarTodos() 
-	{
-		return mantenimientoDAO.buscarTodos();
-	}
-	
-	public List<TareaMantenimiento> buscarPorIdEstacion(Integer idEstacion) 
-	{
-		return mantenimientoDAO.buscarPorIdEstacion(idEstacion);
-	}
+
+    public TareaMantenimiento crearTareaMantenimiento(String observaciones, EstacionDeTransbordoMultimodal estacion) throws CamposIncorrectosException, SQLException, BaseDeDatosException {
+        TareaMantenimiento m = new TareaMantenimiento();
+        LocalDate fechaInicio = LocalDate.now();
+        this.actualizarModelo(m, fechaInicio, null, observaciones, estacion.getId());
+        return mantenimientoDAO.insertarMantenimiento(m);
+    }
+
+    public TareaMantenimiento finalizarTareaMantenimiento(String observaciones, EstacionDeTransbordoMultimodal estacion) throws BaseDeDatosException, SQLException {
+        TareaMantenimiento m = this.buscarPorIdEstacion(estacion.getId()).get(estacion.getMantenimientos().size() - 1);
+        LocalDate fechaFin = LocalDate.now();
+        this.actualizarModelo(m, m.getFechaInicio(), fechaFin, observaciones, estacion.getId());
+        return mantenimientoDAO.finalizarMantenimiento(m);
+    }
+
+    public void actualizarModelo(TareaMantenimiento m, LocalDate inicio, LocalDate fin, String observaciones, Integer idEstacion) {
+        m.setFechaInicio(inicio);
+        m.setFechaFin(fin);
+        m.setObservaciones(observaciones); //
+        m.setIdEstacion(idEstacion); //?
+    }
+
+    public List<TareaMantenimiento> listarTodos() {
+        return mantenimientoDAO.buscarTodos();
+    }
+
+    public List<TareaMantenimiento> buscarPorIdEstacion(Integer idEstacion) {
+        return mantenimientoDAO.buscarPorIdEstacion(idEstacion);
+    }
 
 }

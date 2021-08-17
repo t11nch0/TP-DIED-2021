@@ -1,84 +1,84 @@
 package dominio;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class LineaTransporte {
 
-	private Integer id; 
-	private String nombre;
-	private String color; 
-	private EstadoLinea estado; 
-	private List<Trayecto> trayectos;
-	
-    public enum EstadoLinea 
-	{
-		ACTIVA, INACTIVA;
-	}
+    private Integer id;
+    private String nombre;
+    private String color;
+    private EstadoLinea estado;
+    private List<Trayecto> trayectos;
 
-	public LineaTransporte(Integer id, String nombre, String color, EstadoLinea estado) {
-	this.id = id;
-	this.nombre = nombre;
-	this.color = color;
-	this.estado = estado;
-	//this.trayectos = trayectos;
-	this.trayectos = new ArrayList<Trayecto>();
-	}
+    public enum EstadoLinea {
+        ACTIVA, INACTIVA
+    }
 
-	public LineaTransporte() {
-		super();
-	}
-	
-	public Integer getId() {
-		return id;
-	}
+    public LineaTransporte(Integer id, String nombre, String color, EstadoLinea estado) {
+        this.id = id;
+        this.nombre = nombre;
+        this.color = color;
+        this.estado = estado;
+        //this.trayectos = trayectos;
+        this.trayectos = new ArrayList<>();
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public LineaTransporte() {
+        super();
+    }
 
-	public String getNombre() {
-		return nombre;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getColor() {
-		return color;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public void setColor(String color) {
-		this.color = color;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public EstadoLinea getEstado() {
-		return estado;
-	}
+    public String getColor() {
+        return color;
+    }
 
-	public void setEstado(EstadoLinea estado) {
-		this.estado = estado;
-	}
-	
-	public List<Trayecto> getTrayectos() {
-		return trayectos;
-	}
+    public void setColor(String color) {
+        this.color = color;
+    }
 
-	public void setTrayectos(List<Trayecto> trayectos) {
-		this.trayectos = trayectos;
-	}
+    public EstadoLinea getEstado() {
+        return estado;
+    }
 
-	public void agregarTrayecto(Trayecto trayecto) {
-		this.trayectos.add(trayecto);
-		} 
-	
-	public void relacionarTrayectos(List<Trayecto> listaT) {
-		this.trayectos = listaT;
-	} //?
-	
-	public boolean esActiva() {
-		return(estado == EstadoLinea.ACTIVA);
-	}
-	
+    public void setEstado(EstadoLinea estado) {
+        this.estado = estado;
+    }
+
+    public List<Trayecto> getTrayectos() {
+        return trayectos;
+    }
+
+    public void setTrayectos(List<Trayecto> trayectos) {
+        this.trayectos = trayectos;
+    }
+
+    public void agregarTrayecto(Trayecto trayecto) {
+        this.trayectos.add(trayecto);
+    }
+
+    public void relacionarTrayectos(List<Trayecto> listaT) {
+        this.trayectos = listaT;
+    } //?
+
+    public boolean esActiva() {
+        return (estado == EstadoLinea.ACTIVA);
+    }
+
 }

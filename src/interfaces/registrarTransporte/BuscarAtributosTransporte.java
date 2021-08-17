@@ -1,9 +1,12 @@
 package interfaces.registrarTransporte;
 
 import interfaces.InterfazFrame;
+
 import javax.swing.*;
+
 import dominio.LineaTransporte;
 import gestores.GestorLineaTransporte;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -19,8 +22,8 @@ public class BuscarAtributosTransporte {
         return panelBuscarAtributosTransporte;
     }
 
-    public static BuscarAtributosTransporte getInstance(){
-        if(singleton == null){
+    public static BuscarAtributosTransporte getInstance() {
+        if (singleton == null) {
             singleton = new BuscarAtributosTransporte();
         }
         return singleton;
@@ -57,8 +60,8 @@ public class BuscarAtributosTransporte {
         cons2.gridx = 0;
         cons2.gridy = 1;
         cons2.fill = GridBagConstraints.HORIZONTAL;
-        cons2.insets = new Insets(10, 5 ,5 ,5);
-        panelBuscarAtributosTransporte.add(labelNombre,cons2);
+        cons2.insets = new Insets(10, 5, 5, 5);
+        panelBuscarAtributosTransporte.add(labelNombre, cons2);
 
         GridBagConstraints cons3 = new GridBagConstraints();
         JTextField campoNombre = new JTextField();
@@ -66,25 +69,25 @@ public class BuscarAtributosTransporte {
         cons3.gridx = 0;
         cons3.gridy = 2;
         cons3.fill = GridBagConstraints.HORIZONTAL;
-        cons3.insets = new Insets(5, 5 ,10 ,5);
-        panelBuscarAtributosTransporte.add(campoNombre,cons3);
+        cons3.insets = new Insets(5, 5, 10, 5);
+        panelBuscarAtributosTransporte.add(campoNombre, cons3);
 
         campoNombre.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if(campoNombre.getText().length()>29) {
+                if (campoNombre.getText().length() > 29) {
                     e.consume();
                 }
             }
         });
-        
+
         GridBagConstraints cons4 = new GridBagConstraints();
         JLabel labelColor = new JLabel("Color: ");
         cons4.gridx = 0;
         cons4.gridy = 3;
         cons4.fill = GridBagConstraints.HORIZONTAL;
-        cons4.insets = new Insets(10, 5 ,5 ,5);
-        panelBuscarAtributosTransporte.add(labelColor,cons4);
+        cons4.insets = new Insets(10, 5, 5, 5);
+        panelBuscarAtributosTransporte.add(labelColor, cons4);
 
         GridBagConstraints cons5 = new GridBagConstraints();
         JComboBox<String> campoColor = new JComboBox<>();
@@ -92,7 +95,7 @@ public class BuscarAtributosTransporte {
         cons5.gridx = 0;
         cons5.gridy = 4;
         cons5.fill = GridBagConstraints.HORIZONTAL;
-        cons5.insets = new Insets(5, 5 ,10 ,5);
+        cons5.insets = new Insets(5, 5, 10, 5);
         campoColor.addItem("Seleccionar color...");
         campoColor.addItem("ROJO");
         campoColor.addItem("AZUL");
@@ -101,15 +104,15 @@ public class BuscarAtributosTransporte {
         campoColor.addItem("NARANJA");
         campoColor.addItem("CELESTE");
         campoColor.addItem("VIOLETA");
-        panelBuscarAtributosTransporte.add(campoColor,cons5);
-        
+        panelBuscarAtributosTransporte.add(campoColor, cons5);
+
         GridBagConstraints cons6 = new GridBagConstraints();
         JLabel labelEstado = new JLabel("Estado: ");
         cons6.gridx = 0;
         cons6.gridy = 7;
         cons6.fill = GridBagConstraints.HORIZONTAL;
-        cons6.insets = new Insets(10, 5 ,5 ,5);
-        panelBuscarAtributosTransporte.add(labelEstado,cons6);
+        cons6.insets = new Insets(10, 5, 5, 5);
+        panelBuscarAtributosTransporte.add(labelEstado, cons6);
 
         GridBagConstraints cons7 = new GridBagConstraints();
         JComboBox<String> campoEstado = new JComboBox<>();
@@ -117,11 +120,11 @@ public class BuscarAtributosTransporte {
         cons7.gridx = 0;
         cons7.gridy = 8;
         cons7.fill = GridBagConstraints.HORIZONTAL;
-        cons7.insets = new Insets(5, 5 ,10 ,5);
+        cons7.insets = new Insets(5, 5, 10, 5);
         campoEstado.addItem("Seleccionar estado...");
         campoEstado.addItem("ACTIVA");
         campoEstado.addItem("INACTIVA");
-        panelBuscarAtributosTransporte.add(campoEstado,cons7);
+        panelBuscarAtributosTransporte.add(campoEstado, cons7);
 
         GridBagConstraints cons8 = new GridBagConstraints();
         JButton botonBuscar = new JButton("Buscar");
@@ -129,28 +132,32 @@ public class BuscarAtributosTransporte {
         cons8.gridx = 0;
         cons8.gridy = 9;
         cons8.fill = GridBagConstraints.HORIZONTAL;
-        cons8.insets = new Insets(40,0,20,0);
-        panelBuscarAtributosTransporte.add(botonBuscar,cons8);
-        
+        cons8.insets = new Insets(40, 0, 20, 0);
+        panelBuscarAtributosTransporte.add(botonBuscar, cons8);
+
         GridBagConstraints cons9 = new GridBagConstraints();
         JButton botonAtras = new JButton("Atras");
         cons9.gridwidth = 2;
         cons9.gridx = 0;
         cons9.gridy = 10;
         cons9.fill = GridBagConstraints.BOTH;
-        cons9.insets = new Insets(30,30,60,30);
-        panelBuscarAtributosTransporte.add(botonAtras,cons9);
+        cons9.insets = new Insets(30, 30, 60, 30);
+        panelBuscarAtributosTransporte.add(botonAtras, cons9);
 
-        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte()); singleton = null;});
+        botonAtras.addActionListener(e -> {
+            InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte());
+            singleton = null;
+        });
 
         botonBuscar.addActionListener(e -> {
 
-            String[] listaCampos = {campoNombre.getText(), Objects.requireNonNull(campoColor.getSelectedItem()).toString(),
-                                    Objects.requireNonNull(campoEstado.getSelectedItem()).toString()};
+                    String[] listaCampos = {campoNombre.getText(), Objects.requireNonNull(campoColor.getSelectedItem()).toString(),
+                            Objects.requireNonNull(campoEstado.getSelectedItem()).toString()};
 
 
-            InterfazFrame.setPanel(BuscarLineasTabla.getInstance(listaCampos).getPanelBuscarLineasTabla());}
+                    InterfazFrame.setPanel(BuscarLineasTabla.getInstance(listaCampos).getPanelBuscarLineasTabla());
+                }
         );
     }
-    
+
 }

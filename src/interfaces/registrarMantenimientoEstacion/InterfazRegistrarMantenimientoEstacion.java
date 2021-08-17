@@ -15,8 +15,8 @@ public class InterfazRegistrarMantenimientoEstacion {
         return panelRegistrarMantenimiento;
     }
 
-    public static InterfazRegistrarMantenimientoEstacion getInstance(){
-        if(singleton == null){
+    public static InterfazRegistrarMantenimientoEstacion getInstance() {
+        if (singleton == null) {
             singleton = new InterfazRegistrarMantenimientoEstacion();
 
         }
@@ -33,7 +33,7 @@ public class InterfazRegistrarMantenimientoEstacion {
         cons0.gridx = 0;
         cons0.gridy = 0;
         cons0.fill = GridBagConstraints.HORIZONTAL;
-        cons0.insets = new Insets(55,0,20,0);
+        cons0.insets = new Insets(55, 0, 20, 0);
         panelRegistrarMantenimiento.add(nombreMenu, cons0);
 
         GridBagConstraints cons1 = new GridBagConstraints();
@@ -43,7 +43,7 @@ public class InterfazRegistrarMantenimientoEstacion {
         cons1.gridx = 0;
         cons1.gridy = 1;
         cons1.fill = GridBagConstraints.BOTH;
-        cons1.insets = new Insets(10,0,40,0);
+        cons1.insets = new Insets(10, 0, 40, 0);
         panelRegistrarMantenimiento.add(campoLista, cons1);
 
         GridBagConstraints cons2 = new GridBagConstraints();
@@ -53,7 +53,7 @@ public class InterfazRegistrarMantenimientoEstacion {
         cons2.gridx = 0;
         cons2.gridy = 2;
         cons2.fill = GridBagConstraints.HORIZONTAL;
-        cons2.insets = new Insets(10,0,20,0);
+        cons2.insets = new Insets(10, 0, 20, 0);
         panelRegistrarMantenimiento.add(estadoEstacion, cons2);
 
         GridBagConstraints cons3 = new GridBagConstraints();
@@ -62,10 +62,10 @@ public class InterfazRegistrarMantenimientoEstacion {
         cons3.gridx = 0;
         cons3.gridy = 3;
         cons3.fill = GridBagConstraints.HORIZONTAL;
-        cons3.insets = new Insets(5, 5 ,20 ,5);
+        cons3.insets = new Insets(5, 5, 20, 5);
         campoEstado.addItem("Operativa");
         campoEstado.addItem("En Mantenimiento");
-        panelRegistrarMantenimiento.add(campoEstado,cons3);
+        panelRegistrarMantenimiento.add(campoEstado, cons3);
 
         GridBagConstraints cons12 = new GridBagConstraints();
         JButton botonAtras = new JButton("Atras");
@@ -74,8 +74,8 @@ public class InterfazRegistrarMantenimientoEstacion {
         cons12.gridy = 4;
         cons12.fill = GridBagConstraints.HORIZONTAL;
         cons12.anchor = GridBagConstraints.SOUTH;
-        cons12.insets = new Insets(40,0,60,0);
-        panelRegistrarMantenimiento.add(botonAtras,cons12);
+        cons12.insets = new Insets(40, 0, 60, 0);
+        panelRegistrarMantenimiento.add(botonAtras, cons12);
 
 
         botonAtras.addActionListener(e -> InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()));

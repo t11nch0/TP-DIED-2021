@@ -1,9 +1,12 @@
 package interfaces.registrarEstacion;
 
 import interfaces.InterfazFrame;
+
 import javax.swing.*;
+
 import gestores.GestorEstacion;
 import dominio.EstacionDeTransbordoMultimodal;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -20,8 +23,8 @@ public class BuscarAtributosEstacion {
         return panelBuscarAtributosEstacion;
     }
 
-    public static BuscarAtributosEstacion getInstance(){
-        if(singleton == null)
+    public static BuscarAtributosEstacion getInstance() {
+        if (singleton == null)
             singleton = new BuscarAtributosEstacion();
         return singleton;
     }
@@ -32,7 +35,7 @@ public class BuscarAtributosEstacion {
         //List<EstacionDeTransbordoMultimodal> estaciones = gestorEstacion.listarTodas();
 
         String[] horas = {"--", "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13",
-                          "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"};
+                "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"};
         String[] minutos = {"--", "00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"};
 
         GridBagConstraints cons0 = new GridBagConstraints();
@@ -197,13 +200,17 @@ public class BuscarAtributosEstacion {
         cons15.insets = new Insets(30, 30, 60, 30);
         panelBuscarAtributosEstacion.add(botonAtras, cons15);
 
-        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()); singleton = null;});
+        botonAtras.addActionListener(e -> {
+            InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion());
+            singleton = null;
+        });
 
 
         botonBuscar.addActionListener(e -> {
-            String[] listaCampos = {campoNombre.getText(), campoAHora.getSelectedItem()+":"+campoAMinutos.getSelectedItem(),
-                    campoCHora.getSelectedItem()+":"+campoCMinutos.getSelectedItem(), Objects.requireNonNull(campoEstado.getSelectedItem()).toString()};
+            String[] listaCampos = {campoNombre.getText(), campoAHora.getSelectedItem() + ":" + campoAMinutos.getSelectedItem(),
+                    campoCHora.getSelectedItem() + ":" + campoCMinutos.getSelectedItem(), Objects.requireNonNull(campoEstado.getSelectedItem()).toString()};
 
-            InterfazFrame.setPanel(BuscarEstacionesTabla.getInstance(listaCampos).getPanelBuscarEstacionesTabla());});
-        }
+            InterfazFrame.setPanel(BuscarEstacionesTabla.getInstance(listaCampos).getPanelBuscarEstacionesTabla());
+        });
     }
+}
