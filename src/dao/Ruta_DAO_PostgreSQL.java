@@ -20,6 +20,10 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 	private static final String SELECT_ALL_RUTA =
 	"SELECT * FROM died_db.ruta";  
 	
+	private static final String INSERT_RUTA =
+			"INSERT INTO died_db.ruta (ID_ORIGEN, ID_DESTINO, DISTANCIA_KILOMETROS, DURACION_VIAJE_MINUTOS, PASAJEROS_MAXIMO, ESTADO_RUTA, COSTO, ID_TRAYECTO) VALUES (?,?,?,?,?,?,?,?) RETURNING ID";
+	
+	
 	@Override
 	public List<Ruta> buscarTodas() 
 	{
@@ -42,6 +46,7 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 				r.setDistanciaKilometros(rs.getInt("DISTANCIA_KILOMETROS"));
 				r.setDuracionViajeMinutos(rs.getInt("DURACION_VIAJE_MINUTOS"));
 				r.setPasajerosMaximos(rs.getInt("PASAJEROS_MAXIMO"));
+<<<<<<< Updated upstream
 				
 				switch(rs.getString("ESTADO_RUTA"))
 				{
@@ -51,8 +56,19 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 				case "NO_ACTIVA":
 					r.setEstadoRuta(EstadoRuta.NO_ACTIVA);
 					break;
+=======
+
+				switch (rs.getString("ESTADO_RUTA")) {
+					case "ACTIVA":
+						r.setEstadoRuta(EstadoRuta.ACTIVA);
+						break;
+					case "INACTIVA":
+						r.setEstadoRuta(EstadoRuta.INACTIVA);
+						break;
+>>>>>>> Stashed changes
 				}
 				r.setCosto(rs.getDouble("COSTO"));
+				r.setIdTrayecto(rs.getInt("ID_TRAYECTO"));
 
 				lista.add(r);
 			}			
@@ -77,10 +93,58 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 }
 
 	@Override
+<<<<<<< Updated upstream
 	public Ruta insertarRuta(Ruta ruta) throws BaseDeDatosException, SQLException {
 		// TODO Auto-generated method stub //?
 		return null;
+=======
+	public void insertarRuta(Ruta ruta) throws BaseDeDatosException, SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try 
+		{
+			conn.setAutoCommit(false); 
+			pstmt= conn.prepareStatement(INSERT_RUTA);
+			pstmt.setInt(1, ruta.getOrigen().getId());
+			pstmt.setInt(2, ruta.getDestino().getId());
+			pstmt.setInt(3, ruta.getDistanciaKilometros());
+			pstmt.setInt(4, ruta.getDuracionViajeMinutos());
+			pstmt.setInt(5, ruta.getPasajerosMaximos());
+			pstmt.setString(6, ruta.getEstadoRuta().toString());
+			pstmt.setDouble(7, ruta.getCosto());
+			pstmt.setInt(8, ruta.getIdTrayecto()); //?
+			
+			rs = pstmt.executeQuery(); 
+			while(rs.next()) 
+			{
+				ruta.setId(rs.getInt("ID"));  //???/
+			} 
+			conn.commit(); 
+			
+		}
+		catch (SQLException e) 
+		{
+			conn.rollback();
+			e.printStackTrace();
+			throw new BaseDeDatosException(e.getMessage());
+		}
+		finally 
+		{
+			try 
+			{
+				if(pstmt!=null) pstmt.close();				
+			}
+			catch(SQLException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+
+>>>>>>> Stashed changes
 	}
+
+
 
 	@Override
 	public void eliminarRuta() {
@@ -116,6 +180,7 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 					ruta.setDistanciaKilometros(rs.getInt("DISTANCIA_KILOMETROS"));
 					ruta.setDuracionViajeMinutos(rs.getInt("DURACION_VIAJE_MINUTOS"));
 					ruta.setPasajerosMaximos(rs.getInt("PASAJEROS_MAXIMO"));
+<<<<<<< Updated upstream
 					
 					switch(rs.getString("ESTADO_RUTA"))
 					{
@@ -125,6 +190,16 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 					case "NO_ACTIVA":
 						ruta.setEstadoRuta(EstadoRuta.NO_ACTIVA);
 						break;
+=======
+
+					switch (rs.getString("ESTADO_RUTA")) {
+						case "ACTIVA":
+							ruta.setEstadoRuta(EstadoRuta.ACTIVA);
+							break;
+						case "INACTIVA":
+							ruta.setEstadoRuta(EstadoRuta.INACTIVA);
+							break;
+>>>>>>> Stashed changes
 					}
 					ruta.setCosto(rs.getDouble("COSTO"));
 
@@ -154,7 +229,12 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO
 	public List<Ruta> buscarPorIdTrayecto(Integer idTrayecto){
 		return this.buscarTodas()
 				.stream()
+<<<<<<< Updated upstream
 				.filter(r -> r.getTrayecto().getId() == idTrayecto)
+=======
+			//	.filter(r -> Objects.equals(r.getIdTrayecto(), idTrayecto))
+				.filter(r -> Objects.equals(r.getTrayecto().getId(), idTrayecto))
+>>>>>>> Stashed changes
 				.collect(Collectors.toList());
 	}
 

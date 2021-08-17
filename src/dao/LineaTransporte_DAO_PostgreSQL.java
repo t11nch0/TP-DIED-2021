@@ -12,6 +12,7 @@ import dominio.LineaTransporte;
 import dominio.LineaTransporte.EstadoLinea;
 import excepciones.BaseDeDatosException;
 import gestores.GestorConexion;
+import gestores.GestorTrayecto;
 
 public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 {
@@ -58,6 +59,7 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 				l.setId((rs.getInt("ID")));
 				l.setNombre(rs.getString("NOMBRE"));
 				l.setColor(rs.getString("COLOR"));
+<<<<<<< Updated upstream
 				switch(rs.getString("ESTADO_LINEA"))
 				{
 				case "ACTIVA":
@@ -66,9 +68,19 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 				case "NO_ACTIVA":
 					l.setEstado(EstadoLinea.NO_ACTIVA);
 					break;
+=======
+				switch (rs.getString("ESTADO_LINEA")) {
+					case "ACTIVA":
+						l.setEstado(EstadoLinea.ACTIVA);
+						break;
+					case "INACTIVA":
+						l.setEstado(EstadoLinea.INACTIVA);
+						break;
+>>>>>>> Stashed changes
 				}
 				// ? Lista
 				//l.setTrayectos(trayectoDAO.buscarPorIdLinea(l.getId()));
+				l.setTrayectos(trayectoDAO.buscarPorIdLinea((rs.getInt("ID"))));
 				//bucle
 				lista.add(l);
 			}			
@@ -262,6 +274,7 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 				{
 					linea.setId(rs.getInt("ID"));
 					linea.setNombre(rs.getString("NOMBRE"));
+<<<<<<< Updated upstream
 					linea.setNombre(rs.getString("COLOR"));
 					switch(rs.getString("ESTADO_LINEA"))
 					{
@@ -271,8 +284,19 @@ public class LineaTransporte_DAO_PostgreSQL implements LineaTransporte_DAO
 					case "NO_ACTIVA":
 						linea.setEstado(EstadoLinea.NO_ACTIVA);
 						break;
+=======
+					linea.setColor(rs.getString("COLOR"));
+					switch (rs.getString("ESTADO_LINEA")) {
+						case "ACTIVA":
+							linea.setEstado(EstadoLinea.ACTIVA);
+							break;
+						case "INACTIVA":
+							linea.setEstado(EstadoLinea.INACTIVA);
+							break;
+>>>>>>> Stashed changes
 					}
-					//linea.setTrayectos(trayectoDAO.buscarPorIdLinea(linea.getId())); //??
+					linea.setTrayectos(trayectoDAO.buscarPorIdLinea(linea.getId())); //??
+					//AAAAAAAAAAA
 					// bucle?
 				}
 			} 

@@ -8,24 +8,49 @@ import dao.LineaTransporte_DAO;
 import dao.LineaTransporte_DAO_PostgreSQL;
 import dominio.LineaTransporte;
 import dominio.LineaTransporte.EstadoLinea;
+import dominio.Ruta;
+import dominio.Trayecto;
 import excepciones.BaseDeDatosException;
 import excepciones.CamposIncorrectosException;
 
 public class GestorLineaTransporte {
 	
+<<<<<<< Updated upstream
 	private LineaTransporte_DAO lineaDAO;
+=======
+	private final LineaTransporte_DAO lineaDAO;
+	private List<LineaTransporte> lineas;
+	private GestorTrayecto gestorTrayecto;
+>>>>>>> Stashed changes
 	public GestorLineaTransporte() 
 	{
 		super();
 		this.lineaDAO = new LineaTransporte_DAO_PostgreSQL();
+		lineas =  new ArrayList<LineaTransporte>(this.listarTodas());
 	}
 	public LineaTransporte crearLinea(String nombre, String color, EstadoLinea estado) throws CamposIncorrectosException, SQLException, BaseDeDatosException
 	{
 		this.validarDatos(nombre);
 		LineaTransporte l = new LineaTransporte();
 		this.actualizarModelo(l, nombre, color, estado);
-		return lineaDAO.insertarLineaTransporte(l);
+		//	lineas.add(l);  //con sus ids? 
+		lineaDAO.insertarLineaTransporte(l); 
+		lineas.add(l);  // 
+		return l;
 	} 
+	
+	public void agregarLinea(String nombre, String color, EstadoLinea estado, List<Ruta> listaTrayecto) throws CamposIncorrectosException, SQLException, BaseDeDatosException{
+		LineaTransporte lineaAux;
+		lineaAux = this.crearLinea(nombre, color, estado);
+		//lista de rutas? lista de trayectos???? hacer por cada trayecto(?);
+		gestorTrayecto = new GestorTrayecto();
+		Trayecto tray = gestorTrayecto.crearTrayecto(lineaAux.getId(), listaTrayecto); //id Linea?
+		tray.relacionarLinea(lineaAux);
+		//lineaAux.relacionarTrayectos(tray); // agrego uno, pero puede tener mas? (?)
+		lineaAux.agregarTrayecto(tray); //(?) relaciono uno(?)
+		//gestor trayecots, ingresar lista de trayecots??? for?
+	
+	}
 	
 	public void validarDatos(String nombre) throws CamposIncorrectosException
 	{
@@ -81,6 +106,18 @@ public class GestorLineaTransporte {
 	{
 		return lineaDAO.buscarPorId(id);
 	}
+<<<<<<< Updated upstream
+=======
+
+	public List<LineaTransporte> getTodasLineas(){
+		return lineas;
+	}
+	
+	public List<LineaTransporte> filtrar(String[] param) throws CamposIncorrectosException, SQLException, BaseDeDatosException {
+
+		return lineaDAO.filtrar(param);
+	}
+>>>>>>> Stashed changes
 	
 }
 

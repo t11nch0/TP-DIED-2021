@@ -91,7 +91,36 @@ public class BotonEditarTransporte {
         campoColor.addItem("AMARILLO");
         campoColor.addItem("NARANJA");
         campoColor.addItem("CELESTE");
+<<<<<<< Updated upstream
         campoColor.addItem("VIOLETA");*/
+=======
+        campoColor.addItem("VIOLETA");
+      /*  switch (lin.getColor()) {
+            case "ROJO" -> campoColor.setSelectedIndex(0);
+            case "AZUL" -> campoColor.setSelectedIndex(1);
+            case "VERDE" -> campoColor.setSelectedIndex(2);
+            case "AMARILLO" -> campoColor.setSelectedIndex(3);
+            case "NARANJA" -> campoColor.setSelectedIndex(4);
+            case "CELESTE" -> campoColor.setSelectedIndex(5);
+            case "VIOLETA" -> campoColor.setSelectedIndex(6);
+        }*/
+        switch (lin.getColor()) {
+        case "ROJO":
+        	campoColor.setSelectedIndex(0);
+        case "AZUL":
+        	campoColor.setSelectedIndex(1);
+        case "VERDE":
+        	campoColor.setSelectedIndex(2);
+        case "AMARILLO":
+        	campoColor.setSelectedIndex(3);
+        case "NARANJA":
+        	campoColor.setSelectedIndex(4);
+        case "CELESTE":
+        	campoColor.setSelectedIndex(5);
+        case "VIOLETA":
+        	campoColor.setSelectedIndex(6);
+    }
+>>>>>>> Stashed changes
         panelBotonEditarTransporte.add(campoColor,cons4);
 
         GridBagConstraints cons9 = new GridBagConstraints();

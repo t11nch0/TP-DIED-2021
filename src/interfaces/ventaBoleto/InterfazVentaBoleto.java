@@ -5,14 +5,27 @@ import interfaces.InterfazPrincipal;
 
 import javax.swing.*;
 
+<<<<<<< Updated upstream
+=======
+import dominio.Camino;
+>>>>>>> Stashed changes
 import dominio.EstacionDeTransbordoMultimodal;
+import dominio.LineaTransporte;
 import dominio.Ruta;
+import dominio.Trayecto;
 import excepciones.BaseDeDatosException;
 import excepciones.CamposIncorrectosException;
 import gestores.GestorBoleto;
 import gestores.GestorCamino;
 import gestores.GestorEstacion;
+<<<<<<< Updated upstream
 
+=======
+import gestores.GestorLineaTransporte;
+import gestores.GestorRuta;
+import gestores.GestorTrayecto;
+import dominio.LineaTransporte.EstadoLinea;
+>>>>>>> Stashed changes
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -24,7 +37,15 @@ public class InterfazVentaBoleto{
 	private GestorEstacion gestorEstacion;
 	private GestorCamino gestorCamino;
 	private GestorBoleto gestorBoleto;
+<<<<<<< Updated upstream
 	private List<EstacionDeTransbordoMultimodal> estaciones;
+=======
+	private GestorTrayecto gestorTrayecto;
+	private GestorLineaTransporte gestorLinea;
+	private GestorRuta gestorRuta;
+	private List<EstacionDeTransbordoMultimodal> estaciones;
+	private List<Camino> caminos;
+>>>>>>> Stashed changes
 
     public JPanel getPanelVenta() {
         return panelVenta;
@@ -42,7 +63,15 @@ public class InterfazVentaBoleto{
         this.gestorEstacion = new GestorEstacion();
         this.gestorCamino = new GestorCamino();
         this.gestorBoleto = new GestorBoleto();
+<<<<<<< Updated upstream
         this.estaciones = gestorEstacion.listarTodas();
+=======
+        this.gestorTrayecto = new GestorTrayecto();
+        this.gestorLinea = new GestorLineaTransporte();
+        this.gestorRuta = new GestorRuta();
+        this.estaciones = gestorEstacion.listarTodas();
+      //  this.gestorTrayecto.relacionarConLineas();
+>>>>>>> Stashed changes
 
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("VENTA DE BOLETO");
@@ -71,8 +100,10 @@ public class InterfazVentaBoleto{
         cons2.gridy = 1;
         cons2.fill = GridBagConstraints.HORIZONTAL;
         cons2.insets = new Insets(35, 5 ,0 ,5);
+        campoEstacionOrigen.addItem("Seleccionar estacion...");
         for(EstacionDeTransbordoMultimodal e: estaciones) {
         	campoEstacionOrigen.addItem(e.getNombreEstacion());
+        	System.out.println(e.getNombreEstacion());
         }
         panelVenta.add(campoEstacionOrigen,cons2);
 
@@ -93,6 +124,7 @@ public class InterfazVentaBoleto{
         cons4.gridy = 2;
         cons4.fill = GridBagConstraints.HORIZONTAL;
         cons4.insets = new Insets(35, 5 ,0 ,5);
+        campoEstacionDestino.addItem("Seleccionar estacion...");
         for(EstacionDeTransbordoMultimodal e: estaciones) {
         	campoEstacionDestino.addItem(e.getNombreEstacion());
         }
@@ -165,6 +197,7 @@ public class InterfazVentaBoleto{
         	modeloBarato.clear();
         	int i = 1;
         	for(EstacionDeTransbordoMultimodal estacionO: estaciones) {
+<<<<<<< Updated upstream
             	if(campoEstacionOrigen.getSelectedItem() == estacionO.getNombreEstacion()) //?
             		{
             		for(EstacionDeTransbordoMultimodal estacionD: estaciones)
@@ -195,6 +228,56 @@ public class InterfazVentaBoleto{
             			modeloBarato.addElement("Duracion total: "+gestorCamino.caminoMasBarato(estacionO, estacionD).getDuracionTotal()+" minutos");
             			modeloBarato.addElement("Distancia total: "+gestorCamino.caminoMasBarato(estacionO, estacionD).getDistanciaTotal() +" kilometros");
             			}
+=======
+            	
+        		if(campoEstacionOrigen.getSelectedItem().equals(estacionO.getNombreEstacion())) //?
+            		{
+            		for(EstacionDeTransbordoMultimodal estacionD: estaciones)
+            			if(campoEstacionDestino.getSelectedItem().equals(estacionD.getNombreEstacion())) {
+    
+            			Camino caminoRapido = gestorCamino.caminoMasRapido(estacionO, estacionD);
+            			Camino caminoCorto = gestorCamino.caminoMasCorto(estacionO, estacionD);
+            			Camino caminoBarato = gestorCamino.caminoMasBarato(estacionO, estacionD);
+
+            			modeloRapido.addElement("Duracion total: "+caminoRapido.getDuracionTotal()+" minutos");
+            			modeloRapido.addElement("Distancia total: "+caminoRapido.getDistanciaTotal() +" kilometros");
+            			modeloRapido.addElement("Costo total: $"+caminoRapido.getCostoTotal());
+            			modeloRapido.addElement(" ");
+
+            			
+            			modeloCorto.addElement("Duracion total: "+caminoCorto.getDuracionTotal()+" minutos");
+            			modeloCorto.addElement("Distancia total: "+caminoCorto.getDistanciaTotal() +" kilometros");
+            			modeloCorto.addElement("Costo total: $"+caminoCorto.getCostoTotal());
+            			modeloCorto.addElement(" ");
+            			
+            			modeloBarato.addElement("Duracion total: "+caminoBarato.getDuracionTotal()+" minutos");
+            			modeloBarato.addElement("Distancia total: "+caminoBarato.getDistanciaTotal() +" kilometros");
+            			modeloBarato.addElement("Costo total: $"+caminoBarato.getCostoTotal());
+            			modeloBarato.addElement(" ");
+            			
+            			for(Ruta r: caminoRapido.getRutas()) {
+        		        	modeloRapido.addElement(i+"er ruta: "+r.getOrigen().getNombreEstacion()+" -> "+r.getDestino().getNombreEstacion()
+        		        			+" por "+gestorLinea.buscarPorId(r.getTrayecto().getIdLinea()).getNombre()+" - "+gestorLinea.buscarPorId(r.getTrayecto().getIdLinea()).getColor());
+        		        	i++;
+        				}
+        				i = 1;
+        				for(Ruta r: caminoCorto.getRutas()) {
+        					System.out.println(r.getEstadoRuta());
+        					modeloCorto.addElement(i+"er ruta: "+r.getOrigen().getNombreEstacion()+" -> "+r.getDestino().getNombreEstacion()
+        		        			+" por "+gestorLinea.buscarPorId(r.getTrayecto().getIdLinea()).getNombre()+" - "+gestorLinea.buscarPorId(r.getTrayecto().getIdLinea()).getColor());
+		        					//+" por "+r.getTrayecto().getLinea().getNombre()+" - "+r.getTrayecto().getLinea().getColor());
+
+        					i++;
+        		        	
+        				}
+        				i = 1;
+        				for(Ruta r: caminoBarato.getRutas()) {
+        		        	modeloBarato.addElement(i+"er ruta: "+r.getOrigen().getNombreEstacion()+" -> "+r.getDestino().getNombreEstacion()
+        		        			+" por "+gestorLinea.buscarPorId(r.getTrayecto().getIdLinea()).getNombre()+" - "+gestorLinea.buscarPorId(r.getTrayecto().getIdLinea()).getColor());
+        		        	i++;
+        				}
+            		}
+>>>>>>> Stashed changes
             		}
             }
         	listaRapido.setModel(modeloRapido);
@@ -215,10 +298,35 @@ public class InterfazVentaBoleto{
 			{
 				e1.printStackTrace();
 			}
+<<<<<<< Updated upstream
 			catch (CamposIncorrectosException e2)
 			{
 				e2.printStackTrace();
 			}
 		});
+=======
+		});
+        
+        //? verificar que este seleccionado tambien un origen?
+        campoEstacionDestino.addActionListener(e -> {
+        	//gestorEstacion.buscarPorId(idEstacion) ??? para obtener la estacion
+        	
+        	
+        	/*
+        	System.out.println("Index origen: "+campoEstacionOrigen.getSelectedIndex());
+        	System.out.println("Item origen: "+campoEstacionOrigen.getSelectedItem());
+        	System.out.println("Index origenN: "+estaciones.get(campoEstacionOrigen.getSelectedIndex()-1).getNombreEstacion());
+        	System.out.println("Index destino: "+campoEstacionDestino.getSelectedIndex());
+        	System.out.println("Item destino: "+campoEstacionDestino.getSelectedItem());
+        	System.out.println("Index origenN: "+estaciones.get(campoEstacionDestino.getSelectedIndex()-1).getNombreEstacion());
+        	*/
+        	//caminos: todos los caminos posibles entre estacion origen y desitno
+        	caminos = gestorCamino.todosCaminos(estaciones.get(campoEstacionOrigen.getSelectedIndex()-1), estaciones.get(campoEstacionDestino.getSelectedIndex()-1));
+        	
+        	// MOSTRAR EN UNA TABLA. Se selecciona un camino. y luego COMPRAR.
+        	
+        });
+        
+>>>>>>> Stashed changes
     }
 }
