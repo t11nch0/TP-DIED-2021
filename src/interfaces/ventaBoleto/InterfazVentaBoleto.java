@@ -192,10 +192,7 @@ public class InterfazVentaBoleto {
         cons12.insets = new Insets(30, 30, 60, 30);
         panelVenta.add(botonAtras, cons12);
 
-        botonAtras.addActionListener(e -> {
-            InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal());
-            singleton = null;
-        });
+        botonAtras.addActionListener(e -> { InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()); singleton = null;});
 
         botonBuscar.addActionListener(e -> {
             modeloRapido.clear();
@@ -258,6 +255,7 @@ public class InterfazVentaBoleto {
             listaCorto.setModel(modeloCorto);
             listaBarato.setModel(modeloBarato);
         });
+
         botonComprar.addActionListener(e ->
         {
 
@@ -268,6 +266,8 @@ public class InterfazVentaBoleto {
             //String argumentos = campoEstacionOrigen.getSelectedIndex()-1+campoEstacionDestino.getSelectedIndex()-1+campoListaEstaciones.getSelectedIndex();
             //Le paso el camino, el indice... ?
             //Lista de parametros para crearBoleto?
+
+            singleton = null;
             InterfazFrame.setPanel(InterfazComprarBoleto.getInstance(argumento1, argumento2, argumento3).getPanelCompraBoleto());
 
 

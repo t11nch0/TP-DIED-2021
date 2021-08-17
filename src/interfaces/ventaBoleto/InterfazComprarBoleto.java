@@ -5,12 +5,9 @@ import dominio.Ruta;
 import excepciones.BaseDeDatosException;
 import excepciones.CamposIncorrectosException;
 import gestores.GestorBoleto;
-//
 import gestores.GestorCamino;
 import dominio.Camino;
-//
 import interfaces.InterfazFrame;
-
 import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
@@ -135,17 +132,9 @@ public class InterfazComprarBoleto {
         cons12.insets = new Insets(30, 30, 60, 30);
         panelCompraBoleto.add(botonAtras, cons12);
 
-        botonAtras.addActionListener(e -> {
-            InterfazFrame.setPanel(InterfazVentaBoleto.getInstance().getPanelVenta());
-            singleton = null;
-        });
+        botonAtras.addActionListener(e -> { InterfazFrame.setPanel(InterfazVentaBoleto.getInstance().getPanelVenta()); singleton = null; });
 
         botonComprar.addActionListener(e -> {
-
-            System.out.println(camino.getOrigen().getNombreEstacion());
-            for (Ruta r : camino.getRutas()) {
-                System.out.println(" " + r.getDestino().getNombreEstacion());
-            }
 
             //Integer numeroBoleto = rd.nextInt(100) + 1;
             Integer numBoleto = (int) (Math.random() * (9999 - 1000 + 1) + 1000); //?
@@ -160,6 +149,8 @@ public class InterfazComprarBoleto {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
+
+            InterfazFrame.setPanel(InterfazVentaBoleto.getInstance().getPanelVenta());
 
         });
 
