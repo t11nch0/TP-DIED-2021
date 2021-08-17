@@ -51,6 +51,7 @@ public class InterfazVentaBoleto{
         this.gestorLinea = new GestorLineaTransporte();
         this.gestorRuta = new GestorRuta();
         this.estaciones = gestorEstacion.listarTodas();
+        
       //  this.gestorTrayecto.relacionarConLineas();
 
         GridBagConstraints cons0 = new GridBagConstraints();
@@ -83,7 +84,6 @@ public class InterfazVentaBoleto{
         campoEstacionOrigen.addItem("Seleccionar estacion...");
         for(EstacionDeTransbordoMultimodal e: estaciones) {
         	campoEstacionOrigen.addItem(e.getNombreEstacion());
-        	System.out.println(e.getNombreEstacion());
         }
         panelVenta.add(campoEstacionOrigen,cons2);
 
@@ -157,11 +157,6 @@ public class InterfazVentaBoleto{
         panelVenta.add(nombreEstaciones, cons7);
 
         DefaultListModel<String> modelo = new DefaultListModel<>();
-        /*
-        for(EstacionDeTransbordoMultimodal e: estaciones) {
-            modelo.addElement(e.getNombreEstacion());
-        }
-         */
         if(modelo.isEmpty()){ modelo.add(0, "No hay estaciones disponibles");}
 
         GridBagConstraints cons8 = new GridBagConstraints();
@@ -226,6 +221,7 @@ public class InterfazVentaBoleto{
             			modeloBarato.addElement("Costo total: $"+caminoBarato.getCostoTotal());
             			modeloBarato.addElement(" ");
             			
+            			//Saco todo?
             			for(Ruta r: caminoRapido.getRutas()) {
         		        	modeloRapido.addElement(i+"er ruta: "+r.getOrigen().getNombreEstacion()+" -> "+r.getDestino().getNombreEstacion()
         		        			+" por "+gestorLinea.buscarPorId(r.getTrayecto().getIdLinea()).getNombre()+" - "+gestorLinea.buscarPorId(r.getTrayecto().getIdLinea()).getColor());
@@ -233,7 +229,6 @@ public class InterfazVentaBoleto{
         				}
         				i = 1;
         				for(Ruta r: caminoCorto.getRutas()) {
-        					System.out.println(r.getEstadoRuta());
         					modeloCorto.addElement(i+"er ruta: "+r.getOrigen().getNombreEstacion()+" -> "+r.getDestino().getNombreEstacion()
         		        			+" por "+gestorLinea.buscarPorId(r.getTrayecto().getIdLinea()).getNombre()+" - "+gestorLinea.buscarPorId(r.getTrayecto().getIdLinea()).getColor());
 		        					//+" por "+r.getTrayecto().getLinea().getNombre()+" - "+r.getTrayecto().getLinea().getColor());
@@ -256,36 +251,47 @@ public class InterfazVentaBoleto{
         });
         botonComprar.addActionListener(e->
 		{
-			try 
-			{
-                InterfazFrame.setPanel(InterfazComprarBoleto.getInstance().getPanelCompraBoleto());
+			
+				
+			EstacionDeTransbordoMultimodal argumento1 = estaciones.get(campoEstacionOrigen.getSelectedIndex()-1);
+			EstacionDeTransbordoMultimodal argumento2 = estaciones.get(campoEstacionDestino.getSelectedIndex()-1);
+			int argumento3 = campoListaEstaciones.getSelectedIndex();
+			//String argumentos = campoEstacionOrigen.getSelectedIndex()-1+campoEstacionDestino.getSelectedIndex()-1+campoListaEstaciones.getSelectedIndex();
+			//Le paso el camino, el indice... ?
+			//Lista de parametros para crearBoleto?
+            InterfazFrame.setPanel(InterfazComprarBoleto.getInstance(argumento1, argumento2, argumento3).getPanelCompraBoleto());
+            
 
-				this.gestorBoleto.crearBoleto(null, null, null, null, null);
-
-			}
-			catch (SQLException | BaseDeDatosException | CamposIncorrectosException e1)
-			{
-				e1.printStackTrace();
-			}
 		});
         
         //? verificar que este seleccionado tambien un origen?
         campoEstacionDestino.addActionListener(e -> {
         	//gestorEstacion.buscarPorId(idEstacion) ??? para obtener la estacion
         	
+        	modelo.clear();
         	
-        	/*
-        	System.out.println("Index origen: "+campoEstacionOrigen.getSelectedIndex());
-        	System.out.println("Item origen: "+campoEstacionOrigen.getSelectedItem());
-        	System.out.println("Index origenN: "+estaciones.get(campoEstacionOrigen.getSelectedIndex()-1).getNombreEstacion());
-        	System.out.println("Index destino: "+campoEstacionDestino.getSelectedIndex());
-        	System.out.println("Item destino: "+campoEstacionDestino.getSelectedItem());
-        	System.out.println("Index origenN: "+estaciones.get(campoEstacionDestino.getSelectedIndex()-1).getNombreEstacion());
-        	*/
-        	//caminos: todos los caminos posibles entre estacion origen y desitno
+        
+        	//caminos: todos los caminos posibles entre estacion origen y destino
         	caminos = gestorCamino.todosCaminos(estaciones.get(campoEstacionOrigen.getSelectedIndex()-1), estaciones.get(campoEstacionDestino.getSelectedIndex()-1));
+            //Obtener antes todosCaminos? y usar lo mismo para rapido, barato etc
         	
-        	// MOSTRAR EN UNA TABLA. Se selecciona un camino. y luego COMPRAR.
+        	//for for?
+        	int j = 1;
+        	String aux = null;
+        	//getLetraEstacion en dominio.Estacion? .substring(8)
+        	//Ver caminos A-E, etc (lista grande)
+        	//scroll?
+        	for(Camino c: caminos) {
+            	//Numero de camino?
+            	aux = "Camino "+j+": "+c.getOrigen().getNombreEstacion().substring(8);
+            	for(Ruta r: c.getRutas()) {
+            		aux += "->"+r.getDestino().getNombreEstacion().substring(8);
+            	}
+            	modelo.addElement(aux);
+            	j++;
+            }
+
+        	
         	
         });
         
