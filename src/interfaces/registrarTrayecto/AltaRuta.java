@@ -110,7 +110,7 @@ public class AltaRuta {
         panelRegistroTrayecto.add(campoEstDestino, cons4);
 
         GridBagConstraints cons5 = new GridBagConstraints();
-        JLabel labelDistancia = new JLabel("Distancia: ");
+        JLabel labelDistancia = new JLabel("Distancia (Km): ");
         cons5.gridx = 0;
         cons5.gridy = 3;
         cons5.fill = GridBagConstraints.HORIZONTAL;
@@ -234,22 +234,16 @@ public class AltaRuta {
         	Ruta rutaNueva = null;
         	try {
 
-                System.out.println(origen);
-                System.out.println(destino);
-        		//rutaNueva = gestorRuta.crearRuta(origen, destino, distancia, duracion, pasajeros, estado, costo, null, null);
         		rutaNueva = gestorRuta.crearRuta(origen, destino, distancia, duracion, pasajeros, estado, costo);
+                rutaNueva = gestorRuta.crearRuta(destino, origen, distancia, duracion, pasajeros, estado, costo);
+
+                singleton = null;
+                InterfazFrame.setPanel(InterfazRegistrarTrayecto.getInstance().getPanelRegistroTrayecto());
 			} catch (SQLException | BaseDeDatosException e1) {
 
 				e1.printStackTrace();
 			}
-        	System.out.println(""+rutaNueva.getId());
-        	System.out.println(""+rutaNueva.getOrigen().getNombreEstacion());
-        	System.out.println(""+rutaNueva.getDestino().getNombreEstacion());
-        	System.out.println(""+rutaNueva.getDistanciaKilometros());
-        	System.out.println(""+rutaNueva.getDuracionViajeMinutos());
-        	System.out.println(""+rutaNueva.getPasajerosMaximos());
-        	System.out.println(""+rutaNueva.getCosto());
-        	System.out.println(""+rutaNueva.getEstadoRuta());
+
         });
     }
 }
