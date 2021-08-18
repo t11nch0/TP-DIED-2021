@@ -25,14 +25,14 @@
 			('2021-02-15','2021-02-25','Obs 12','10');
 			
 			INSERT INTO died_db.linea (NOMBRE, COLOR, ESTADO_LINEA)
-			VALUES ('Linea 1','Roja','ACTIVA'),
-			('Linea 2','Azul','ACTIVA'),
-			('Linea 3','Verde','ACTIVA'),
-			('Linea 4','Violeta','ACTIVA'),
-			('Linea 5','Rosada','ACTIVA'),
-			('Linea 6','Amarilla','ACTIVA'),
-			('Linea 7','Naranja','ACTIVA'),
-			('Linea 8','Marron','INACTIVA');
+			VALUES ('Linea 1','ROJO','ACTIVA'),
+			('Linea 2','AZUL','ACTIVA'),
+			('Linea 3','VERDE','ACTIVA'),
+			('Linea 4','VIOLETA','ACTIVA'),
+			('Linea 5','CELESTE','ACTIVA'),
+			('Linea 6','AMARILLO','ACTIVA'),
+			('Linea 7','NARANJA','ACTIVA'),
+			('Linea 8','ROJO','INACTIVA');
 			
 			INSERT INTO died_db.trayecto (ID_LINEA)
 			VALUES ('1'),

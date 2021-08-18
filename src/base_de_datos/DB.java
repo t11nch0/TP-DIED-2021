@@ -22,7 +22,7 @@ public class DB {
 			"		  ID SERIAL, "+
 			"         FECHA_INICIO DATE, "+
 			"         FECHA_FIN DATE, "+
-			"		  OBSERVACIONES VARCHAR(200) NULL, "+ 
+			"		  OBSERVACIONES VARCHAR(500) NULL, "+
 			"		  ID_ESTACION SERIAL, "+
 			"		  PRIMARY KEY (ID), "+
 			"         FOREIGN KEY (ID_ESTACION) REFERENCES died_db.estacion(ID))";
