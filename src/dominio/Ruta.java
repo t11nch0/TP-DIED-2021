@@ -31,8 +31,7 @@ public class Ruta {
         this.costo = costo;
         //this.trayecto = trayecto;  //null?
         this.trayecto = null;
-       // this.idTrayecto = idTrayecto;
-        this.idTrayecto = null;
+        this.idTrayecto = idTrayecto;
     }
 
     public Ruta(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino,

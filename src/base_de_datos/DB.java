@@ -23,7 +23,7 @@ public class DB {
 			"         FECHA_INICIO DATE, "+
 			"         FECHA_FIN DATE, "+
 			"		  OBSERVACIONES VARCHAR(500) NULL, "+
-			"		  ID_ESTACION SERIAL, "+ //?????
+			"		  ID_ESTACION SERIAL, "+
 			"		  PRIMARY KEY (ID), "+
 			"         FOREIGN KEY (ID_ESTACION) REFERENCES died_db.estacion(ID))";
 
@@ -39,9 +39,7 @@ public class DB {
 	private static final String TABLA_CREATE_TRAYECTO = 
 			"CREATE TABLE IF NOT EXISTS died_db.trayecto ( "+
 			"		  ID SERIAL, "+
-			"		  ID_LINEA INTEGER, "+
-			"		  ID_ORIGEN INTEGER,"+
-			"		  ID_DESTINO INTEGER,"+
+			"		  ID_LINEA INTEGER, "+ 
 			"		  PRIMARY KEY (ID), "+
 			"         FOREIGN KEY (ID_LINEA) REFERENCES died_db.linea(ID))";//?
 
@@ -55,9 +53,9 @@ public class DB {
 					"		  PASAJEROS_MAXIMO INTEGER, "+
 					"         ESTADO_RUTA VARCHAR(12) NULL, "+
 					"         COSTO DECIMAL(10,2), "+
-	//				"		  ID_TRAYECTO INTEGER, "+ //?
+					"		  ID_TRAYECTO INTEGER, "+ //?
 					"		  PRIMARY KEY (ID), "+
-//					"         FOREIGN KEY (ID_TRAYECTO) REFERENCES died_db.trayecto(ID), "+
+					"         FOREIGN KEY (ID_TRAYECTO) REFERENCES died_db.trayecto(ID), "+
 					"         FOREIGN KEY (ID_ORIGEN) REFERENCES died_db.estacion(ID), "+
 					"         FOREIGN KEY (ID_DESTINO) REFERENCES died_db.estacion(ID)) ";
 	

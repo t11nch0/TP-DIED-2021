@@ -6,14 +6,11 @@ import javax.swing.*;
 import dominio.EstacionDeTransbordoMultimodal;
 import dominio.LineaTransporte;
 import dominio.Ruta;
-import dominio.Ruta.EstadoRuta;
-import excepciones.BaseDeDatosException;
 import gestores.GestorEstacion;
 import gestores.GestorLineaTransporte;
 import gestores.GestorRuta;
 import java.util.List;
 import java.awt.*;
-import java.sql.SQLException;
 import java.util.Objects;
 
 public class AltaRuta {
@@ -96,21 +93,18 @@ public class AltaRuta {
         cons4.insets = new Insets(35, 5, 0, 5);
         campoEstDestino.addItem("Seleccionar estacion...");
 
-      /*  for (EstacionDeTransbordoMultimodal e : estaciones) {
+        for (EstacionDeTransbordoMultimodal e : estaciones) {
             if (Objects.equals(campoEstOrigen.getSelectedItem(), e.getNombreEstacion())) {
                 System.out.println(e.getNombreEstacion());
                 for (Ruta r : gestorRuta.getRutasConOrigen(e)) {
                     campoEstDestino.addItem(r.getDestino().getNombreEstacion());
                 }
             }
-        }*/
-        for (EstacionDeTransbordoMultimodal e : estaciones) {
-        	campoEstDestino.addItem(e.getNombreEstacion());
         }
         panelRegistroTrayecto.add(campoEstDestino, cons4);
 
         GridBagConstraints cons5 = new GridBagConstraints();
-        JLabel labelDistancia = new JLabel("Distancia (Km): ");
+        JLabel labelDistancia = new JLabel("Distancia: ");
         cons5.gridx = 0;
         cons5.gridy = 3;
         cons5.fill = GridBagConstraints.HORIZONTAL;
@@ -135,13 +129,13 @@ public class AltaRuta {
         panelRegistroTrayecto.add(labelTiempo, cons7);
 
         GridBagConstraints cons8 = new GridBagConstraints();
-        JTextField campoDuracion = new JTextField();
+        JTextField campoTiempo = new JTextField();
         cons8.gridwidth = 2;
         cons8.gridx = 0;
         cons8.gridy = 4;
         cons8.fill = GridBagConstraints.HORIZONTAL;
         cons8.insets = new Insets(5, 5, 10, 5);
-        panelRegistroTrayecto.add(campoDuracion, cons8);
+        panelRegistroTrayecto.add(campoTiempo, cons8);
 
         GridBagConstraints cons9 = new GridBagConstraints();
         JLabel labelPasajeros = new JLabel("Cantida pasajeros: ");
@@ -175,8 +169,8 @@ public class AltaRuta {
         cons12.gridy = 6;
         cons12.fill = GridBagConstraints.HORIZONTAL;
         cons12.insets = new Insets(5, 5, 10, 5);
-        campoEstado.addItem("ACTIVA");
-        campoEstado.addItem("INACTIVA");
+        campoEstado.addItem("ACTIVO");
+        campoEstado.addItem("INACTIVO");
         panelRegistroTrayecto.add(campoEstado, cons12);
 
         GridBagConstraints cons13 = new GridBagConstraints();
@@ -216,34 +210,6 @@ public class AltaRuta {
 
         botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazRegistrarTrayecto.getInstance().getPanelRegistroTrayecto()); singleton = null;});
 
-        botonConfirmar.addActionListener(e -> {
-        	
-        	
-        	EstacionDeTransbordoMultimodal origen = estaciones.get(campoEstOrigen.getSelectedIndex()-1); //-1?
-        	EstacionDeTransbordoMultimodal destino = estaciones.get(campoEstDestino.getSelectedIndex()-1); //-1?
-        	Integer distancia = Integer.parseInt(campoDistancia.getText()); //?
-        	Integer duracion =  Integer.parseInt(campoDuracion.getText());
-        	Integer pasajeros =  Integer.parseInt(campoPasajeros.getText());
-        	EstadoRuta estado;
-        	if (Objects.equals(campoEstado.getSelectedItem(), "ACTIVA"))
-				estado = EstadoRuta.ACTIVA;
-			else	
-				estado = EstadoRuta.INACTIVA;
-        	Double costo = Double.parseDouble(campoCosto.getText());
-        //	Ruta rutaNueva = new Ruta(origen, destino, distancia, duracion, pasajeros, estado, costo); //?
-        	Ruta rutaNueva = null;
-        	try {
 
-        		rutaNueva = gestorRuta.crearRuta(origen, destino, distancia, duracion, pasajeros, estado, costo);
-                rutaNueva = gestorRuta.crearRuta(destino, origen, distancia, duracion, pasajeros, estado, costo);
-
-                singleton = null;
-                InterfazFrame.setPanel(InterfazRegistrarTrayecto.getInstance().getPanelRegistroTrayecto());
-			} catch (SQLException | BaseDeDatosException e1) {
-
-				e1.printStackTrace();
-			}
-
-        });
     }
 }

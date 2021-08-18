@@ -25,26 +25,22 @@ public class GestorRuta {
         super();
         this.rutaDAO = new Ruta_DAO_PostgreSQL();
         rutas = new ArrayList<>(this.listarTodas());
-   //     this.relacionarConTrayectos(); //AAA
+        this.relacionarConTrayectos(); //AAA
         //	gestorTrayecto.relacionarConLineas(); //???
     }
 
- // public Ruta crearRuta(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino, Integer distancia, Integer duracion, Integer pasajeros, EstadoRuta estado, Double costo, Integer idTrayecto, Trayecto trayecto) throws SQLException, BaseDeDatosException {
-  public Ruta crearRuta(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino, Integer distancia, Integer duracion, Integer pasajeros, EstadoRuta estado, Double costo) throws SQLException, BaseDeDatosException {
+    public Ruta crearRuta(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino, Integer distancia, Integer duracion, Integer pasajeros, EstadoRuta estado, Double costo, Integer idTrayecto, Trayecto trayecto) throws SQLException, BaseDeDatosException {
         Ruta r = new Ruta();
-     //   this.actualizarModelo(r, origen, destino, distancia, duracion, pasajeros, estado, costo);
-      this.actualizarModelo(r, origen, destino, distancia, duracion, pasajeros, estado, costo, null);
+        this.actualizarModelo(r, origen, destino, distancia, duracion, pasajeros, estado, costo, idTrayecto);
         rutaDAO.insertarRuta(r);
         rutas.add(r);
-        //r.relacionarTrayecto(trayecto);
+        r.relacionarTrayecto(trayecto);
         return r;
     }
 
 
-  public void actualizarModelo(Ruta r, EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino, Integer distancia, Integer duracion, Integer pasajeros, EstadoRuta estado, Double costo, Integer idTrayecto) {
-  //	public void actualizarModelo(Ruta r, EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino, Integer distancia, Integer duracion, Integer pasajeros, EstadoRuta estado, Double costo) {
-
-    	r.setOrigen(origen);
+    public void actualizarModelo(Ruta r, EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino, Integer distancia, Integer duracion, Integer pasajeros, EstadoRuta estado, Double costo, Integer idTrayecto) {
+        r.setOrigen(origen);
         r.setDestino(destino);
         r.setDistanciaKilometros(distancia);
         r.setDuracionViajeMinutos(duracion);
@@ -52,18 +48,16 @@ public class GestorRuta {
         r.setEstadoRuta(estado);
         r.setCosto(costo);
         r.setIdTrayecto(idTrayecto);
-       // r.setIdTrayecto(null);
     }
 
-  /*  public void relacionarConTrayectos() {
+    public void relacionarConTrayectos() {
         gestorTrayecto = new GestorTrayecto();
         for (Ruta r : rutas) {
-        	//No va a funcionar? si no tengo idTrayecto
+
             Trayecto tray = (gestorTrayecto.getTodosTrayectos().stream().filter(t -> Objects.equals(t.getId(), r.getIdTrayecto())).findFirst()).get(); ///????
             r.relacionarTrayecto(tray);
-           // r.setIdTrayecto(tray.getId()); //?
         }
-    }*/
+    }
 
     //
     public List<Ruta> listarTodas() {
@@ -119,9 +113,9 @@ public class GestorRuta {
                     r.getDuracionViajeMinutos(),
                     r.getPasajerosMaximos(),
                     r.getEstadoRuta(), //?Se va a pasar un tipo EstadoEstacion?
-                    r.getCosto()//,
-                   // idTrayecto,
-                   // trayecto
+                    r.getCosto(),
+                    idTrayecto,
+                    trayecto
             );
             listaSalida.add(rutaAux);
 

@@ -265,6 +265,7 @@ public class BotonEditarEstacion {
                 this.gestorEstacion.editarEstacion(est, nombre, apertura, cierre, estado);
 
                 singleton = null;
+
                 InterfazFrame.setPanel(EditarEstacion.getInstance().getPanelEditarEstacion());
 
             } catch (SQLException | BaseDeDatosException | CamposIncorrectosException e1) {

@@ -58,11 +58,6 @@ public class GestorTrayecto {
         return TrayectoDAO.buscarPorId(id);
     }
 
-    public List<Trayecto> buscarPorIdLinea(Integer id) {
-        //	this.relacionarConLineas(); //?
-        return TrayectoDAO.buscarPorIdLinea(id);
-    }
-
     //
     public void relacionarConLineas() {
         gestorLinea = new GestorLineaTransporte();
