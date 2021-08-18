@@ -25,7 +25,6 @@ public class InterfazAgregarTrayecto {
 
     private static InterfazAgregarTrayecto singleton;
     private final JPanel panelAgregarTrayecto;
-    private final GestorRuta gestorRuta;
     private final GestorTrayecto gestorTrayecto;
     private final List<EstacionDeTransbordoMultimodal> estaciones;
 
@@ -44,7 +43,7 @@ public class InterfazAgregarTrayecto {
     private InterfazAgregarTrayecto() {
         panelAgregarTrayecto = new JPanel(new GridBagLayout());
         GestorEstacion gestorEstacion = new GestorEstacion();
-        gestorRuta = new GestorRuta();
+        GestorRuta gestorRuta = new GestorRuta();
         gestorTrayecto = new GestorTrayecto();
         GestorLineaTransporte gestorLinea = new GestorLineaTransporte();
         List<LineaTransporte> lineas = gestorLinea.getTodasLineas();
@@ -53,7 +52,7 @@ public class InterfazAgregarTrayecto {
         AtomicInteger indice = new AtomicInteger();
 
         GridBagConstraints cons0 = new GridBagConstraints();
-        JLabel nombreMenu = new JLabel("AGREGAR TRAYECTOS");
+        JLabel nombreMenu = new JLabel("     AGREGAR TRAYECTOS");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
         cons0.gridwidth = 2;
         cons0.gridx = 0;
@@ -78,7 +77,7 @@ public class InterfazAgregarTrayecto {
         cons2.gridx = 0;
         cons2.gridy = 1;
         cons2.fill = GridBagConstraints.HORIZONTAL;
-        cons2.insets = new Insets(35, 5, 0, 5);
+        cons2.insets = new Insets(35, 0, 0, 0);
         campoTransporte.addItem("Seleccionar estacion...");
         for (LineaTransporte l : lineas) {
             campoTransporte.addItem(l.getNombre());
@@ -143,35 +142,37 @@ public class InterfazAgregarTrayecto {
         panelAgregarTrayecto.add(campoEstacionDestino, cons6);
 
         GridBagConstraints cons18 = new GridBagConstraints();
-        JLabel labelDistancia = new JLabel("Distancia: ");
+        JLabel labelDistancia = new JLabel("Distancia (Km): ");
         cons18.gridx = 0;
         cons18.gridy = 3;
-        cons18.fill = GridBagConstraints.HORIZONTAL;
+        cons18.anchor = GridBagConstraints.WEST;
         cons18.insets = new Insets(10, 5, 55, 5);
         panelAgregarTrayecto.add(labelDistancia, cons18);
 
         GridBagConstraints cons7 = new GridBagConstraints();
         JTextField campoDistancia = new JTextField();
-        cons7.gridwidth = 2;
+        campoDistancia.setMinimumSize(new Dimension(1500,20));
+        cons7.gridwidth = 1;
         cons7.gridx = 0;
         cons7.gridy = 3;
         cons7.fill = GridBagConstraints.HORIZONTAL;
-        cons7.insets = new Insets(5, 5, 0, 5);
+        cons7.insets = new Insets(5, 5, 10, 5);
         panelAgregarTrayecto.add(campoDistancia, cons7);
 
         GridBagConstraints cons8 = new GridBagConstraints();
         JLabel labelTiempo = new JLabel("Tiempo (minutos): ");
-        cons8.gridx = 0;
-        cons8.gridy = 4;
-        cons8.fill = GridBagConstraints.HORIZONTAL;
+        cons8.gridx = 1;
+        cons8.gridy = 3;
+        cons8.fill = GridBagConstraints.NONE;
         cons8.insets = new Insets(10, 5, 55, 5);
         panelAgregarTrayecto.add(labelTiempo, cons8);
 
         GridBagConstraints cons9 = new GridBagConstraints();
         JTextField campoDuracion = new JTextField();
-        cons9.gridwidth = 2;
-        cons9.gridx = 0;
-        cons9.gridy = 4;
+        campoDuracion.setMinimumSize(new Dimension(150,20));
+        cons9.gridwidth = 1;
+        cons9.gridx = 1;
+        cons9.gridy = 3;
         cons9.fill = GridBagConstraints.HORIZONTAL;
         cons9.insets = new Insets(5, 5, 10, 5);
         panelAgregarTrayecto.add(campoDuracion, cons9);
@@ -179,16 +180,16 @@ public class InterfazAgregarTrayecto {
         GridBagConstraints cons10 = new GridBagConstraints();
         JLabel labelPasajeros = new JLabel("Cantida pasajeros: ");
         cons10.gridx = 0;
-        cons10.gridy = 5;
+        cons10.gridy = 4;
         cons10.fill = GridBagConstraints.HORIZONTAL;
         cons10.insets = new Insets(10, 5, 55, 5);
         panelAgregarTrayecto.add(labelPasajeros, cons10);
 
         GridBagConstraints cons11 = new GridBagConstraints();
         JTextField campoPasajeros = new JTextField();
-        cons11.gridwidth = 2;
+        cons11.gridwidth = 1;
         cons11.gridx = 0;
-        cons11.gridy = 5;
+        cons11.gridy = 4;
         cons11.fill = GridBagConstraints.HORIZONTAL;
         cons11.insets = new Insets(5, 5, 10, 5);
         panelAgregarTrayecto.add(campoPasajeros, cons11);
@@ -196,7 +197,7 @@ public class InterfazAgregarTrayecto {
         GridBagConstraints cons12 = new GridBagConstraints();
         JLabel labelEstado = new JLabel("Estado: ");
         cons12.gridx = 0;
-        cons12.gridy = 6;
+        cons12.gridy = 5;
         cons12.fill = GridBagConstraints.HORIZONTAL;
         cons12.insets = new Insets(10, 5, 55, 5);
         panelAgregarTrayecto.add(labelEstado, cons12);
@@ -205,8 +206,9 @@ public class InterfazAgregarTrayecto {
         JComboBox<String> campoEstado = new JComboBox<>();
         cons13.gridwidth = 2;
         cons13.gridx = 0;
-        cons13.gridy = 6;
-        cons13.fill = GridBagConstraints.HORIZONTAL;
+        cons13.gridy = 5;
+        cons13.fill = GridBagConstraints.NONE;
+        cons13.anchor = GridBagConstraints.WEST;
         cons13.insets = new Insets(5, 5, 10, 5);
         campoEstado.addItem("ACTIVA");
         campoEstado.addItem("INACTIVA");
@@ -214,29 +216,29 @@ public class InterfazAgregarTrayecto {
 
         GridBagConstraints cons14 = new GridBagConstraints();
         JLabel labelCosto = new JLabel("Costo en $: ");
-        cons14.gridx = 0;
-        cons14.gridy = 7;
+        cons14.gridx = 1;
+        cons14.gridy = 4;
         cons14.fill = GridBagConstraints.HORIZONTAL;
-        cons14.insets = new Insets(10, 5, 95, 5);
+        cons14.insets = new Insets(10, 5, 55, 5);
         panelAgregarTrayecto.add(labelCosto, cons14);
 
         GridBagConstraints cons15 = new GridBagConstraints();
         JTextField campoCosto = new JTextField();
-        cons15.gridwidth = 2;
-        cons15.gridx = 0;
-        cons15.gridy = 7;
+        campoCosto.setMinimumSize(new Dimension(150,20));
+        cons15.gridwidth = 1;
+        cons15.gridx = 1;
+        cons15.gridy = 4;
         cons15.fill = GridBagConstraints.HORIZONTAL;
-        cons15.insets = new Insets(5, 5, 40, 5);
+        cons15.insets = new Insets(5, 5, 10, 5);
         panelAgregarTrayecto.add(campoCosto, cons15);
 
         GridBagConstraints cons19 = new GridBagConstraints();
         JButton botonAniadir = new JButton(" A" + '\u00f1' + "adir");
-        cons19.gridwidth = 2;
-        cons19.gridx = 0;
-        cons19.gridy = 7;
+        cons19.gridwidth = 1;
+        cons19.gridx = 1;
+        cons19.gridy = 5;
         cons19.fill = GridBagConstraints.HORIZONTAL;
-        cons19.anchor = GridBagConstraints.PAGE_END;
-        cons19.insets = new Insets(35, 41, 10, 41);
+        cons19.insets = new Insets(5, 41, 10, 41);
         panelAgregarTrayecto.add(botonAniadir, cons19);
 
         DefaultListModel<String> modelo = new DefaultListModel<>();
@@ -254,7 +256,7 @@ public class InterfazAgregarTrayecto {
         cons20.gridwidth = 2;
         cons20.gridheight = 2;
         cons20.gridx = 0;
-        cons20.gridy = 8;
+        cons20.gridy = 6;
         cons20.fill = GridBagConstraints.BOTH;
         //cons20.anchor = GridBagConstraints.PAGE_END;
         cons20.insets = new Insets(15, 0, 10, 0);
@@ -274,7 +276,7 @@ public class InterfazAgregarTrayecto {
         JButton botonAtras = new JButton("Atras");
         cons17.gridwidth = 2;
         cons17.gridx = 0;
-        cons17.gridy = 12;
+        cons17.gridy = 32;
         cons17.fill = GridBagConstraints.HORIZONTAL;
         cons17.insets = new Insets(10, 0, 40, 0);
         panelAgregarTrayecto.add(botonAtras, cons17);
@@ -287,44 +289,36 @@ public class InterfazAgregarTrayecto {
         botonAniadir.addActionListener(e -> {
     		
     		
-        	if(Objects.equals(modelo.get(0), "Lista de trayectos vacia..."))
+        	if(Objects.equals(modelo.get(0), "Lista de trayectos vacia...")){
                 modelo.clear();
+        	}
 
-           // String lineaS = campoTransporte.getItemAt(campoTransporte.getSelectedIndex());
-            modelo.add(indice.get(), campoEstacionOrigen.getSelectedItem().toString() +"->"+campoEstacionDestino.getSelectedItem().toString());
-            indice.incrementAndGet();
-        	
-    		EstacionDeTransbordoMultimodal origen = estaciones.get(campoEstacionOrigen.getSelectedIndex()-1);
-    		EstacionDeTransbordoMultimodal destino = estaciones.get(campoEstacionDestino.getSelectedIndex()-1);
-        //	List<Ruta> rutaNuevaLista = new ArrayList<>(); 
-        	Integer distancia = Integer.parseInt(campoDistancia.getText()); //?
-        	Integer duracion =  Integer.parseInt(campoDuracion.getText());
-        	Integer pasajeros =  Integer.parseInt(campoPasajeros.getText());
-        	EstadoRuta estado;
-        	if (Objects.equals(campoEstado.getSelectedItem(), "ACTIVA"))
-				estado = EstadoRuta.ACTIVA;
-			else	
-				estado = EstadoRuta.INACTIVA;
-        	Double costo = Double.parseDouble(campoCosto.getText());
-        //	rutaNueva.setDistanciaKilometros(distancia);
-        	Ruta rutaNueva = new Ruta(origen, destino, distancia, duracion, pasajeros, estado, costo);
-        	rutaNuevaLista.add(rutaNueva);
-        	
-        	System.out.println("rutaNueva origen: "+rutaNueva.getOrigen().getNombreEstacion());
-        	System.out.println("rutaNueva destino: "+rutaNueva.getDestino().getNombreEstacion());
-        	System.out.println("rutaNueva distancia: "+rutaNueva.getDistanciaKilometros());
-        	System.out.println("rutaNueva duracion: "+rutaNueva.getDuracionViajeMinutos());
-        	System.out.println("rutaNueva pasajeros: "+rutaNueva.getPasajerosMaximos());
-        	System.out.println("rutaNueva estado: "+rutaNueva.getEstadoRuta());
-        	System.out.println("rutaNueva costo: "+rutaNueva.getCosto());
-        	System.out.println("  ");
-        	System.out.println("rutaNuevaLista size: "+rutaNuevaLista.size());
-    		
-        	
-        	
-        	/* if(!modelo.contains(campoEstOrigen.getSelectedItem().toString())){
-                 modelo.addElement(campoEstOrigen.getSelectedItem().toString());
-             }*/
+        	if(campoEstacionOrigen.getSelectedIndex() != campoEstacionDestino.getSelectedIndex()){
+
+                // String lineaS = campoTransporte.getItemAt(campoTransporte.getSelectedIndex());
+                modelo.add(indice.get(), campoEstacionOrigen.getSelectedItem().toString() +"->"+campoEstacionDestino.getSelectedItem().toString());
+                indice.incrementAndGet();
+
+                EstacionDeTransbordoMultimodal origen = estaciones.get(campoEstacionOrigen.getSelectedIndex()-1);
+                EstacionDeTransbordoMultimodal destino = estaciones.get(campoEstacionDestino.getSelectedIndex()-1);
+                //	List<Ruta> rutaNuevaLista = new ArrayList<>();
+                Integer distancia = Integer.parseInt(campoDistancia.getText()); //?
+                Integer duracion =  Integer.parseInt(campoDuracion.getText());
+                Integer pasajeros =  Integer.parseInt(campoPasajeros.getText());
+                EstadoRuta estado;
+                if (Objects.equals(campoEstado.getSelectedItem(), "ACTIVA"))
+                    estado = EstadoRuta.ACTIVA;
+                else
+                    estado = EstadoRuta.INACTIVA;
+                Double costo = Double.parseDouble(campoCosto.getText());
+                //	rutaNueva.setDistanciaKilometros(distancia);
+                Ruta rutaNueva = new Ruta(origen, destino, distancia, duracion, pasajeros, estado, costo);
+                rutaNuevaLista.add(rutaNueva);
+            }
+
+            campoEstacionOrigen.setSelectedIndex(campoEstacionDestino.getSelectedIndex());
+            campoEstacionOrigen.setEnabled(false);
+
         	
     	});
     
@@ -339,7 +333,7 @@ public class InterfazAgregarTrayecto {
     		try {
 			gestorTrayecto.crearTrayecto(idLinea, rutaNuevaLista);
 		} catch (CamposIncorrectosException | SQLException | BaseDeDatosException e1) {
-			// TODO Auto-generated catch block
+
 			e1.printStackTrace();
 		}
     });
