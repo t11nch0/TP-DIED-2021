@@ -199,7 +199,32 @@ public class InterfazInformacionEstacion {
             singleton = null;
         });
 
-        campoEstacionOrigen.addActionListener(e -> campoEstacionDestino.setEnabled(true));
+        campoEstacionOrigen.addActionListener(e -> {
+            campoEstacionDestino.setEnabled(true);
+
+                    if(campoEstacionDestino.getSelectedItem() != "Seleccionar estacion..."){
+
+                        //Si selecciona primero la estacion destino SE ROMPE (?)
+                        EstacionDeTransbordoMultimodal origen = null;
+                        EstacionDeTransbordoMultimodal destino = null;
+                        for (EstacionDeTransbordoMultimodal est : estaciones) {
+                            if (campoEstacionOrigen.getSelectedItem() == est.getNombreEstacion())
+                                origen = est;
+                            //else if ?
+                            if (campoEstacionDestino.getSelectedItem() == est.getNombreEstacion())
+                                destino = est;
+                        }
+
+                        if (origen != destino) {
+                            Integer flujoMax = gestorCamino.flujoMaximo(origen, destino);
+                            flujoMaximoEncontrado.setText("Flujo maximo de pasajeros: " + flujoMax.toString());
+                            //flujoMaximoEncontrado.setText(flujoMax.toString());
+                        } else {
+                            flujoMaximoEncontrado.setText("Flujo maximo de pasajeros: " + 0);
+                        }
+
+                    }
+        });
 
         campoEstacionDestino.addActionListener(e -> {
 
