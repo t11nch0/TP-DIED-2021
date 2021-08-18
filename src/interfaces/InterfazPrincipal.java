@@ -63,16 +63,6 @@ public class InterfazPrincipal {
         cons3.fill = GridBagConstraints.BOTH;
         cons3.insets = new Insets(15, 15, 15, 15);
         panelMenuPrincipal.add(boton3, cons3);
-/*
-        GridBagConstraints cons4 = new GridBagConstraints();
-        JButton boton4 = new JButton("Registrar Mantenimiento de Estación");
-        cons4.gridx = 0;
-        cons4.gridy = 4;
-        cons4.fill = GridBagConstraints.BOTH;
-        cons4.insets = new Insets(15,15,15,15);
-        panelMenuPrincipal.add(boton4,cons4);
-
- */
 
         GridBagConstraints cons5 = new GridBagConstraints();
         JButton boton5 = new JButton("Transportes");
@@ -105,8 +95,6 @@ public class InterfazPrincipal {
         boton2.addActionListener(e -> InterfazFrame.setPanel(InterfazInformacionEstacion.getInstance().getPanelInformacionEstacion()));
 
         boton3.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()));
-
-        //boton4.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarMantenimientoEstacion.getInstance().getPanelRegistrarMantenimiento()));
 
         boton5.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte()));
 
