@@ -3,14 +3,20 @@ package interfaces.registrarTrayecto;
 import dominio.EstacionDeTransbordoMultimodal;
 import dominio.LineaTransporte;
 import dominio.Ruta;
+import dominio.Ruta.EstadoRuta;
+import excepciones.BaseDeDatosException;
+import excepciones.CamposIncorrectosException;
 import gestores.GestorEstacion;
 import gestores.GestorLineaTransporte;
 import gestores.GestorRuta;
+import gestores.GestorTrayecto;
 import interfaces.InterfazFrame;
 import interfaces.InterfazPrincipal;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,6 +25,7 @@ public class InterfazAgregarTrayecto {
     private static InterfazAgregarTrayecto singleton;
     private final JPanel panelAgregarTrayecto;
     private final GestorRuta gestorRuta;
+    private final GestorTrayecto gestorTrayecto;
     private final List<EstacionDeTransbordoMultimodal> estaciones;
 
 
@@ -37,8 +44,10 @@ public class InterfazAgregarTrayecto {
         panelAgregarTrayecto = new JPanel(new GridBagLayout());
         GestorEstacion gestorEstacion = new GestorEstacion();
         gestorRuta = new GestorRuta();
+        gestorTrayecto = new GestorTrayecto();
         GestorLineaTransporte gestorLinea = new GestorLineaTransporte();
         List<LineaTransporte> lineas = gestorLinea.getTodasLineas();
+        List<Ruta> rutaNuevaLista = new ArrayList<>();
         this.estaciones = gestorEstacion.listarTodas();
 
         GridBagConstraints cons0 = new GridBagConstraints();
@@ -69,8 +78,8 @@ public class InterfazAgregarTrayecto {
         cons2.fill = GridBagConstraints.HORIZONTAL;
         cons2.insets = new Insets(35, 5, 0, 5);
         campoTransporte.addItem("Seleccionar estacion...");
-        for (LineaTransporte e : lineas) {
-            campoTransporte.addItem(e.getNombre());
+        for (LineaTransporte l : lineas) {
+            campoTransporte.addItem(l.getNombre());
         }
         panelAgregarTrayecto.add(campoTransporte, cons2);
 
@@ -157,13 +166,13 @@ public class InterfazAgregarTrayecto {
         panelAgregarTrayecto.add(labelTiempo, cons8);
 
         GridBagConstraints cons9 = new GridBagConstraints();
-        JTextField campoTiempo = new JTextField();
+        JTextField campoDuracion = new JTextField();
         cons9.gridwidth = 2;
         cons9.gridx = 0;
         cons9.gridy = 4;
         cons9.fill = GridBagConstraints.HORIZONTAL;
         cons9.insets = new Insets(5, 5, 10, 5);
-        panelAgregarTrayecto.add(campoTiempo, cons9);
+        panelAgregarTrayecto.add(campoDuracion, cons9);
 
         GridBagConstraints cons10 = new GridBagConstraints();
         JLabel labelPasajeros = new JLabel("Cantida pasajeros: ");
@@ -272,5 +281,63 @@ public class InterfazAgregarTrayecto {
             InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal());
             singleton = null;
         });
+        
+        botonAniadir.addActionListener(e -> {
+    		
+    		
+        	if(Objects.equals(modelo.get(0), "Lista de trayectos vacia..."))
+                modelo.clear();
+
+           // String lineaS = campoTransporte.getItemAt(campoTransporte.getSelectedIndex());
+        	
+        	
+        	
+        	
+    		EstacionDeTransbordoMultimodal origen = estaciones.get(campoEstacionOrigen.getSelectedIndex()-1);
+    		EstacionDeTransbordoMultimodal destino = estaciones.get(campoEstacionDestino.getSelectedIndex()-1);
+        //	List<Ruta> rutaNuevaLista = new ArrayList<>(); 
+        	Integer distancia = Integer.parseInt(campoDistancia.getText()); //?
+        	Integer duracion =  Integer.parseInt(campoDuracion.getText());
+        	Integer pasajeros =  Integer.parseInt(campoPasajeros.getText());
+        	EstadoRuta estado;
+        	if (Objects.equals(campoEstado.getSelectedItem(), "ACTIVA"))
+				estado = EstadoRuta.ACTIVA;
+			else	
+				estado = EstadoRuta.INACTIVA;
+        	Double costo = Double.parseDouble(campoCosto.getText());
+        //	rutaNueva.setDistanciaKilometros(distancia);
+        	Ruta rutaNueva = new Ruta(origen, destino, distancia, duracion, pasajeros, estado, costo);
+        	rutaNuevaLista.add(rutaNueva);
+        	
+        	System.out.println("rutaNueva origen: "+rutaNueva.getOrigen().getNombreEstacion());
+        	System.out.println("rutaNueva destino: "+rutaNueva.getDestino().getNombreEstacion());
+        	System.out.println("rutaNueva distancia: "+rutaNueva.getDistanciaKilometros());
+        	System.out.println("rutaNueva duracion: "+rutaNueva.getDuracionViajeMinutos());
+        	System.out.println("rutaNueva pasajeros: "+rutaNueva.getPasajerosMaximos());
+        	System.out.println("rutaNueva estado: "+rutaNueva.getEstadoRuta());
+        	System.out.println("rutaNueva costo: "+rutaNueva.getCosto());
+        	System.out.println("  ");
+        	System.out.println("rutaNuevaLista size: "+rutaNuevaLista.size());
+    		
+        	
+        	
+        	/* if(!modelo.contains(campoEstOrigen.getSelectedItem().toString())){
+                 modelo.addElement(campoEstOrigen.getSelectedItem().toString());
+             }*/
+        	
+    	});
+    
+    botonConfirmar.addActionListener(e -> {
+    	
+    	//meter una lista en el for de modelo? que guarde las lineas o los id;
+    	Integer idLinea = lineas.get(campoTransporte.getSelectedIndex()-1).getId();
+    	System.out.println("Linea seleccionada idLinea: "+idLinea);
+    	/*	try {
+			gestorTrayecto.crearTrayecto(idLinea, rutaNuevaLista);
+		} catch (CamposIncorrectosException | SQLException | BaseDeDatosException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
+    });
     }
 }
