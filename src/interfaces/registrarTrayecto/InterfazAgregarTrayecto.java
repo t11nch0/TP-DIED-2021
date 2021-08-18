@@ -4,8 +4,6 @@ import dominio.EstacionDeTransbordoMultimodal;
 import dominio.LineaTransporte;
 import dominio.Ruta;
 import dominio.Ruta.EstadoRuta;
-import excepciones.BaseDeDatosException;
-import excepciones.CamposIncorrectosException;
 import gestores.GestorEstacion;
 import gestores.GestorLineaTransporte;
 import gestores.GestorRuta;
@@ -15,10 +13,10 @@ import interfaces.InterfazPrincipal;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class InterfazAgregarTrayecto {
 
@@ -49,6 +47,7 @@ public class InterfazAgregarTrayecto {
         List<LineaTransporte> lineas = gestorLinea.getTodasLineas();
         List<Ruta> rutaNuevaLista = new ArrayList<>();
         this.estaciones = gestorEstacion.listarTodas();
+        AtomicInteger indice = new AtomicInteger();
 
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("AGREGAR TRAYECTOS");
@@ -289,10 +288,8 @@ public class InterfazAgregarTrayecto {
                 modelo.clear();
 
            // String lineaS = campoTransporte.getItemAt(campoTransporte.getSelectedIndex());
-            int indice = 0;
-
-            modelo.add(indice, campoEstacionOrigen.getSelectedItem().toString() +"->"+campoEstacionDestino.getSelectedItem().toString());
-            ++indice;
+            modelo.add(indice.get(), campoEstacionOrigen.getSelectedItem().toString() +"->"+campoEstacionDestino.getSelectedItem().toString());
+            indice.incrementAndGet();
         	
     		EstacionDeTransbordoMultimodal origen = estaciones.get(campoEstacionOrigen.getSelectedIndex()-1);
     		EstacionDeTransbordoMultimodal destino = estaciones.get(campoEstacionDestino.getSelectedIndex()-1);
