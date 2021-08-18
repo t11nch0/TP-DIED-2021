@@ -263,7 +263,7 @@ public class InterfazAgregarTrayecto {
         JButton botonConfirmar = new JButton("Confirmar");
         cons16.gridwidth = 2;
         cons16.gridx = 0;
-        cons16.gridy = 10;
+        cons16.gridy = 11;
         cons16.fill = GridBagConstraints.HORIZONTAL;
         cons16.insets = new Insets(10, 0, 10, 0);
         panelAgregarTrayecto.add(botonConfirmar, cons16);
@@ -272,7 +272,7 @@ public class InterfazAgregarTrayecto {
         JButton botonAtras = new JButton("Atras");
         cons17.gridwidth = 2;
         cons17.gridx = 0;
-        cons17.gridy = 11;
+        cons17.gridy = 12;
         cons17.fill = GridBagConstraints.HORIZONTAL;
         cons17.insets = new Insets(10, 0, 40, 0);
         panelAgregarTrayecto.add(botonAtras, cons17);
@@ -289,9 +289,10 @@ public class InterfazAgregarTrayecto {
                 modelo.clear();
 
            // String lineaS = campoTransporte.getItemAt(campoTransporte.getSelectedIndex());
-        	
-        	
-        	
+            int indice = 0;
+
+            modelo.add(indice, campoEstacionOrigen.getSelectedItem().toString() +"->"+campoEstacionDestino.getSelectedItem().toString());
+            ++indice;
         	
     		EstacionDeTransbordoMultimodal origen = estaciones.get(campoEstacionOrigen.getSelectedIndex()-1);
     		EstacionDeTransbordoMultimodal destino = estaciones.get(campoEstacionDestino.getSelectedIndex()-1);
