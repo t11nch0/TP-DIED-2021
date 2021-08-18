@@ -190,45 +190,6 @@ public class AltaRuta {
         cons14.insets = new Insets(5, 5, 10, 5);
         panelRegistroTrayecto.add(campoCosto, cons14);
 
-        /*
-        GridBagConstraints cons11 = new GridBagConstraints();
-        JButton botonAniadir = new JButton(" A" + '\u00f1' + "adir");
-        cons11.gridwidth = 1;
-        cons11.gridx = 0;
-        cons11.gridy = 4;
-        cons11.anchor = GridBagConstraints.EAST;
-        cons11.insets = new Insets(40, 0, 10, 0);
-        panelRegistroTrayecto.add(botonAniadir, cons11);
-
-        GridBagConstraints cons16 = new GridBagConstraints();
-        JButton botonEliminar = new JButton("Eliminar");
-        cons16.gridwidth = 1;
-        cons16.gridx = 1;
-        cons16.gridy = 4;
-        cons16.anchor = GridBagConstraints.EAST;
-        cons16.insets = new Insets(40, 0, 10, 0);
-        panelRegistroTrayecto.add(botonEliminar, cons16);
-
-        DefaultListModel<String> modelo = new DefaultListModel<>();
-        //TODO
-        for (EstacionDeTransbordoMultimodal e : estaciones) {
-            modelo.addElement(e.getNombreEstacion());
-        }
-        if (modelo.isEmpty()) {
-            modelo.add(0, "No hay trayectos disponibles");
-        }
-
-        GridBagConstraints cons11 = new GridBagConstraints();
-        JList<String> campoLista = new JList<>(modelo);
-        cons11.gridwidth = 2;
-        cons11.gridx = 0;
-        cons11.gridy = 5;
-        cons11.fill = GridBagConstraints.BOTH;
-        cons11.insets = new Insets(10, 0, 40, 0);
-        panelRegistroTrayecto.add(campoLista, cons11);
-
-
-         */
         GridBagConstraints cons15 = new GridBagConstraints();
         JButton botonConfirmar = new JButton("Confirmar");
         cons15.gridwidth = 2;
@@ -249,24 +210,6 @@ public class AltaRuta {
 
         botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazRegistrarTrayecto.getInstance().getPanelRegistroTrayecto()); singleton = null;});
 
-        /*
-        campoEstOrigen.addActionListener(e -> {
 
-            //Muestro como opcion las estaciones que tienen como origen a e1;
-            campoEstDestino.removeAllItems();
-            campoEstDestino.addItem("Seleccionar estacion...");
-            for (EstacionDeTransbordoMultimodal est : estaciones) {
-                if (Objects.equals(campoEstOrigen.getSelectedItem(), est.getNombreEstacion())) {
-
-                    //System.out.println(est.getNombreEstacion());
-                    for (Ruta r : gestorRuta.getRutasConOrigen(est)) {
-                        campoEstDestino.addItem(r.getDestino().getNombreEstacion());
-                    }
-                }
-            }
-
-        });
-
-         */
     }
 }
