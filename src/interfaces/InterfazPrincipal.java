@@ -3,6 +3,7 @@ package interfaces;
 import interfaces.informacionEstacion.InterfazInformacionEstacion;
 import interfaces.registrarTransporte.InterfazRegistrarTransporte;
 import interfaces.registrarEstacion.InterfazRegistrarEstacion;
+import interfaces.registrarTrayecto.InterfazAgregarTrayecto;
 import interfaces.registrarTrayecto.InterfazRegistrarTrayecto;
 import interfaces.ventaBoleto.InterfazVentaBoleto;
 
@@ -98,7 +99,7 @@ public class InterfazPrincipal {
 
         boton5.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte()));
 
-        boton6.addActionListener(e -> InterfazFrame.setPanel(InterfazRegistrarTrayecto.getInstance().getPanelRegistroTrayecto()));
+        boton6.addActionListener(e -> InterfazFrame.setPanel(InterfazAgregarTrayecto.getInstance().getPanelAgregarTrayecto()));
 
         boton7.addActionListener(e -> {
             Container frame = boton7.getParent();
