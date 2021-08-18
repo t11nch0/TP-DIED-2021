@@ -128,17 +128,6 @@ public class InterfazAgregarTrayecto {
         for (EstacionDeTransbordoMultimodal e : estaciones) {
             campoEstacionDestino.addItem(e.getNombreEstacion());
         }
-/*
-        for (EstacionDeTransbordoMultimodal e : estaciones) {
-            if (Objects.equals(campoEstacionOrigen.getSelectedItem(), e.getNombreEstacion())) {
-                System.out.println(e.getNombreEstacion());
-                for (Ruta r : gestorRuta.getRutasConOrigen(e)) {
-                    campoEstacionDestino.addItem(r.getDestino().getNombreEstacion());
-                }
-            }
-        }
-
- */
         panelAgregarTrayecto.add(campoEstacionDestino, cons6);
 
         GridBagConstraints cons18 = new GridBagConstraints();
@@ -151,7 +140,7 @@ public class InterfazAgregarTrayecto {
 
         GridBagConstraints cons7 = new GridBagConstraints();
         JTextField campoDistancia = new JTextField();
-        campoDistancia.setMinimumSize(new Dimension(1500,20));
+        campoDistancia.setMinimumSize(new Dimension(1500, 20));
         cons7.gridwidth = 1;
         cons7.gridx = 0;
         cons7.gridy = 3;
@@ -169,7 +158,7 @@ public class InterfazAgregarTrayecto {
 
         GridBagConstraints cons9 = new GridBagConstraints();
         JTextField campoDuracion = new JTextField();
-        campoDuracion.setMinimumSize(new Dimension(150,20));
+        campoDuracion.setMinimumSize(new Dimension(150, 20));
         cons9.gridwidth = 1;
         cons9.gridx = 1;
         cons9.gridy = 3;
@@ -224,7 +213,7 @@ public class InterfazAgregarTrayecto {
 
         GridBagConstraints cons15 = new GridBagConstraints();
         JTextField campoCosto = new JTextField();
-        campoCosto.setMinimumSize(new Dimension(150,20));
+        campoCosto.setMinimumSize(new Dimension(150, 20));
         cons15.gridwidth = 1;
         cons15.gridx = 1;
         cons15.gridy = 4;
@@ -242,11 +231,6 @@ public class InterfazAgregarTrayecto {
         panelAgregarTrayecto.add(botonAniadir, cons19);
 
         DefaultListModel<String> modelo = new DefaultListModel<>();
-        /*
-        for (EstacionDeTransbordoMultimodal e : estaciones) {
-            modelo.addElement(e.getNombreEstacion());
-        }
-         */
         if (modelo.isEmpty()) {
             modelo.add(0, "Lista de trayectos vacia...");
         }
@@ -258,7 +242,6 @@ public class InterfazAgregarTrayecto {
         cons20.gridx = 0;
         cons20.gridy = 6;
         cons20.fill = GridBagConstraints.BOTH;
-        //cons20.anchor = GridBagConstraints.PAGE_END;
         cons20.insets = new Insets(15, 0, 10, 0);
         JScrollPane pane = new JScrollPane(campoListaTrayecto);
         panelAgregarTrayecto.add(pane, cons20);
@@ -285,26 +268,26 @@ public class InterfazAgregarTrayecto {
             InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal());
             singleton = null;
         });
-        
-        botonAniadir.addActionListener(e -> {
-    		
-    		
-        	if(Objects.equals(modelo.get(0), "Lista de trayectos vacia...")){
-                modelo.clear();
-        	}
 
-        	if(campoEstacionOrigen.getSelectedIndex() != campoEstacionDestino.getSelectedIndex()){
+        botonAniadir.addActionListener(e -> {
+
+
+            if (Objects.equals(modelo.get(0), "Lista de trayectos vacia...")) {
+                modelo.clear();
+            }
+
+            if (campoEstacionOrigen.getSelectedIndex() != campoEstacionDestino.getSelectedIndex()) {
 
                 // String lineaS = campoTransporte.getItemAt(campoTransporte.getSelectedIndex());
-                modelo.add(indice.get(), campoEstacionOrigen.getSelectedItem().toString() +"->"+campoEstacionDestino.getSelectedItem().toString());
+                modelo.add(indice.get(), campoEstacionOrigen.getSelectedItem().toString() + "->" + campoEstacionDestino.getSelectedItem().toString());
                 indice.incrementAndGet();
 
-                EstacionDeTransbordoMultimodal origen = estaciones.get(campoEstacionOrigen.getSelectedIndex()-1);
-                EstacionDeTransbordoMultimodal destino = estaciones.get(campoEstacionDestino.getSelectedIndex()-1);
+                EstacionDeTransbordoMultimodal origen = estaciones.get(campoEstacionOrigen.getSelectedIndex() - 1);
+                EstacionDeTransbordoMultimodal destino = estaciones.get(campoEstacionDestino.getSelectedIndex() - 1);
                 //	List<Ruta> rutaNuevaLista = new ArrayList<>();
                 Integer distancia = Integer.parseInt(campoDistancia.getText()); //?
-                Integer duracion =  Integer.parseInt(campoDuracion.getText());
-                Integer pasajeros =  Integer.parseInt(campoPasajeros.getText());
+                Integer duracion = Integer.parseInt(campoDuracion.getText());
+                Integer pasajeros = Integer.parseInt(campoPasajeros.getText());
                 EstadoRuta estado;
                 if (Objects.equals(campoEstado.getSelectedItem(), "ACTIVA"))
                     estado = EstadoRuta.ACTIVA;
@@ -319,23 +302,23 @@ public class InterfazAgregarTrayecto {
             campoEstacionOrigen.setSelectedIndex(campoEstacionDestino.getSelectedIndex());
             campoEstacionOrigen.setEnabled(false);
 
-        	
-    	});
-    
-    botonConfirmar.addActionListener(e -> {
-    	
-    	//meter una lista en el for de modelo? que guarde las lineas o los id;
-    	Integer idLinea = lineas.get(campoTransporte.getSelectedIndex()-1).getId();
-    	System.out.println("Linea seleccionada idLinea: "+idLinea);
-    	for(Ruta r: rutaNuevaLista) {
-    		System.out.println("Ruta: "+r.getOrigen().getNombreEstacion()+" a "+r.getDestino().getNombreEstacion());
-    	}
-    		try {
-			gestorTrayecto.crearTrayecto(idLinea, rutaNuevaLista);
-		} catch (CamposIncorrectosException | SQLException | BaseDeDatosException e1) {
 
-			e1.printStackTrace();
-		}
-    });
+        });
+
+        botonConfirmar.addActionListener(e -> {
+
+            //meter una lista en el for de modelo? que guarde las lineas o los id;
+            Integer idLinea = lineas.get(campoTransporte.getSelectedIndex() - 1).getId();
+            System.out.println("Linea seleccionada idLinea: " + idLinea);
+            for (Ruta r : rutaNuevaLista) {
+                System.out.println("Ruta: " + r.getOrigen().getNombreEstacion() + " a " + r.getDestino().getNombreEstacion());
+            }
+            try {
+                gestorTrayecto.crearTrayecto(idLinea, rutaNuevaLista);
+            } catch (CamposIncorrectosException | SQLException | BaseDeDatosException e1) {
+
+                e1.printStackTrace();
+            }
+        });
     }
 }
