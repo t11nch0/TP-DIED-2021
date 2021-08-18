@@ -14,10 +14,12 @@ import dominio.Ruta;
 import dominio.Trayecto;
 import excepciones.BaseDeDatosException;
 import gestores.GestorConexion;
+import gestores.GestorTrayecto;
 
 public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO {
 
     private final Connection conn = GestorConexion.getConnection();
+    private GestorTrayecto gestorTrayecto;
 
     private static final String SELECT_ALL_TRAYECTO =
             "SELECT * FROM died_db.trayecto";
@@ -116,16 +118,17 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO {
         ResultSet rs;
 
         Ruta_DAO rutaDAO = new Ruta_DAO_PostgreSQL();
-        List<Ruta> tramos = trayecto.getTramos();
+        gestorTrayecto = new GestorTrayecto();
+      //  List<Ruta> tramos = trayecto.getTramos();
 
         try {
             conn.setAutoCommit(false);
             pstmt = conn.prepareStatement(INSERT_TRAYECTO);
 
             pstmt.setInt(1, trayecto.getIdLinea());
-            for (Ruta unaRuta : tramos) {
+           /* for (Ruta unaRuta : trayecto.getTramos()) {
                 rutaDAO.insertarRuta(unaRuta);
-            }
+            }*/
 
             rs = pstmt.executeQuery();
             while (rs.next()) {
