@@ -94,7 +94,7 @@ public class InterfazComprarBoleto {
         panelCompraBoleto.add(campoNombreCliente, cons4);
 
         GridBagConstraints cons5 = new GridBagConstraints();
-        JLabel labelCostoBoleto = new JLabel("Costo del boleto: ");
+        JLabel labelCostoBoleto = new JLabel("Costo del boleto: $");
         labelCostoBoleto.setFont(new Font("Dialog", Font.PLAIN, 15));
         cons5.gridwidth = 2;
         cons5.gridx = 0;

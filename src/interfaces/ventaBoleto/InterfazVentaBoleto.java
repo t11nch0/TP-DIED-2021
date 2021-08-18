@@ -254,7 +254,6 @@ public class InterfazVentaBoleto {
         botonComprar.addActionListener(e ->
         {
 
-
             EstacionDeTransbordoMultimodal argumento1 = estaciones.get(campoEstacionOrigen.getSelectedIndex() - 1);
             EstacionDeTransbordoMultimodal argumento2 = estaciones.get(campoEstacionDestino.getSelectedIndex() - 1);
             int argumento3 = campoListaEstaciones.getSelectedIndex();

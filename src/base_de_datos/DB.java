@@ -39,7 +39,9 @@ public class DB {
 	private static final String TABLA_CREATE_TRAYECTO = 
 			"CREATE TABLE IF NOT EXISTS died_db.trayecto ( "+
 			"		  ID SERIAL, "+
-			"		  ID_LINEA INTEGER, "+ 
+			"		  ID_LINEA INTEGER, "+
+			"		  ID_ORIGEN INTEGER,"+
+			"		  ID_DESTINO INTEGER,"+
 			"		  PRIMARY KEY (ID), "+
 			"         FOREIGN KEY (ID_LINEA) REFERENCES died_db.linea(ID))";//?
 
