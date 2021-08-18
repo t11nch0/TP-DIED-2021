@@ -208,6 +208,9 @@ public class DarAltaEstacion {
                     estado = EstadoEstacion.MANTENIMIENTO;
                 this.gestorEstacion.crearEstacion(nombre, apertura, cierre, estado);
 
+                singleton = null;
+                InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion());
+
             } catch (SQLException | BaseDeDatosException | CamposIncorrectosException e1) {
                 e1.printStackTrace();
             }

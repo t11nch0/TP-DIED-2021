@@ -215,6 +215,7 @@ public class AltaRuta {
         panelRegistroTrayecto.add(botonAtras, cons16);
 
         botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazRegistrarTrayecto.getInstance().getPanelRegistroTrayecto()); singleton = null;});
+
         botonConfirmar.addActionListener(e -> {
         	
         	
@@ -232,10 +233,13 @@ public class AltaRuta {
         //	Ruta rutaNueva = new Ruta(origen, destino, distancia, duracion, pasajeros, estado, costo); //?
         	Ruta rutaNueva = null;
         	try {
+
+                System.out.println(origen);
+                System.out.println(destino);
         		//rutaNueva = gestorRuta.crearRuta(origen, destino, distancia, duracion, pasajeros, estado, costo, null, null);
         		rutaNueva = gestorRuta.crearRuta(origen, destino, distancia, duracion, pasajeros, estado, costo);
 			} catch (SQLException | BaseDeDatosException e1) {
-				// TODO Auto-generated catch block
+
 				e1.printStackTrace();
 			}
         	System.out.println(""+rutaNueva.getId());
