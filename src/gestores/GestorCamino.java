@@ -260,13 +260,15 @@ public class GestorCamino {
         List<EstacionDeTransbordoMultimodal> estaciones = gestorEstacion.listarTodas();
         double variacion;
         double probabilidad;
+        probabilidad = 0.85; // default
         for (EstacionDeTransbordoMultimodal e : estaciones) {
             pageRanks.put(e.getId().toString(), 1.0); //inicializo todos los pR
             gradoSalida.put(e.getId().toString(), gestorRuta.getRutasConOrigen(e).size());
-            estacionesEntrantes.put(e.getId().toString(), gestorRuta.getRutasConDestino(e).stream()
-                    .map(Ruta::getOrigen).collect(Collectors.toList()));
+            estacionesEntrantes.put(e.getId().toString(), gestorRuta.getRutasConDestino(e)
+            		.stream()
+                    .map(Ruta::getOrigen)
+                    .collect(Collectors.toList()));
         }
-        probabilidad = 0.85; // default
         do {
             variacion = 0.0; //
             HashMap<String, Double> prAux = new HashMap<>();
@@ -275,9 +277,9 @@ public class GestorCamino {
                 for (EstacionDeTransbordoMultimodal estacion : estacionesEntrantes.get(e.getId().toString())) {
                     nuevoPageRank += (pageRanks.get(estacion.getId().toString()) / gradoSalida.get(estacion.getId().toString())) * probabilidad;// (/gradoSalientes)
                 }
-                double auxIteracion = Math.abs(pageRanks.get(e.getId().toString()) - nuevoPageRank); // viejo-nuevo
-                if (auxIteracion > variacion)
-                    variacion = auxIteracion;
+                double aux = Math.abs(pageRanks.get(e.getId().toString()) - nuevoPageRank); // viejo-nuevo
+                if (aux > variacion)
+                    variacion = aux;
                 prAux.put(e.getId().toString(), nuevoPageRank);
 
             }
