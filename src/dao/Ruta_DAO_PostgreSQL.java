@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +22,8 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO {
             "SELECT * FROM died_db.ruta";
 
     private static final String INSERT_RUTA =
-            "INSERT INTO died_db.ruta (ID_ORIGEN, ID_DESTINO, DISTANCIA_KILOMETROS, DURACION_VIAJE_MINUTOS, PASAJEROS_MAXIMO, ESTADO_RUTA, COSTO, ID_TRAYECTO) VALUES (?,?,?,?,?,?,?,?) RETURNING ID";
+       //     "INSERT INTO died_db.ruta (ID_ORIGEN, ID_DESTINO, DISTANCIA_KILOMETROS, DURACION_VIAJE_MINUTOS, PASAJEROS_MAXIMO, ESTADO_RUTA, COSTO, ID_TRAYECTO) VALUES (?,?,?,?,?,?,?,?) RETURNING ID";
+            "INSERT INTO died_db.ruta (ID_ORIGEN, ID_DESTINO, DISTANCIA_KILOMETROS, DURACION_VIAJE_MINUTOS, PASAJEROS_MAXIMO, ESTADO_RUTA, COSTO) VALUES (?,?,?,?,?,?,?) RETURNING ID";
 
 
     @Override
@@ -53,7 +55,7 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO {
                         break;
                 }
                 r.setCosto(rs.getDouble("COSTO"));
-                r.setIdTrayecto(rs.getInt("ID_TRAYECTO"));
+             //   r.setIdTrayecto(rs.getInt("ID_TRAYECTO"));
 
                 lista.add(r);
             }
@@ -85,8 +87,13 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO {
             pstmt.setInt(5, ruta.getPasajerosMaximos());
             pstmt.setString(6, ruta.getEstadoRuta().toString());
             pstmt.setDouble(7, ruta.getCosto());
-            pstmt.setInt(8, ruta.getIdTrayecto());
-
+     //       pstmt.setInt(8, ruta.getIdTrayecto());
+       /*     if (ruta.getIdTrayecto() != null) {
+                pstmt.setInt(8, ruta.getIdTrayecto());
+            } else {
+                pstmt.setInt(8, 0);
+            }*/
+            
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 ruta.setId(rs.getInt("ID"));
