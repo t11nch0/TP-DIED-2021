@@ -8,8 +8,6 @@ import javax.swing.*;
 import dominio.Camino;
 import dominio.EstacionDeTransbordoMultimodal;
 import dominio.Ruta;
-import excepciones.BaseDeDatosException;
-import excepciones.CamposIncorrectosException;
 import gestores.GestorBoleto;
 import gestores.GestorCamino;
 import gestores.GestorEstacion;
@@ -18,7 +16,6 @@ import gestores.GestorRuta;
 import gestores.GestorTrayecto;
 
 import java.awt.*;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,13 +23,9 @@ public class InterfazVentaBoleto {
 
     private static InterfazVentaBoleto singleton;
     private final JPanel panelVenta;
-    private GestorEstacion gestorEstacion;
-    private GestorCamino gestorCamino;
-    private GestorBoleto gestorBoleto;
-    private GestorTrayecto gestorTrayecto;
-    private GestorLineaTransporte gestorLinea;
-    private GestorRuta gestorRuta;
-    private List<EstacionDeTransbordoMultimodal> estaciones;
+    private final GestorCamino gestorCamino;
+    private final GestorLineaTransporte gestorLinea;
+    private final List<EstacionDeTransbordoMultimodal> estaciones;
     private List<Camino> caminos;
 
     public JPanel getPanelVenta() {
@@ -48,12 +41,12 @@ public class InterfazVentaBoleto {
 
     private InterfazVentaBoleto() {
         panelVenta = new JPanel(new GridBagLayout());
-        this.gestorEstacion = new GestorEstacion();
+        GestorEstacion gestorEstacion = new GestorEstacion();
         this.gestorCamino = new GestorCamino();
-        this.gestorBoleto = new GestorBoleto();
-        this.gestorTrayecto = new GestorTrayecto();
+        GestorBoleto gestorBoleto = new GestorBoleto();
+        GestorTrayecto gestorTrayecto = new GestorTrayecto();
         this.gestorLinea = new GestorLineaTransporte();
-        this.gestorRuta = new GestorRuta();
+        GestorRuta gestorRuta = new GestorRuta();
         this.estaciones = gestorEstacion.listarTodas();
 
         //  this.gestorTrayecto.relacionarConLineas();
@@ -112,6 +105,7 @@ public class InterfazVentaBoleto {
         for (EstacionDeTransbordoMultimodal e : estaciones) {
             campoEstacionDestino.addItem(e.getNombreEstacion());
         }
+        if(campoEstacionOrigen.getSelectedItem() == "Seleccionar estacion..."){ campoEstacionDestino.setEnabled(false);}
         panelVenta.add(campoEstacionDestino, cons4);
 
         JList<String> listaRapido = new JList<>();
@@ -202,9 +196,9 @@ public class InterfazVentaBoleto {
 
             for (EstacionDeTransbordoMultimodal estacionO : estaciones) {
 
-                if (Objects.equals(campoEstacionOrigen.getSelectedItem(), estacionO.getNombreEstacion())) //?
-                {
-                    for (EstacionDeTransbordoMultimodal estacionD : estaciones)
+                if (Objects.equals(campoEstacionOrigen.getSelectedItem(), estacionO.getNombreEstacion())) {
+                    for (EstacionDeTransbordoMultimodal estacionD : estaciones){
+
                         if (Objects.equals(campoEstacionDestino.getSelectedItem(), estacionD.getNombreEstacion())) {
 
                             Camino caminoRapido = gestorCamino.caminoMasRapido(estacionO, estacionD);
@@ -249,6 +243,7 @@ public class InterfazVentaBoleto {
                                 i++;
                             }
                         }
+                    }
                 }
             }
             listaRapido.setModel(modeloRapido);
@@ -273,7 +268,39 @@ public class InterfazVentaBoleto {
 
         });
 
-        //? verificar que este seleccionado tambien un origen?
+        campoEstacionOrigen.addActionListener(e -> {
+
+            campoEstacionDestino.setEnabled(true);
+
+            if(campoEstacionDestino.getSelectedItem() != "Seleccionar estacion..."){
+                modelo.clear();
+
+                //caminos: todos los caminos posibles entre estacion origen y destino
+                caminos = gestorCamino.todosCaminos(estaciones.get(campoEstacionOrigen.getSelectedIndex() - 1), estaciones.get(campoEstacionDestino.getSelectedIndex() - 1));
+                //Obtener antes todosCaminos? y usar lo mismo para rapido, barato etc
+                //for for?
+                int j = 1;
+                String aux;
+                //getLetraEstacion en dominio.Estacion? .substring(8)
+                //Ver caminos A-E, etc (lista grande)
+                //scroll?
+                for (Camino c : caminos) {
+                    //Numero de camino?
+                    aux = "Camino " + j + ": " + c.getOrigen().getNombreEstacion().substring(8);
+                    for (Ruta r : c.getRutas()) {
+                        aux += "->" + r.getDestino().getNombreEstacion().substring(8);
+                    }
+                    modelo.addElement(aux);
+                    j++;
+                }
+
+                if (modelo.isEmpty()) {
+                    modelo.add(0, "No hay estaciones disponibles");
+                    campoListaEstaciones.setModel(modelo);
+                }
+            }
+        });
+
         campoEstacionDestino.addActionListener(e -> {
             //gestorEstacion.buscarPorId(idEstacion) ??? para obtener la estacion
 
@@ -300,6 +327,10 @@ public class InterfazVentaBoleto {
                 j++;
             }
 
+            if (modelo.isEmpty()) {
+                modelo.add(0, "No hay estaciones disponibles");
+                campoListaEstaciones.setModel(modelo);
+            }
 
         });
 

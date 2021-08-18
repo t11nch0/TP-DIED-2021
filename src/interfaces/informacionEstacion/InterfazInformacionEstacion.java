@@ -110,6 +110,7 @@ public class InterfazInformacionEstacion {
         for (EstacionDeTransbordoMultimodal e : estaciones) {
             campoEstacionDestino.addItem(e.getNombreEstacion());
         }
+        if(campoEstacionOrigen.getSelectedItem() == "Seleccionar estacion..."){ campoEstacionDestino.setEnabled(false); }
         panelInformacionEstacion.add(campoEstacionDestino, cons6);
 
         GridBagConstraints cons7 = new GridBagConstraints();
@@ -191,13 +192,12 @@ public class InterfazInformacionEstacion {
         cons12.insets = new Insets(10, 30, 10, 100);
         panelInformacionEstacion.add(botonAtras, cons12);
 
-        botonAtras.addActionListener(e -> {
-            InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal());
-            singleton = null;
-        });
+        botonAtras.addActionListener(e -> { InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()); singleton = null; });
 
-        campoEstacionDestino.addActionListener(e ->
-        {
+        campoEstacionOrigen.addActionListener(e -> campoEstacionDestino.setEnabled(true));
+
+        campoEstacionDestino.addActionListener(e -> {
+
             //Si selecciona primero la estacion destino SE ROMPE (?)
             EstacionDeTransbordoMultimodal origen = null;
             EstacionDeTransbordoMultimodal destino = null;
@@ -209,9 +209,15 @@ public class InterfazInformacionEstacion {
                     destino = est;
             }
 
-            Integer flujoMax = gestorCamino.flujoMaximo(origen, destino);
-            flujoMaximoEncontrado.setText("Flujo maximo de pasajeros: " + flujoMax.toString());
-            //flujoMaximoEncontrado.setText(flujoMax.toString());
+            if(origen != destino){
+                Integer flujoMax = gestorCamino.flujoMaximo(origen, destino);
+                flujoMaximoEncontrado.setText("Flujo maximo de pasajeros: " + flujoMax.toString());
+                //flujoMaximoEncontrado.setText(flujoMax.toString());
+            }else{
+                flujoMaximoEncontrado.setText("Flujo maximo de pasajeros: " + 0);
+            }
+
+
         });
     }
 }

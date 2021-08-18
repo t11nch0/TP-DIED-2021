@@ -181,7 +181,7 @@ public class GestorCamino {
         return caminoCorto;
     }
 
-    public Camino caminoMasRapido(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino) {
+    public Camino caminoMasRapido(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino){
 
         List<Camino> lista = this.todosCaminos(origen, destino);
 

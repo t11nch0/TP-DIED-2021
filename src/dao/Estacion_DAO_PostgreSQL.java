@@ -207,6 +207,41 @@ public class Estacion_DAO_PostgreSQL implements Estacion_DAO {
         try {
 
             conn.setAutoCommit(false);
+            pstmt = conn.prepareStatement("DELETE FROM died_db.boleto WHERE (id_origen  = ? OR id_destino = ?);");
+
+            pstmt.setInt(1, estacion.getId());
+            pstmt.setInt(2, estacion.getId());
+
+            pstmt.executeUpdate();
+            conn.commit();
+            //----------------------------------------------------------------------------------------------------
+            conn.setAutoCommit(false);
+            pstmt = conn.prepareStatement("DELETE FROM died_db.camino WHERE (id_origen  = ? OR id_destino = ?);");
+
+            pstmt.setInt(1, estacion.getId());
+            pstmt.setInt(2, estacion.getId());
+
+            pstmt.executeUpdate();
+            conn.commit();
+            //----------------------------------------------------------------------------------------------------
+            conn.setAutoCommit(false);
+            pstmt = conn.prepareStatement("DELETE FROM died_db.ruta WHERE (id_origen  = ? OR id_destino = ?);");
+
+            pstmt.setInt(1, estacion.getId());
+            pstmt.setInt(2, estacion.getId());
+
+            pstmt.executeUpdate();
+            conn.commit();
+            //----------------------------------------------------------------------------------------------------
+            conn.setAutoCommit(false);
+            pstmt = conn.prepareStatement("DELETE FROM died_db.tarea_mantenimiento WHERE id_estacion = ?;");
+
+            pstmt.setInt(1, estacion.getId());
+
+            pstmt.executeUpdate();
+            conn.commit();
+            //----------------------------------------------------------------------------------------------------
+            conn.setAutoCommit(false);
             pstmt = conn.prepareStatement("DELETE FROM died_db.estacion WHERE ID = ?");
 
             pstmt.setInt(1, estacion.getId());
