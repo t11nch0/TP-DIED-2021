@@ -59,7 +59,7 @@ public class DB {
 					"         FOREIGN KEY (ID_ORIGEN) REFERENCES died_db.estacion(ID), "+
 					"         FOREIGN KEY (ID_DESTINO) REFERENCES died_db.estacion(ID)) ";
 	
-	private static final String TABLA_CREATE_CAMINO = 
+/*	private static final String TABLA_CREATE_CAMINO = 
 			"CREATE TABLE IF NOT EXISTS died_db.camino ( "+
 			"		  ID SERIAL, "+
 			"		  DISTANCIA_TOTAL INTEGER, "+
@@ -70,7 +70,7 @@ public class DB {
 			"		  PRIMARY KEY (ID), "+
 			"         FOREIGN KEY (ID_ORIGEN) REFERENCES died_db.estacion(ID), "+
 			"         FOREIGN KEY (ID_DESTINO) REFERENCES died_db.estacion(ID)) ";
-	
+*/
 	private static final String TABLA_CREATE_BOLETO = 
 			"CREATE TABLE IF NOT EXISTS died_db.boleto ( "+
 			"		  ID SERIAL, "+
@@ -80,7 +80,7 @@ public class DB {
 			"		  FECHA_VENTA DATE, "+
 			"		  ID_ORIGEN INTEGER, "+
 			"		  ID_DESTINO INTEGER, "+
-			"		  ID_CAMINO INTEGER, "+
+			"		  CAMINO VARCHAR(30), "+
 			"         COSTO DECIMAL(14,2), "+
 			"		  PRIMARY KEY (ID), "+
 			"         FOREIGN KEY (ID_ORIGEN) REFERENCES died_db.estacion(ID), "+
@@ -101,7 +101,7 @@ public class DB {
 				stmt.execute(TABLA_CREATE_LINEA);
 				stmt.execute(TABLA_CREATE_TRAYECTO);
 				stmt.execute(TABLA_CREATE_RUTA);
-				stmt.execute(TABLA_CREATE_CAMINO);
+			//	stmt.execute(TABLA_CREATE_CAMINO);
 				stmt.execute(TABLA_CREATE_BOLETO);
 				_TABLAS_CREADAS = true;
 
