@@ -298,6 +298,10 @@ public class InterfazAgregarTrayecto {
                 rutaNuevaLista.add(rutaNueva);
             }
 
+            campoDistancia.setText("");
+            campoDuracion.setText("");
+            campoPasajeros.setText("");
+            campoCosto.setText("");
             campoEstacionOrigen.setSelectedIndex(campoEstacionDestino.getSelectedIndex());
             campoEstacionOrigen.setEnabled(false);
 
@@ -308,11 +312,19 @@ public class InterfazAgregarTrayecto {
 
             Integer idLinea = lineas.get(campoTransporte.getSelectedIndex() - 1).getId();
             System.out.println("Linea seleccionada idLinea: " + idLinea);
+            /*
             for (Ruta r : rutaNuevaLista) {
                 System.out.println("Ruta: " + r.getOrigen().getNombreEstacion() + " a " + r.getDestino().getNombreEstacion());
             }
+             */
             try {
+
                 gestorTrayecto.crearTrayecto(idLinea, rutaNuevaLista);
+
+                singleton = null;
+
+                InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal());
+
             } catch (CamposIncorrectosException | SQLException | BaseDeDatosException e1) {
 
                 e1.printStackTrace();
