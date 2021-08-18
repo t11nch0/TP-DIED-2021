@@ -33,6 +33,7 @@ public class GestorTrayecto {
         //Lista de Rutas??? (tramos)
         Trayecto t = new Trayecto();
         t.setIdLinea(idLinea);
+        t.setTramos(listaTramos);
         TrayectoDAO.insertarTrayecto(t);
         trayectos.add(t);  //?
         //
