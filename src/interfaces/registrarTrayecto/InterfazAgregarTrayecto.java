@@ -4,6 +4,8 @@ import dominio.EstacionDeTransbordoMultimodal;
 import dominio.LineaTransporte;
 import dominio.Ruta;
 import dominio.Ruta.EstadoRuta;
+import excepciones.BaseDeDatosException;
+import excepciones.CamposIncorrectosException;
 import gestores.GestorEstacion;
 import gestores.GestorLineaTransporte;
 import gestores.GestorRuta;
@@ -13,6 +15,7 @@ import interfaces.InterfazPrincipal;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -205,8 +208,8 @@ public class InterfazAgregarTrayecto {
         cons13.gridy = 6;
         cons13.fill = GridBagConstraints.HORIZONTAL;
         cons13.insets = new Insets(5, 5, 10, 5);
-        campoEstado.addItem("ACTIVO");
-        campoEstado.addItem("INACTIVO");
+        campoEstado.addItem("ACTIVA");
+        campoEstado.addItem("INACTIVA");
         panelAgregarTrayecto.add(campoEstado, cons13);
 
         GridBagConstraints cons14 = new GridBagConstraints();
@@ -330,12 +333,15 @@ public class InterfazAgregarTrayecto {
     	//meter una lista en el for de modelo? que guarde las lineas o los id;
     	Integer idLinea = lineas.get(campoTransporte.getSelectedIndex()-1).getId();
     	System.out.println("Linea seleccionada idLinea: "+idLinea);
-    	/*	try {
+    	for(Ruta r: rutaNuevaLista) {
+    		System.out.println("Ruta: "+r.getOrigen().getNombreEstacion()+" a "+r.getDestino().getNombreEstacion());
+    	}
+    		try {
 			gestorTrayecto.crearTrayecto(idLinea, rutaNuevaLista);
 		} catch (CamposIncorrectosException | SQLException | BaseDeDatosException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}*/
+		}
     });
     }
 }
