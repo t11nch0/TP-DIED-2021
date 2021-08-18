@@ -151,6 +151,9 @@ public class DarAltaTransporte {
                     estado = EstadoLinea.INACTIVA;
                 gestorLinea.crearLinea(nombre, color, estado);
 
+                singleton = null;
+                InterfazFrame.setPanel(InterfazRegistrarTransporte.getInstance().getPanelRegistrarTransporte());
+
             } catch (SQLException | BaseDeDatosException | CamposIncorrectosException e1) {
 
                 e1.printStackTrace();

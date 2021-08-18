@@ -7,20 +7,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 import dominio.Camino;
 import dominio.EstacionDeTransbordoMultimodal;
-import dominio.EstacionDeTransbordoMultimodal.EstadoEstacion;
 import dominio.Ruta;
 import excepciones.BaseDeDatosException;
 import excepciones.CamposIncorrectosException;
 
 public class GestorCamino {
 
-    private GestorRuta gestorRuta;
-    private GestorEstacion gestorEstacion;
-    private GestorTrayecto gestorTrayecto; //?
-    private GestorLineaTransporte gestorLinea;
+    private final GestorRuta gestorRuta;
+    private final GestorEstacion gestorEstacion;
     //
     //List<Camino> listaCaminos; //?
     Integer listaCaminoSize = 0;
@@ -28,9 +24,10 @@ public class GestorCamino {
     public GestorCamino() {
         super();
         this.gestorRuta = new GestorRuta();
-        this.gestorTrayecto = new GestorTrayecto(); //?
+        //?
+        GestorTrayecto gestorTrayecto = new GestorTrayecto(); //?
         this.gestorEstacion = new GestorEstacion();
-        this.gestorLinea = new GestorLineaTransporte();
+        GestorLineaTransporte gestorLinea = new GestorLineaTransporte();
     }
 
     public Camino crearCamino(Integer distancia, Integer duracion, Double costo, EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino) throws CamposIncorrectosException, SQLException, BaseDeDatosException {
@@ -181,7 +178,7 @@ public class GestorCamino {
         return caminoCorto;
     }
 
-    public Camino caminoMasRapido(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino){
+    public Camino caminoMasRapido(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino) {
 
         List<Camino> lista = this.todosCaminos(origen, destino);
 

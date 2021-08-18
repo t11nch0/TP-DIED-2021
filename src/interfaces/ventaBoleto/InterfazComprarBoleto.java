@@ -143,16 +143,15 @@ public class InterfazComprarBoleto {
             LocalDate fechaBoleto = LocalDate.now();
             try {
 
-                gestorBoleto.crearBoleto(numBoleto, email, nombre, fechaBoleto, camino);
+                if(!(campoEmailCliente.getText().isEmpty() || campoNombreCliente.getText().isEmpty())){
+                    gestorBoleto.crearBoleto(numBoleto, email, nombre, fechaBoleto, camino);
+                    InterfazFrame.setPanel(InterfazVentaBoleto.getInstance().getPanelVenta());
+                }
 
             } catch (CamposIncorrectosException | SQLException | BaseDeDatosException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
 
-            InterfazFrame.setPanel(InterfazVentaBoleto.getInstance().getPanelVenta());
-
         });
-
     }
 }

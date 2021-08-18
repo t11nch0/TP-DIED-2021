@@ -174,6 +174,8 @@ public class BotonEditarTransporte {
 
                 gestorLinea.editarLinea(lin, nombre, color, estado);
 
+                singleton = null;
+                InterfazFrame.setPanel(EditarTransporte.getInstance().getPanelEditarTransporte());
 
             } catch (CamposIncorrectosException | SQLException | BaseDeDatosException ex) {
                 ex.printStackTrace();
