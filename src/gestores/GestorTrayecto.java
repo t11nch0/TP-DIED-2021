@@ -30,17 +30,16 @@ public class GestorTrayecto {
     }
 
     public Trayecto crearTrayecto(Integer idLinea, List<Ruta> listaTramos) throws CamposIncorrectosException, SQLException, BaseDeDatosException {
-        //Lista de Rutas??? (tramos)
+
         Trayecto t = new Trayecto();
         t.setIdLinea(idLinea);
         t.setTramos(listaTramos);
         TrayectoDAO.insertarTrayecto(t);
-        trayectos.add(t);  //?
-        //
+        trayectos.add(t);
         gestorRuta = new GestorRuta();
-        List<Ruta> listaRuta = gestorRuta.agregarRutas(t.getId(), listaTramos, t); //t.getId();
+        List<Ruta> listaRuta = gestorRuta.agregarRutas(t.getId(), listaTramos, t);
         t.relacionarTramos(listaRuta);
-        t.relacionarLinea(gestorLinea.buscarPorId(idLinea)); //buscarConId?
+        t.relacionarLinea(gestorLinea.buscarPorId(idLinea));
 
         return t;
     }
@@ -55,27 +54,16 @@ public class GestorTrayecto {
 
 
     public Trayecto buscarPorId(Integer id) {
-        //	this.relacionarConLineas(); //?
         return TrayectoDAO.buscarPorId(id);
     }
 
-    //
     public void relacionarConLineas() {
         gestorLinea = new GestorLineaTransporte();
         for (Trayecto t : trayectos) {
-            LineaTransporte lin = (gestorLinea.getTodasLineas().stream().filter(l -> Objects.equals(l.getId(), t.getIdLinea())).findFirst()).get(); ///????
+            LineaTransporte lin = (gestorLinea.getTodasLineas().stream().filter(l -> Objects.equals(l.getId(), t.getIdLinea())).findFirst()).get();
             t.relacionarLinea(lin);
         }
     }
-    //
-
-    //Temporalmente
-/*	public void relacionarTrayectoConLineas(List<Trayecto> listaTrayectos) {
-		gestorLinea = new GestorLineaTransporte();
-		for(Trayecto t: listaTrayectos) { 
-			LineaTransporte lin = gestorLinea.listarTodas().stream().filter(l -> l.getId() == t.getIdLinea()).findFirst().get(); ///????
-			t.relacionarLinea(lin); 
-		}
-	}*/
+   
 }
 

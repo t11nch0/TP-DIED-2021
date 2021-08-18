@@ -35,12 +35,9 @@ public class BajaTrayecto {
         panelBajaTrayecto.add(nombreMenu, cons0);
 
         DefaultListModel<String> modelo = new DefaultListModel<>();
-        /*
-        for (EstacionDeTransbordoMultimodal e : estaciones) {
-            modelo.addElement(e.getNombreEstacion());
+        if (modelo.isEmpty()) {
+            modelo.add(0, "Lista de trayectos vacia...");
         }
-         */
-        if (modelo.isEmpty()) {modelo.add(0, "Lista de trayectos vacia...");}
 
         GridBagConstraints cons1 = new GridBagConstraints();
         JList<String> campoListaTrayecto = new JList<>(modelo);
@@ -49,7 +46,6 @@ public class BajaTrayecto {
         cons1.gridx = 0;
         cons1.gridy = 1;
         cons1.fill = GridBagConstraints.BOTH;
-        //cons1.anchor = GridBagConstraints.PAGE_END;
         cons1.insets = new Insets(15, 0, 10, 0);
         panelBajaTrayecto.add(campoListaTrayecto, cons1);
 
@@ -72,7 +68,10 @@ public class BajaTrayecto {
         cons6.insets = new Insets(40, 41, 60, 41);
         panelBajaTrayecto.add(botonAtras, cons6);
 
-        botonAtras.addActionListener(e -> { InterfazFrame.setPanel(InterfazRegistrarTrayecto.getInstance().getPanelRegistroTrayecto()); singleton = null; });
+        botonAtras.addActionListener(e -> {
+            InterfazFrame.setPanel(InterfazRegistrarTrayecto.getInstance().getPanelRegistroTrayecto());
+            singleton = null;
+        });
 
     }
 }

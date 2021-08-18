@@ -278,13 +278,12 @@ public class InterfazAgregarTrayecto {
 
             if (campoEstacionOrigen.getSelectedIndex() != campoEstacionDestino.getSelectedIndex()) {
 
-                // String lineaS = campoTransporte.getItemAt(campoTransporte.getSelectedIndex());
                 modelo.add(indice.get(), campoEstacionOrigen.getSelectedItem().toString() + "->" + campoEstacionDestino.getSelectedItem().toString());
                 indice.incrementAndGet();
 
                 EstacionDeTransbordoMultimodal origen = estaciones.get(campoEstacionOrigen.getSelectedIndex() - 1);
                 EstacionDeTransbordoMultimodal destino = estaciones.get(campoEstacionDestino.getSelectedIndex() - 1);
-                //	List<Ruta> rutaNuevaLista = new ArrayList<>();
+
                 Integer distancia = Integer.parseInt(campoDistancia.getText()); //?
                 Integer duracion = Integer.parseInt(campoDuracion.getText());
                 Integer pasajeros = Integer.parseInt(campoPasajeros.getText());
@@ -294,7 +293,7 @@ public class InterfazAgregarTrayecto {
                 else
                     estado = EstadoRuta.INACTIVA;
                 Double costo = Double.parseDouble(campoCosto.getText());
-                //	rutaNueva.setDistanciaKilometros(distancia);
+
                 Ruta rutaNueva = new Ruta(origen, destino, distancia, duracion, pasajeros, estado, costo);
                 rutaNuevaLista.add(rutaNueva);
             }
@@ -307,7 +306,6 @@ public class InterfazAgregarTrayecto {
 
         botonConfirmar.addActionListener(e -> {
 
-            //meter una lista en el for de modelo? que guarde las lineas o los id;
             Integer idLinea = lineas.get(campoTransporte.getSelectedIndex() - 1).getId();
             System.out.println("Linea seleccionada idLinea: " + idLinea);
             for (Ruta r : rutaNuevaLista) {

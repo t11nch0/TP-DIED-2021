@@ -29,14 +29,13 @@ public class Ruta {
         this.pasajerosMaximos = pasajeros;
         this.estado = estado;
         this.costo = costo;
-        //this.trayecto = trayecto;  //null?
         this.trayecto = null;
         this.idTrayecto = idTrayecto;
     }
 
     public Ruta(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino,
                 Integer distancia, Integer duracion, Integer pasajeros, EstadoRuta estado, Double costo) {
-        //Para creacion de trayectos (?)
+        //Para creacion de trayectos
         this.origen = origen;
         this.destino = destino;
         this.distanciaKilometros = distancia;

@@ -180,8 +180,6 @@ public class BotonEditarTransporte {
             } catch (CamposIncorrectosException | SQLException | BaseDeDatosException ex) {
                 ex.printStackTrace();
             }
-
-
         });
 
     }

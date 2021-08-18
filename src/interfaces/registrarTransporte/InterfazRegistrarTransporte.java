@@ -2,7 +2,6 @@ package interfaces.registrarTransporte;
 
 import interfaces.InterfazFrame;
 import interfaces.InterfazPrincipal;
-import interfaces.registrarEstacion.BuscarAtributosEstacion;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +27,6 @@ public class InterfazRegistrarTransporte {
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("MENU DE TRANSPORTE");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
-        //cons0.gridwidth = 2;
         cons0.gridx = 0;
         cons0.gridy = 0;
         cons0.fill = GridBagConstraints.HORIZONTAL;

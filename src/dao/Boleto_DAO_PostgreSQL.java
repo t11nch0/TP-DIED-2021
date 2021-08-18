@@ -50,7 +50,7 @@ public class Boleto_DAO_PostgreSQL implements Boleto_DAO {
             }
             pstmt.setInt(5, boleto.getOrigen().getId());
             pstmt.setInt(6, boleto.getDestino().getId());
-           // pstmt.setInt(7, 99);
+            // pstmt.setInt(7, 99);
             pstmt.setString(7, boleto.getCaminoString());
             pstmt.setDouble(8, boleto.getCosto());
 
@@ -84,19 +84,18 @@ public class Boleto_DAO_PostgreSQL implements Boleto_DAO {
 
     @Override
     public void eliminarBoleto() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public Boleto editarBoleto(Boleto boleto) {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
     @Override
     public Boleto buscarPorId(Integer id) {
-        // TODO Auto-generated method stub
+
         return null;
     }
 

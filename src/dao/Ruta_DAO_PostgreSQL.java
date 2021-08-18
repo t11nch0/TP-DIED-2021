@@ -110,13 +110,12 @@ public class Ruta_DAO_PostgreSQL implements Ruta_DAO {
 
     @Override
     public void eliminarRuta() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public Ruta editarRuta(Ruta ruta) {
-        // TODO Auto-generated method stub
+
         return null;
     }
 

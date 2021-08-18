@@ -116,7 +116,6 @@ public class HistorialDeMantenimientos {
                 modelo.addElement("                                            Tarea de mantenimiento " + i);
                 modelo.addElement("Fecha Inicio: " + m.getFechaInicio().toString());
 
-                //if(m.getFechaFin().toString().isEmpty())
                 if (m.getFechaFin() == null)
                     modelo.addElement("Fecha Fin: -");
                 else

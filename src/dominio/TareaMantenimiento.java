@@ -8,17 +8,13 @@ public class TareaMantenimiento {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private String observaciones;
-    //	private EstacionDeTransbordoMultimodal estacion; //bucle?
     private Integer idEstacion;
 
-    //public TareaMantenimiento(Integer id, LocalDate inicio, String observaciones, EstacionDeTransbordoMultimodal estacion) {
     public TareaMantenimiento(Integer id, LocalDate inicio, String observaciones, Integer idEstacion) {
         this.id = id;
         this.fechaInicio = inicio;
         this.fechaFin = null;
         this.observaciones = observaciones;
-        //this.estacion = estacion;
-        //this.idEstacion = estacion.getId(); //?
         this.idEstacion = idEstacion;
     }
 
@@ -61,13 +57,6 @@ public class TareaMantenimiento {
     public void finalizarTareaMantenimiento(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
-	
-	/*public EstacionDeTransbordoMultimodal getEstacion() {
-		return estacion;
-	}
-	public void setEstacion(EstacionDeTransbordoMultimodal estacion) {
-		this.estacion = estacion;
-	}*/
 
     public Integer getIdEstacion() {
         return idEstacion;

@@ -2,6 +2,7 @@ package interfaces.registrarTrayecto;
 
 import interfaces.InterfazFrame;
 import interfaces.InterfazPrincipal;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,8 +15,8 @@ public class InterfazRegistrarTrayecto {
         return panelRegistroTrayecto;
     }
 
-    public static InterfazRegistrarTrayecto getInstance(){
-        if(singleton == null){
+    public static InterfazRegistrarTrayecto getInstance() {
+        if (singleton == null) {
             singleton = new InterfazRegistrarTrayecto();
         }
         return singleton;
@@ -66,13 +67,22 @@ public class InterfazRegistrarTrayecto {
         cons6.insets = new Insets(40, 41, 60, 41);
         panelRegistroTrayecto.add(botonAtras, cons6);
 
-        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal()); singleton = null;});
+        botonAtras.addActionListener(e -> {
+            InterfazFrame.setPanel(InterfazPrincipal.getInstance().getPanelMenuPrincipal());
+            singleton = null;
+        });
 
-        botonCrearTrayecto.addActionListener(e -> {InterfazFrame.setPanel(AltaTrayecto.getInstance().getPanelAltaTrayecto());});
+        botonCrearTrayecto.addActionListener(e -> {
+            InterfazFrame.setPanel(AltaTrayecto.getInstance().getPanelAltaTrayecto());
+        });
 
-        botonEliminarTrayecto.addActionListener(e -> {InterfazFrame.setPanel(BajaTrayecto.getInstance().getPanelBajaTrayecto());});
+        botonEliminarTrayecto.addActionListener(e -> {
+            InterfazFrame.setPanel(BajaTrayecto.getInstance().getPanelBajaTrayecto());
+        });
 
-        botonCrearCamino.addActionListener(e -> {InterfazFrame.setPanel(AltaRuta.getInstance().getPanelAltaRuta());});
+        botonCrearCamino.addActionListener(e -> {
+            InterfazFrame.setPanel(AltaRuta.getInstance().getPanelAltaRuta());
+        });
 
     }
 }

@@ -12,7 +12,6 @@ import dominio.Ruta;
 import dominio.Trayecto;
 import dominio.Ruta.EstadoRuta;
 import excepciones.BaseDeDatosException;
-import excepciones.CamposIncorrectosException;
 
 public class GestorRuta {
 
@@ -25,8 +24,7 @@ public class GestorRuta {
         super();
         this.rutaDAO = new Ruta_DAO_PostgreSQL();
         rutas = new ArrayList<>(this.listarTodas());
-        this.relacionarConTrayectos(); //AAA
-        //	gestorTrayecto.relacionarConLineas(); //???
+        this.relacionarConTrayectos();
     }
 
     public Ruta crearRuta(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino, Integer distancia, Integer duracion, Integer pasajeros, EstadoRuta estado, Double costo, Integer idTrayecto, Trayecto trayecto) throws SQLException, BaseDeDatosException {
@@ -54,12 +52,11 @@ public class GestorRuta {
         gestorTrayecto = new GestorTrayecto();
         for (Ruta r : rutas) {
 
-            Trayecto tray = (gestorTrayecto.getTodosTrayectos().stream().filter(t -> Objects.equals(t.getId(), r.getIdTrayecto())).findFirst()).get(); ///????
+            Trayecto tray = (gestorTrayecto.getTodosTrayectos().stream().filter(t -> Objects.equals(t.getId(), r.getIdTrayecto())).findFirst()).get();
             r.relacionarTrayecto(tray);
         }
     }
 
-    //
     public List<Ruta> listarTodas() {
         return rutaDAO.buscarTodas();
     }
@@ -69,13 +66,9 @@ public class GestorRuta {
     }
 
     public Ruta buscarPorId(Integer id) {
-        //	this.relacionarConTrayectos();
-        //	gestorTrayecto.relacionarConLineas(); //?aaa
         return rutaDAO.buscarPorId(id);
     }
 
-
-    //
     public List<Ruta> getRutasConOrigen(EstacionDeTransbordoMultimodal e) {
         List<Ruta> listaRutas = new ArrayList<>();
         for (Ruta r : rutas) {
@@ -95,13 +88,11 @@ public class GestorRuta {
 
         return listaRutas;
     }
-    //
 
     public List<Ruta> buscarPorIdTrayecto(Integer idTrayecto) {
         return rutaDAO.buscarPorIdTrayecto(idTrayecto);
     }
 
-    //
     public List<Ruta> agregarRutas(Integer idTrayecto, List<Ruta> listaTramos, Trayecto trayecto) throws SQLException, BaseDeDatosException {
         List<Ruta> listaSalida = new ArrayList<>();
         gestorEstacion = new GestorEstacion();
@@ -112,7 +103,7 @@ public class GestorRuta {
                     r.getDistanciaKilometros(),
                     r.getDuracionViajeMinutos(),
                     r.getPasajerosMaximos(),
-                    r.getEstadoRuta(), //?Se va a pasar un tipo EstadoEstacion?
+                    r.getEstadoRuta(),
                     r.getCosto(),
                     idTrayecto,
                     trayecto
@@ -122,23 +113,5 @@ public class GestorRuta {
         }
         return listaSalida;
     }
-    //
-	
-/*	public void imprimir() {
-		for(Ruta r: rutas) {
-			if(r.getId() == 3)
-				break;
-			System.out.println("getId: "+r.getId());
-			System.out.println("getOrigen: "+r.getOrigen().getNombreEstacion());
-			System.out.println("getDestino: "+r.getDestino().getNombreEstacion());
-			System.out.println("getDistanciaKilometros: "+r.getDistanciaKilometros());
-			System.out.println("getDuracionViajeMinutos: "+r.getDuracionViajeMinutos());
-			System.out.println("getPasajerosMaximos: "+r.getPasajerosMaximos());
-			System.out.println("getEstadoRuta: "+r.getEstadoRuta());
-			System.out.println("getCosto: "+r.getCosto());
-			System.out.println("getIdTrayecto: "+r.getIdTrayecto());
-			System.out.println("getTrayecto: "+r.getTrayecto().getId());
-		}		
-	}*/
 
 }

@@ -4,7 +4,6 @@ import interfaces.informacionEstacion.InterfazInformacionEstacion;
 import interfaces.registrarTransporte.InterfazRegistrarTransporte;
 import interfaces.registrarEstacion.InterfazRegistrarEstacion;
 import interfaces.registrarTrayecto.InterfazAgregarTrayecto;
-import interfaces.registrarTrayecto.InterfazRegistrarTrayecto;
 import interfaces.ventaBoleto.InterfazVentaBoleto;
 
 import javax.swing.*;
@@ -28,8 +27,6 @@ public class InterfazPrincipal {
 
     private InterfazPrincipal() {
         panelMenuPrincipal = new JPanel(new GridBagLayout());
-
-        /* Configuracion y ordenacion de los 6 botones en la interfaz inicial*/
 
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel menuPrincipal = new JLabel("MENU PRINCIPAL");
@@ -88,8 +85,6 @@ public class InterfazPrincipal {
         cons7.fill = GridBagConstraints.BOTH;
         cons7.insets = new Insets(40, 15, 75, 15);
         panelMenuPrincipal.add(boton7, cons7);
-
-        /* Listeners de los botones*/
 
         boton1.addActionListener(e -> InterfazFrame.setPanel(InterfazVentaBoleto.getInstance().getPanelVenta()));
 

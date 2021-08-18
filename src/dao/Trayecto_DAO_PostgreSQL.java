@@ -1,6 +1,5 @@
 package dao;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +18,6 @@ import gestores.GestorTrayecto;
 public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO {
 
     private final Connection conn = GestorConexion.getConnection();
-    private GestorTrayecto gestorTrayecto;
 
     private static final String SELECT_ALL_TRAYECTO =
             "SELECT * FROM died_db.trayecto";
@@ -46,10 +44,6 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO {
                 Trayecto t = new Trayecto();
                 t.setId((rs.getInt("ID")));
                 t.setIdLinea(rs.getInt("ID_LINEA"));
-                //t.setLinea(lineaDAO.buscarPorId(rs.getInt("ID_LINEA")));
-                //
-                //	t.setTramos(rutaDAO.buscarPorIdTrayecto(rs.getInt("ID")));
-                //? despues los relaciono
                 lista.add(t);
             }
         } catch (SQLException e) {
@@ -64,52 +58,7 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO {
         }
         return lista;
     }
-	
-/*	public List<Trayecto> buscarPorIdLinea(Integer id){
-		
-		List<Trayecto> lista = new ArrayList<Trayecto>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		LineaTransporte_DAO lineaDAO = new LineaTransporte_DAO_PostgreSQL();
-		Ruta_DAO rutaDAO = new Ruta_DAO_PostgreSQL();
 
-		try 
-		{
-			pstmt= conn.prepareStatement("SELECT * FROM died_db.trayecto WHERE id_linea = "+id); 
-			rs = pstmt.executeQuery();
-			while(rs.next()) 
-			{ 
-				Trayecto t = new Trayecto();
-				t.setId(rs.getInt("ID"));
-				//
-				t.setIdLinea(id);
-				//
-				//t.setLinea(lineaDAO.buscarPorId(rs.getInt("ID_LINEA")));
-				t.getTramos().addAll(rutaDAO.buscarPorIdTrayecto(t.getId())); 
-				
-				lista.add(t);
-			}				
-		} 
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
-		finally 
-		{
-			try 
-			{
-				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();
-			}
-			catch(SQLException e) 
-			{
-				e.printStackTrace();
-			}
-		}	
-		return lista;
-		
-	}*/
 
     @Override
     public Trayecto insertarTrayecto(Trayecto trayecto)
@@ -118,17 +67,13 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO {
         ResultSet rs;
 
         Ruta_DAO rutaDAO = new Ruta_DAO_PostgreSQL();
-        gestorTrayecto = new GestorTrayecto();
-      //  List<Ruta> tramos = trayecto.getTramos();
+        GestorTrayecto gestorTrayecto = new GestorTrayecto();
 
         try {
             conn.setAutoCommit(false);
             pstmt = conn.prepareStatement(INSERT_TRAYECTO);
 
             pstmt.setInt(1, trayecto.getIdLinea());
-           /* for (Ruta unaRuta : trayecto.getTramos()) {
-                rutaDAO.insertarRuta(unaRuta);
-            }*/
 
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -152,7 +97,7 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO {
 
     @Override
     public void eliminarTrayecto() {
-        // TODO
+
     }
 
     @Override
@@ -188,57 +133,6 @@ public class Trayecto_DAO_PostgreSQL implements Trayecto_DAO {
         return trayecto;
     }
 
-	/*	@Override
-	public Trayecto buscarPorId(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
-
-    //cambio
-/*	@Override
-	public Trayecto buscarPorId(Integer id) {
-		Trayecto trayecto = new Trayecto();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-	
-		LineaTransporte_DAO lineaDAO = new LineaTransporte_DAO_PostgreSQL();
-		
-		try 
-		{
-			
-			pstmt= conn.prepareStatement("SELECT * FROM died_db.trayecto WHERE ID = "+ id); 
-			rs = pstmt.executeQuery();
-			//????
-			while(rs.next()) 
-			{
-				trayecto.setId(rs.getInt("ID"));
-				//?
-				// 
-				trayecto.setIdLinea(rs.getInt("ID_LINEA"));
-				//
-				//trayecto.setLinea(lineaDAO.buscarPorId(rs.getInt("ID_LINEA")));
-				
-				//lista de rutas??
-			}
-		} 
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
-		finally 
-		{
-			try 
-			{
-				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();				
-			}
-			catch(SQLException e) 
-			{
-				e.printStackTrace();
-			}
-		}	
-		return trayecto;
-	}*/
 
     @Override
     public Trayecto buscarPorId(Integer id) {

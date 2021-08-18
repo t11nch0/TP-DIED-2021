@@ -5,13 +5,10 @@ import interfaces.InterfazFrame;
 import javax.swing.*;
 
 import gestores.GestorEstacion;
-import dominio.EstacionDeTransbordoMultimodal;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 public class BuscarAtributosEstacion {
@@ -32,7 +29,6 @@ public class BuscarAtributosEstacion {
     private BuscarAtributosEstacion() {
         panelBuscarAtributosEstacion = new JPanel(new GridBagLayout());
         GestorEstacion gestorEstacion = new GestorEstacion();
-        //List<EstacionDeTransbordoMultimodal> estaciones = gestorEstacion.listarTodas();
 
         String[] horas = {"--", "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13",
                 "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"};

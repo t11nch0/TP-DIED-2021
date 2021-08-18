@@ -10,7 +10,7 @@ public class GestorConexion {
     private static Connection conn = null;
 
     private GestorConexion() {
-        String url = "jdbc:postgresql://localhost:5432/died_db"; //localhost?
+        String url = "jdbc:postgresql://localhost:5432/died_db";
         String driver = "org.postgresql.Driver";
         String usuario = "postgres";
         String password = "1234";

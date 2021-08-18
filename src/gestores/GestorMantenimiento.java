@@ -17,7 +17,7 @@ public class GestorMantenimiento {
 
     public GestorMantenimiento() {
         super();
-        this.mantenimientoDAO = new Mantenimiento_DAO_PostgreSQL();//?
+        this.mantenimientoDAO = new Mantenimiento_DAO_PostgreSQL();
     }
 
 
@@ -38,15 +38,15 @@ public class GestorMantenimiento {
     public void actualizarModelo(TareaMantenimiento m, LocalDate inicio, LocalDate fin, String observaciones, Integer idEstacion) {
         m.setFechaInicio(inicio);
         m.setFechaFin(fin);
-        m.setObservaciones(observaciones); //
-        m.setIdEstacion(idEstacion); //?
+        m.setObservaciones(observaciones);
+        m.setIdEstacion(idEstacion);
     }
 
     public void actualizarModelo2(TareaMantenimiento m, LocalDate inicio, LocalDate fin, String observaciones, Integer idEstacion) {
         m.setFechaInicio(inicio);
         m.setFechaFin(fin);
-        m.setObservaciones(m.getObservaciones() + " // "+observaciones); //
-        m.setIdEstacion(idEstacion); //?
+        m.setObservaciones(m.getObservaciones() + " // "+observaciones);
+        m.setIdEstacion(idEstacion);
     }
 
     public List<TareaMantenimiento> listarTodos() {

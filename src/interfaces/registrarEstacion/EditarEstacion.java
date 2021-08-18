@@ -1,9 +1,12 @@
 package interfaces.registrarEstacion;
 
 import interfaces.InterfazFrame;
+
 import javax.swing.*;
+
 import dominio.EstacionDeTransbordoMultimodal;
 import gestores.GestorEstacion;
+
 import java.awt.*;
 import java.util.List;
 
@@ -16,8 +19,8 @@ public class EditarEstacion {
         return panelEditarEstacion;
     }
 
-    public static EditarEstacion getInstance(){
-        if(singleton == null){
+    public static EditarEstacion getInstance() {
+        if (singleton == null) {
             singleton = new EditarEstacion();
         }
         return singleton;
@@ -27,7 +30,7 @@ public class EditarEstacion {
         panelEditarEstacion = new JPanel(new GridBagLayout());
         GestorEstacion gestorEstacion = new GestorEstacion();
         List<EstacionDeTransbordoMultimodal> estaciones = gestorEstacion.listarTodas();
-        
+
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("EDITAR ESTACION");
         nombreMenu.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -35,7 +38,7 @@ public class EditarEstacion {
         cons0.gridx = 0;
         cons0.gridy = 0;
         cons0.fill = GridBagConstraints.HORIZONTAL;
-        cons0.insets = new Insets(55,0,40,0);
+        cons0.insets = new Insets(55, 0, 40, 0);
         panelEditarEstacion.add(nombreMenu, cons0);
 
         DefaultListModel<String> modelo = new DefaultListModel<>();
@@ -61,8 +64,8 @@ public class EditarEstacion {
         cons2.gridx = 0;
         cons2.gridy = 2;
         cons2.fill = GridBagConstraints.HORIZONTAL;
-        cons2.insets = new Insets(10,0,30,0);
-        panelEditarEstacion.add(botonEditar,cons2);
+        cons2.insets = new Insets(10, 0, 30, 0);
+        panelEditarEstacion.add(botonEditar, cons2);
 
         GridBagConstraints cons3 = new GridBagConstraints();
         JButton botonAtras = new JButton("Atras");
@@ -70,17 +73,20 @@ public class EditarEstacion {
         cons3.gridx = 0;
         cons3.gridy = 3;
         cons3.fill = GridBagConstraints.HORIZONTAL;
-        cons3.insets = new Insets(30,0,60,0);
-        panelEditarEstacion.add(botonAtras,cons3);
+        cons3.insets = new Insets(30, 0, 60, 0);
+        panelEditarEstacion.add(botonAtras, cons3);
 
 
-        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion()); singleton=null;});
+        botonAtras.addActionListener(e -> {
+            InterfazFrame.setPanel(InterfazRegistrarEstacion.getInstance().getPanelRegistroEstacion());
+            singleton = null;
+        });
 
         botonEditar.addActionListener(e -> {
-        	Integer index = campoLista.getSelectedIndex();
+            Integer index = campoLista.getSelectedIndex();
             singleton = null;
-			InterfazFrame.setPanel(BotonEditarEstacion.getInstance(index).getPanelBotonEditarEstacion());
-			});
+            InterfazFrame.setPanel(BotonEditarEstacion.getInstance(index).getPanelBotonEditarEstacion());
+        });
     }
 
 }

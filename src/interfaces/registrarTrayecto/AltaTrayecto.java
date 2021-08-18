@@ -2,11 +2,9 @@ package interfaces.registrarTrayecto;
 
 import dominio.EstacionDeTransbordoMultimodal;
 import dominio.LineaTransporte;
-import dominio.Ruta;
-import dominio.Trayecto;
+
 import gestores.GestorEstacion;
 import gestores.GestorLineaTransporte;
-import gestores.GestorTrayecto;
 import interfaces.InterfazFrame;
 
 import javax.swing.*;
@@ -103,11 +101,6 @@ public class AltaTrayecto {
         panelAltaTrayecto.add(botonAniadir, cons5);
 
         DefaultListModel<String> modelo = new DefaultListModel<>();
-        /*
-        for (EstacionDeTransbordoMultimodal e : estaciones) {
-            modelo.addElement(e.getNombreEstacion());
-        }
-         */
         if (modelo.isEmpty()) {
             modelo.add(0, "Lista de trayectos vacia...");
         }
@@ -119,7 +112,6 @@ public class AltaTrayecto {
         cons6.gridx = 0;
         cons6.gridy = 4;
         cons6.fill = GridBagConstraints.BOTH;
-        //cons6.anchor = GridBagConstraints.PAGE_END;
         cons6.insets = new Insets(15, 0, 10, 0);
         panelAltaTrayecto.add(campoListaTrayecto, cons6);
 
@@ -149,33 +141,11 @@ public class AltaTrayecto {
         });
 
         botonAniadir.addActionListener(e -> {
-    		
-    		/*
-    		EstacionDeTransbordoMultimodal origen = estaciones.get(campoEstOrigen.getSelectedIndex()-1);
-    		EstacionDeTransbordoMultimodal destino = estaciones.get(campoEstDestino.getSelectedIndex()-1);
-        	List<Ruta> rutaNuevaLista = new ArrayList<>(); 
-        	Integer distancia = Integer.parseInt(campoDistancia.getText()); //?
-        	Integer duracion =  Integer.parseInt(campoDuracion.getText());
-        	Integer pasajeros =  Integer.parseInt(campoPasajerosMaximo.getText());
-        	EstadoRuta estado;
-        	if (Objects.equals(campoEstado.getSelectedItem(), "Activa"))
-				estado = EstadoRuta.ACTIVA;
-			else	
-				estado = EstadoRuta.INACTIVA;
-        	Double costo = Double.parseDouble(campoCosto.getText());
-        //	rutaNueva.setDistanciaKilometros(distancia);
-        	Ruta rutaNueva = new Ruta(origen, destino, distancia, duracion, pasajeros, estado, costo);
-        	rutaNuevaLista.add(rutaNueva);
 
-    		 */
         });
 
         botonConfirmar.addActionListener(e -> {
-    	    /*
-    	    Integer idLinea = campoLineaTransporte;
-    	    gestorTrayecto.crearTrayecto(Integer idLinea, List<Ruta> listaTramos);
 
-    	     */
         });
     }
 }

@@ -70,6 +70,5 @@ public class BuscarLineasTabla {
             InterfazFrame.setPanel(BuscarAtributosTransporte.getInstance().getPanelBuscarAtributosTransporte());
             singleton = null;
         });
-
     }
 }

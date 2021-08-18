@@ -10,7 +10,6 @@ public class Trayecto {
     private Integer idLinea;
     private List<Ruta> tramos;
 
-    //public Trayecto(Integer id, LineaTransporte linea, List<Ruta> tramos) {
     public Trayecto(Integer id, Integer idLinea, List<Ruta> tramos) {
         this.id = id;
         this.idLinea = idLinea;
@@ -58,7 +57,6 @@ public class Trayecto {
         this.tramos.add(r);
     }
 
-    //?
     public void relacionarLinea(LineaTransporte l) {
         this.linea = l;
     }

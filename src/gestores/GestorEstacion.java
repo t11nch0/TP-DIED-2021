@@ -65,14 +65,13 @@ public class GestorEstacion {
     }
 
     public EstacionDeTransbordoMultimodal editarEstacion(EstacionDeTransbordoMultimodal e, String nombreEstacion, LocalTime apertura, LocalTime cierre, EstadoEstacion estado) throws CamposIncorrectosException, SQLException, BaseDeDatosException {
-		/*if(!nombreEstacion.isEmpty())
-			this.validarDatos(nombreEstacion);*/
+
         this.actualizarModelo(e, nombreEstacion, apertura, cierre, estado); //? editar aca?
         return estacionDAO.editarEstacion(e);
     }
 
     public void eliminarEstacion(EstacionDeTransbordoMultimodal e) throws CamposIncorrectosException, SQLException, BaseDeDatosException {
-        //this.actualizarModelo(e, nombreEstacion, apertura, cierre, estado); //? eliminar aca?
+
         estacionDAO.eliminarEstacion(e);
     }
 
@@ -82,14 +81,12 @@ public class GestorEstacion {
         } else
             gestorMantenimiento.crearTareaMantenimiento("", e);
 
-        //return estacionDAO.existeNombreDeEstacion(nombre);
     }
 
     public List<TareaMantenimiento> mantenimientosEstacion(EstacionDeTransbordoMultimodal e) {
         List<TareaMantenimiento> lista;
         lista = gestorMantenimiento.buscarPorIdEstacion(e.getId());
         e.setMantenimientos(lista);
-        //e.agregarMantenimiento(null);
         return lista;
     }
 
@@ -110,7 +107,6 @@ public class GestorEstacion {
         List<EstacionDeTransbordoMultimodal> lista = new ArrayList<>();
 
         int tamMonticulo = monticulo.size();
-        //for(int i=0; i< monticulo.size(); i++)
         for (int i = 0; i < tamMonticulo; i++)
             lista.add(monticulo.remove());
         return lista;

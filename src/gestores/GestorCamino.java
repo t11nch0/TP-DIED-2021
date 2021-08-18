@@ -17,15 +17,12 @@ public class GestorCamino {
 
     private final GestorRuta gestorRuta;
     private final GestorEstacion gestorEstacion;
-    //
-    //List<Camino> listaCaminos; //?
     Integer listaCaminoSize = 0;
 
     public GestorCamino() {
         super();
         this.gestorRuta = new GestorRuta();
-        //?
-        GestorTrayecto gestorTrayecto = new GestorTrayecto(); //?
+        GestorTrayecto gestorTrayecto = new GestorTrayecto();
         this.gestorEstacion = new GestorEstacion();
         GestorLineaTransporte gestorLinea = new GestorLineaTransporte();
     }
@@ -33,24 +30,20 @@ public class GestorCamino {
     public Camino crearCamino(Integer distancia, Integer duracion, Double costo, EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino) throws CamposIncorrectosException, SQLException, BaseDeDatosException {
 
         Camino c = new Camino();
-        this.actualizarModelo(c, distancia, duracion, costo, origen, destino); //?
-        //	listaCaminos.add(c);
+        this.actualizarModelo(c, distancia, duracion, costo, origen, destino);
         return c;
     }
 
     public void actualizarModelo(Camino c, Integer distancia, Integer duracion, Double costo, EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino) {
-        c.setId(listaCaminoSize + 3); //? AAA
+        c.setId(listaCaminoSize + 3);
         c.setDistanciaTotal(distancia);
         c.setDuracionTotal(duracion);
-        //listaDeRutas?
         c.setRutas(c.getRutas());
         c.setCostoTotal(costo);
         c.setOrigen(origen);
         c.setDestino(destino);
         listaCaminoSize++;
     }
-
-    //
 
     public List<Camino> todosCaminos(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino) {
 
@@ -75,10 +68,10 @@ public class GestorCamino {
             try {
                 this.crearCamino(distancia, duracion, costo, origen, destino);
             } catch (CamposIncorrectosException | SQLException | BaseDeDatosException e) {
-                // TODO Auto-generated catch block
+
                 e.printStackTrace();
             }
-            //
+
             caminosProbables.add(camino);
         }
         return caminosProbables;
@@ -89,36 +82,12 @@ public class GestorCamino {
         List<EstacionDeTransbordoMultimodal> estacionesMarcadas = new ArrayList<>();
         estacionesMarcadas.add(origen);
 
-        //buscarAux(origen, destino, estacionesMarcadas, lista, camino);
-        //
         buscarAux2(origen, destino, estacionesMarcadas, lista, new ArrayList<>());
-        //
+
         return lista;
     }
 
-    //
-/*	public void buscarAux(EstacionDeTransbordoMultimodal estacion1, EstacionDeTransbordoMultimodal estacion2, 
-			List<EstacionDeTransbordoMultimodal> estacionesMarcadas, List<List<Ruta>> lista, List<Ruta> camino) {
-		if(estacion1.getNombreEstacion().equals(estacion2.getNombreEstacion())) {
-			lista.add(camino);
-		}
-		else {
-			List<Ruta> copiaCamino = null;
-			List<Ruta> rutasSalen = gestorRuta.getRutasConOrigen(estacion1); 
-			List<EstacionDeTransbordoMultimodal> copiaestacionesMarcadas = null;
-			estacionesMarcadas.add(estacion1);	
-			for(Ruta r: rutasSalen){ 
-				if(noContiene(estacionesMarcadas, r.getDestino()) && r.getDestino().estadoOperativa()) { 
-					copiaCamino = camino.stream().collect(Collectors.toList());
-					copiaCamino.add(r);//
-					copiaestacionesMarcadas = estacionesMarcadas.stream().collect(Collectors.toList());
-					buscarAux(r.getDestino(), estacion2, copiaestacionesMarcadas, lista, copiaCamino);
-				}
-			}
-		}
-	}*/
 
-    //otra forma
     public void buscarAux2(EstacionDeTransbordoMultimodal estacion1, EstacionDeTransbordoMultimodal estacion2,
                            List<EstacionDeTransbordoMultimodal> estacionesMarcadas, List<List<Ruta>> lista, List<Ruta> camino) {
         if (estacion1.getNombreEstacion().equals(estacion2.getNombreEstacion())) {
@@ -127,15 +96,7 @@ public class GestorCamino {
             List<Ruta> copiaCamino;
             List<Ruta> rutasSalen = gestorRuta.getRutasConOrigen(estacion1);
             List<EstacionDeTransbordoMultimodal> copiaEstacionesMarcadas;
-            //
-		/*	for(Ruta r: rutasSalen) {
-				System.out.println("r.getId(): "+r.getId());
-				System.out.println("r.getIdTrayecto(): "+r.getIdTrayecto());
-				System.out.println("r.getTrayecto().getId: "+r.getTrayecto().getId());
-				System.out.println("r.getTrayecto().getIdLinea: "+r.getTrayecto().getIdLinea());
-				System.out.println("r.getTrayecto().getLinea().getId: "+r.getTrayecto().getLinea().getId());
-			}*/
-            //
+
             estacionesMarcadas.add(estacion1);
             for (Ruta r : rutasSalen) {
                 if (noContiene(estacionesMarcadas, r.getDestino()) && r.getDestino().estadoOperativa() && r.getTrayecto().getLinea().esActiva()) {
@@ -159,15 +120,14 @@ public class GestorCamino {
             }
 
         }
-        return true; //??
+        return true;
     }
 
-    //
     public Camino caminoMasCorto(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino) {
 
         List<Camino> lista = this.todosCaminos(origen, destino);
 
-        Integer minima = lista.get(0).getDistanciaTotal(); // distancia total del primer camino
+        Integer minima = lista.get(0).getDistanciaTotal();
         Camino caminoCorto = lista.get(0);
         for (Camino c : lista) {
             if (c.getDistanciaTotal() < minima) {
@@ -209,12 +169,11 @@ public class GestorCamino {
         return caminoBarato;
     }
 
-    //
+
     public Integer flujoMaximo(EstacionDeTransbordoMultimodal origen, EstacionDeTransbordoMultimodal destino) {
         Integer flujoMax = 0;
 
         List<Ruta> rutas = gestorRuta.listarTodas();
-        //String de ID de ruta
         HashMap<String, Integer> ramas = new HashMap<>();
         for (Ruta r : rutas) {
             ramas.put(r.getId().toString(), r.getPasajerosMaximos());
@@ -240,7 +199,7 @@ public class GestorCamino {
 
     public Integer minimo(List<Ruta> camino, HashMap<String, Integer> ramas) {
 
-        Integer minimoCapacidad = ramas.get(camino.get(0).getId().toString()); //inicializo con el primero
+        Integer minimoCapacidad = ramas.get(camino.get(0).getId().toString());
         for (Ruta r : camino) {
             if (minimoCapacidad > ramas.get(r.getId().toString()))
                 minimoCapacidad = ramas.get(r.getId().toString());

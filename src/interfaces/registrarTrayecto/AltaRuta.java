@@ -1,14 +1,16 @@
 package interfaces.registrarTrayecto;
 
 import interfaces.InterfazFrame;
-import interfaces.InterfazPrincipal;
+
 import javax.swing.*;
+
 import dominio.EstacionDeTransbordoMultimodal;
 import dominio.LineaTransporte;
 import dominio.Ruta;
 import gestores.GestorEstacion;
 import gestores.GestorLineaTransporte;
 import gestores.GestorRuta;
+
 import java.util.List;
 import java.awt.*;
 import java.util.Objects;
@@ -34,7 +36,6 @@ public class AltaRuta {
 
     private AltaRuta() {
         panelRegistroTrayecto = new JPanel(new GridBagLayout());
-        //this.lineas = gestorLinea.listarTodas(); //AAAA
         GestorEstacion gestorEstacion = new GestorEstacion();
         gestorRuta = new GestorRuta();
         GestorLineaTransporte gestorLinea = new GestorLineaTransporte();
@@ -208,7 +209,10 @@ public class AltaRuta {
         cons16.insets = new Insets(10, 0, 60, 0);
         panelRegistroTrayecto.add(botonAtras, cons16);
 
-        botonAtras.addActionListener(e -> {InterfazFrame.setPanel(InterfazRegistrarTrayecto.getInstance().getPanelRegistroTrayecto()); singleton = null;});
+        botonAtras.addActionListener(e -> {
+            InterfazFrame.setPanel(InterfazRegistrarTrayecto.getInstance().getPanelRegistroTrayecto());
+            singleton = null;
+        });
 
 
     }
