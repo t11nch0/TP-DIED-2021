@@ -103,6 +103,12 @@ public class Boleto {
     public void setCosto(Double costo) {
         this.costo = costo;
     }
-
+    public String getCaminoString() {
+    	String salida = "";
+    	for(Ruta r: camino.getRutas()) {
+    		salida += "->"+r.getId();
+    	}
+    	return salida.substring(2);
+    }
 
 }
