@@ -89,7 +89,7 @@ public class GestorRuta {
     public List<Ruta> getRutasConDestino(EstacionDeTransbordoMultimodal e) {
         List<Ruta> listaRutas = new ArrayList<>();
         for (Ruta r : rutas) {
-            if (r.getDestino().equals(e) && r.getEstadoRuta().equals(EstadoRuta.ACTIVA))
+            if (r.getDestino().equals(e) && r.esActiva())
                 listaRutas.add(r);
         }
 
