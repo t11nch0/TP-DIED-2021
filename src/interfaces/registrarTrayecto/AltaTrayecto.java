@@ -1,15 +1,20 @@
 package interfaces.registrarTrayecto;
 
+import dao.Trayecto_DAO;
+import dao.Trayecto_DAO_PostgreSQL;
 import dominio.EstacionDeTransbordoMultimodal;
 import dominio.LineaTransporte;
 import dominio.Trayecto;
 import gestores.GestorEstacion;
 import gestores.GestorLineaTransporte;
+import gestores.GestorTrayecto;
 import interfaces.InterfazFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AltaTrayecto {
 
@@ -33,6 +38,8 @@ public class AltaTrayecto {
         List<LineaTransporte> lineas = gestorLinea.getTodasLineas();
         GestorEstacion gestorEstacion = new GestorEstacion();
         List<EstacionDeTransbordoMultimodal> estaciones = gestorEstacion.listarTodas();
+        GestorTrayecto gestorTrayecto = new GestorTrayecto();
+        List<Trayecto> listaTrayectos = gestorTrayecto.listarTodos();
 
         GridBagConstraints cons0 = new GridBagConstraints();
         JLabel nombreMenu = new JLabel("CREAR TRAYECTO");
@@ -101,11 +108,6 @@ public class AltaTrayecto {
         panelAltaTrayecto.add(botonAniadir, cons5);
 
         DefaultListModel<String> modelo = new DefaultListModel<>();
-        /*
-        for (EstacionDeTransbordoMultimodal e : estaciones) {
-            modelo.addElement(e.getNombreEstacion());
-        }
-         */
         if (modelo.isEmpty()) {modelo.add(0, "Lista de trayectos vacia...");}
 
         GridBagConstraints cons6 = new GridBagConstraints();
@@ -115,7 +117,6 @@ public class AltaTrayecto {
         cons6.gridx = 0;
         cons6.gridy = 4;
         cons6.fill = GridBagConstraints.BOTH;
-        //cons6.anchor = GridBagConstraints.PAGE_END;
         cons6.insets = new Insets(15, 0, 10, 0);
         panelAltaTrayecto.add(campoListaTrayecto, cons6);
 
@@ -140,6 +141,33 @@ public class AltaTrayecto {
         panelAltaTrayecto.add(botonAtras, cons12);
 
         botonAtras.addActionListener(e -> { InterfazFrame.setPanel(InterfazRegistrarTrayecto.getInstance().getPanelRegistroTrayecto()); singleton = null; });
+
+        botonAniadir.addActionListener(e -> {
+
+            if(Objects.equals(modelo.get(0), "Lista de trayectos vacia..."))
+                modelo.clear();
+
+            String lineaS = campoTransporte.getItemAt(campoTransporte.getSelectedIndex());
+
+            /*
+            if(listaTrayectos.contains(nuevo.getIdLinea() == campoTransporte.getSelectedItem())){
+                System.out.println("la linea ya tiene trayecto");
+
+            }
+
+             */
+
+
+
+            if(!modelo.contains(campoEstOrigen.getSelectedItem().toString())){
+                modelo.addElement(campoEstOrigen.getSelectedItem().toString());
+            }
+
+
+
+
+
+        });
     }
 
 }
