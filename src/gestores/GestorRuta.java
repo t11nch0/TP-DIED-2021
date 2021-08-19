@@ -72,7 +72,7 @@ public class GestorRuta {
     public List<Ruta> getRutasConOrigen(EstacionDeTransbordoMultimodal e) {
         List<Ruta> listaRutas = new ArrayList<>();
         for (Ruta r : rutas) {
-            if ((r.getOrigen().getNombreEstacion().equals(e.getNombreEstacion())) && r.esActiva()) {
+            if ((r.getOrigen().getNombreEstacion().equals(e.getNombreEstacion())) && r.esActiva() && r.getTrayecto().getLinea().esActiva()) {
                 listaRutas.add(r);
             }
         }
@@ -82,7 +82,7 @@ public class GestorRuta {
     public List<Ruta> getRutasConDestino(EstacionDeTransbordoMultimodal e) {
         List<Ruta> listaRutas = new ArrayList<>();
         for (Ruta r : rutas) {
-            if (r.getDestino().equals(e) && r.esActiva())
+            if ((r.getDestino().getNombreEstacion().equals(e.getNombreEstacion())) && r.esActiva() && r.getTrayecto().getLinea().esActiva())
                 listaRutas.add(r);
         }
 
